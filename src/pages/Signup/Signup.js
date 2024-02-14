@@ -1,66 +1,59 @@
 import { Link } from 'react-router-dom';
-import { IoMdEyeOff } from "react-icons/io";
+import { FaCircleInfo } from "react-icons/fa6";
+import { MdOutlinePerson } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { MdEmail } from "react-icons/md";
 import SignupCSS from '../../assets/signup.module.css';
+import logo from '../../assets/imgs/parallax/Sticker 3.png';
+import sideImage from '../../assets/imgs/colorfulkeyboard.jpg';
 
 const Signup = () => {
     return ( 
         <section className={SignupCSS['section']}>
-            <div className={SignupCSS['container']}>
-            <h2 className={SignupCSS['form-title']}>Registration</h2>
-            <form className={SignupCSS['form']} method="post">
-                <div className={SignupCSS['main-user-info']}>       
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="text" name="Rf_name" id="Rf_name" required/>
-                        <label className={SignupCSS['label']} for="Rf_name">First Name</label> 
+            <figure className={SignupCSS['side-image']}>
+                <img src={sideImage} width={458} alt="a keyboard"/>
+            </figure>
+            <div className={SignupCSS['login-form-box']}>
+                <figure className={SignupCSS['logo']}>
+                    <img src={logo} width={300} alt="logo"/>
+                </figure>
+                <form className={SignupCSS['form']} method="post">       
+                    <h2 className={SignupCSS['form-title']}>Sign Up</h2>            
+                    <div className={SignupCSS['inputbox']}>         
+                        <FaCircleInfo className={`${SignupCSS['icon']}`}/>                            
+                        <input className={SignupCSS['input']} type="text" name="fname" id="fname" placeholder='First Name' required/>                 
                     </div>
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="text" name="Rm_name" id="Rm_name" required/>
-                        <label className={SignupCSS['label']}  for="Rm_name">Middle Name</label> 
+                    <div className={SignupCSS['inputbox']}> 
+                        <FaCircleInfo className={`${SignupCSS['icon']}`}/>               
+                        <input className={SignupCSS['input']} type="text" name="lname" id="lname" placeholder='Last Name' required/>        
                     </div>
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="text" name="Rl_name" id="Rl_name" required/>
-                        <label className={SignupCSS['label']}  for="Rl_name">Last Name</label> 
-                    </div> 
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="text" name="Raddr_name" id="Raddr_name" required/>
-                        <label className={SignupCSS['label']}  for="Raddr_name">Address</label> 
-                    </div> 
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="text" name="Remail" id="Remail" required/>
-                        <label className={SignupCSS['label']}  for="Remail">Email</label> 
-                        <span className={SignupCSS['validation-msg']} id="errorMsg1"></span>
+                    <div className={SignupCSS['inputbox']}> 
+                        <MdOutlinePerson className={`${SignupCSS['icon']}`}/>               
+                        <input className={SignupCSS['input']} type="text" name="user" id="user" placeholder='Username' required/>        
                     </div>
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="text" name="Ruser" id="Ruser" required/>
-                        <label className={SignupCSS['label']}  for="Ruser">Username</label>
-                        <span className={SignupCSS['validation-msg']} id="errorMsg2"></span>
+                    <div className={SignupCSS['inputbox']}> 
+                        <MdEmail className={`${SignupCSS['icon']}`}/>               
+                        <input className={SignupCSS['input']} type="email" name="email" id="email" placeholder='Email' required/>        
                     </div>
-                    <div className={SignupCSS['user-input-box']}>
-                        <span className={SignupCSS['validation-msg']}></span>
-                        <IoMdEyeOff className={SignupCSS['icon']} id="eyeicon"/>
-                        <input className={SignupCSS['input']} type="password" name="Rpass" id="Rpass" required/>   
-                        <label className={SignupCSS['label']}  for="Rpass">Password</label>
-                        
+                    <div className={SignupCSS['inputbox']}> 
+                        <RiLockPasswordFill className={`${SignupCSS['icon']}`}/>               
+                        <input className={SignupCSS['input']} type="password" name="pwd" id="pwd" placeholder='Password' required/>        
                     </div>
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="password" name="Rrepeatpass" id="Rrepeatpass" required/>
-                        <label className={SignupCSS['label']}  for="Rrepeatpass">Repeat Password</label>
-                        <span className={SignupCSS['validation-msg']} id="errorMsg3"></span>
+                    <div className={SignupCSS['inputbox']}> 
+                        <RiLockPasswordFill className={`${SignupCSS['icon']}`}/>               
+                        <input className={SignupCSS['input']} type="password" name="conpwd" id="conpwd" placeholder='Confirm Password' required/>        
                     </div>
-                    <div className={SignupCSS['user-input-box']}>
-                        <input className={SignupCSS['input']} type="text" name="Rcontact" id="Rcontact" required/>
-                        <label className={SignupCSS['label']}  for="Rcontact">Contact</label>
-                        <span className={SignupCSS['validation-msg']} id="errorMsg4"></span>
-                    </div>           
-                </div>
-                <div className={SignupCSS['form-submit-btn']}>
-                    <input className={SignupCSS['input']} type="submit" name="submit" value="Register"/>
-                </div>
-                <div className={SignupCSS['register']}>  
-                    <p className={SignupCSS['p']}>Already have account? <Link className={SignupCSS['a']} to="/login">Log in</Link></p>
-                </div>
-            </form>
-        </div>
+                    <div className={SignupCSS['inputbox']}> 
+                        <BsFillTelephoneFill className={`${SignupCSS['icon']}`}/>               
+                        <input className={SignupCSS['input']} type="tel" name="contact" id="contact" placeholder='Contact' required/>        
+                    </div>
+                    <input className={SignupCSS['button']} type="submit" name="submit" value="Sign up"/>
+                    <div className={SignupCSS['signup']}>
+                        <p className={SignupCSS['p']}>Already have a account? <Link className={SignupCSS['a']} to="/login">Register</Link></p>
+                    </div>    
+                </form>
+            </div>
         </section>
      );
 }

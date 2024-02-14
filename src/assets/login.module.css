@@ -1,121 +1,122 @@
-.section{
+.section{  
+    display: flex;
+    min-height: 750px;
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(to right, hsla(0,0%,78%,0.40), hsla(0,0%,78%,1));
+}
+
+.side-image{
+    position: absolute;
+    left: -99999px;
+}
+
+.login-form-box{
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    background-image: url('./imgs/parallax/Cover.png');
-    background-size: cover;
+    flex-direction: column;
+    flex-grow: 2;
+    gap: 20%;
 }
-.login-form-box{
-    position: relative;
-    width: 400px;
-    height: 450px;
-    background: transparent;
-    border: 2px solid rgba(255,255,255,0.5);
-    border-radius: 20px;
-    backdrop-filter: blur(324px);
+
+
+.form{
+    max-width: 340px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-
+    width: 80vw;
+    background-color: hsla(0,0%,85%,1);
+    border-radius: 20px;
+    box-shadow: 0px 0px 23px 0px rgba(0,0,0,0.75);
+    padding: 20px;
 }
+
 .form-title{
-    font-size: 2em;
-    color: #fff;
-    text-align: center;
+    font-size: 2.4rem;
+    margin: 20px 0 50px 0; 
+    font-weight: bold;
 }
+
+.label{
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
 .inputbox{
-    position: relative;
-    margin: 30px 0;
-    width: 310px;
-    border-bottom: 2px solid #fff;
-}
-.inputbox .label{
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    color: #fff;
-    font-size: 1em;
-    pointer-events: none;
-    transition: .5s;
-}
-
-.validation-msg{
-    position: absolute;
-    top: -16px;
-    right: 5px;
-    color: red;
-    font-size: 1vw;
-}
-
-
-.input:focus ~ .label,
-.input:valid ~ .label{
-top: -5px;
-}
-.inputbox .input {
     width: 100%;
-    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: hsla(0,0%,63%,1);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+.input{
+    margin-left: 5px;
     background: transparent;
     border: none;
     outline: none;
-    font-size: 1em;
-    padding:0 35px 0 5px;
-    color: #fff;
-}
-.inputbox .icon{
-    position: absolute;
-    right: 8px;
-    color: #fff;
-    font-size: 1.2em;
-    top: 20px;
+    font-size: 1.6rem;
+    height: 36px;
+    flex-grow: 2;
 }
 
+.icon{
+    font-size: 24px;
+}
 
+.icon.start{  
+    margin-left: 5px;
+}
+
+.icon.end{   
+    margin-right: 5px;
+}
+
+.remember{
+    display: flex;
+    align-self: flex-start;
+    margin-bottom: 40px;
+}
 
 .button{
-    width: 100%;
-    height: 40px;
-    border-radius: 40px;
-    background: #fff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-}
-.signup{
-    font-size: .9em;
-    color: #fff;
     text-align: center;
-    margin: 25px 0 10px;
-}
-.signup .p .a{
-    text-decoration: none;
-    color: #fff;
-    font-weight: 600;
-}
-.signup .p .a:hover{
-    text-decoration: underline;
-}
-.validation-msg {
-    font-size: 0.8em;
-    color: #FF6347; 
-    margin-top: 5px;
-    display: block;
-    transition: opacity 0.3s;
+    font-size: 1.8rem;
+    width: 70%;
+    padding: 1rem;
+    border-radius: 20px;
+    background-color: hsl(0,0%,63%);
+    border: none;
+    margin-bottom: 10px;
 }
 
-.validation-msg.valid {
-    color: #00FF00; 
-}
+@media only screen and (min-width: 1440px) {
+    body{
+        overflow: hidden;
+    }
+    .section{
+        background: linear-gradient(to right, hsla(0,0%,78%,0), hsla(0,0%,78%,1));
+    }
 
+    .side-image{
+        position: relative;
+        left: 0px;
+    }
 
-.validation-msg.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
+    .side-image img{
+        height: 100%;
+    }
+
+    .side-image::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+    
 }

@@ -1,0 +1,11 @@
+.page{
+	flex-basis: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: margin-left 1s;
+}
+
+.page-with-navbar{
+	margin-left: 15%;
+}
