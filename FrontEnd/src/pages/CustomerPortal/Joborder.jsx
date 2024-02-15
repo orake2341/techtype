@@ -1,4 +1,6 @@
 import JoborderCSS from '../../assets/Joborder.module.css';
+import { FaEye } from "react-icons/fa";
+
 
 const Joborder = ({ visible }) => {
     
@@ -16,6 +18,14 @@ const Joborder = ({ visible }) => {
                             <th>Due Date</th>
                             <th>Job Location</th>
                             <th>Details</th>
+                        </tr>
+                        <tr>
+                            <td>JO-00000002</td>
+                            <td>Started</td>
+                            <td>Pending</td>
+                            <td>09/02/2024</td>
+                            <td>Davao</td>
+                            <td><FaEye /></td>
                         </tr>
                     </thead>
                 </table>

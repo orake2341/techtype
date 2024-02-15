@@ -9,6 +9,7 @@ const Navigation = ({visible, show}) => {
                 <figure>
                     <img src={img}  width="150" alt="a profile"/>
                 </figure>     
+                <h3>Mark Angelo P. Baes</h3>
                 <ul>
                     <li><Link to="joborder" className={`${NavigationCSS['link']}`}>Job Order</Link></li>
                     <li><Link to="paymenthistory" className={`${NavigationCSS['link']}`}>Payment History</Link></li>
