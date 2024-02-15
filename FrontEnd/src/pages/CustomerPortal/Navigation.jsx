@@ -7,13 +7,14 @@ const Navigation = ({visible, show}) => {
         <>
             <nav className={!visible ? `${NavigationCSS['navbar']}` : ''}>     
                 <figure>
-                    <img src={img} alt="a profile"/>
-                </figure>
-                <Link to="/joborder">Job Order</Link>
-                <Link to="/payment history">Payment History</Link>
-                <Link to="/settings">Settings</Link>
-                <Link to="/home">Logout</Link>
-                
+                    <img src={img}  width="150" alt="a profile"/>
+                </figure>     
+                <ul>
+                    <li><Link to="joborder" className={`${NavigationCSS['link']}`}>Job Order</Link></li>
+                    <li><Link to="paymenthistory" className={`${NavigationCSS['link']}`}>Payment History</Link></li>
+                    <li><Link to="settings" className={`${NavigationCSS['link']}`}>Settings</Link></li>
+                    <li className={`${NavigationCSS['end']}`}><Link to="/" className={`${NavigationCSS['link']} `}>Logout</Link></li>
+                </ul>          
             </nav>
         </>      
      );

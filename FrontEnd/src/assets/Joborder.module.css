@@ -1,11 +1,64 @@
-.page{
-	flex-basis: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	transition: margin-left 1s;
+.section{
+	padding: 30px;
+    margin-left: 250px;
+	height: 100vh;
 }
 
-.page-with-navbar{
-	margin-left: 15%;
+
+
+.app-container {
+	margin-top: 100px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 1rem;
+  }
+  
+.button{
+	padding: 1.5rem;
+	border-radius: 12px;
+	width: 300px;
+	border: none;
+	background-color: hsla(0, 0%, 68%, 1);
+	align-self: end;
 }
+
+.button:hover{
+	background-color: hsla(0, 0%, 50%, 1);
+	cursor: pointer;
+}
+
+  table {
+	width: 100%;
+	border-collapse: collapse;
+  }
+  
+  th,
+  td {
+	border: 1px solid #ffffff;
+	text-align: left;
+	padding: 8px;
+	font-size: 1.6rem;
+  }
+  
+  th {
+	background-color: hsla(0, 0%, 85%, 1);
+  }
+  
+  td {
+	background-color: rgb(205, 235, 253);
+  }
+  
+  form {
+	display: flex;
+	gap: 5px;
+  }
+  
+  form td:last-child {
+	display: flex;
+	justify-content: space-evenly;
+  }
+  
+  form * {
+	font-size: 28px;
+  }

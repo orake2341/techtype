@@ -4,6 +4,8 @@ import Signup from "./pages/Signup/Signup";
 import Home from "./pages/Home/Home";
 import CustomerPortal from './pages/CustomerPortal/Portal'
 import Joborder from "./pages/CustomerPortal/Joborder";
+import PaymentHistory from "./pages/CustomerPortal/Paymenthistory";
+import Settings from "./pages/CustomerPortal/Settings";
 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
               <Route path="/customerportal" element={<CustomerPortal/>}>
                 <Route path="" element={<Navigate to="joborder" />} />
                 <Route path="joborder" element={<Joborder/>}/>  
+                <Route path="paymenthistory" element={<PaymentHistory/>}/> 
+                <Route path="settings" element={<Settings/>}/> 
               </Route>          
         </Routes>     
       </div>
