@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FaEye } from "react-icons/fa";
-import Modal from '../../components/modal';
+import Modal from '../../components/Joborder/modal';
 
 const Joborder = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -13,6 +13,8 @@ const Joborder = () => {
         setModalVisible(false);
     };
 
+
+
     return (  
         <section className="flex flex-col w-5/6 h-screen px-8 py-4">
             <div className='flex flex-col h-1/5 gap-y-24'>
@@ -20,7 +22,7 @@ const Joborder = () => {
                 <div className="flex items-center w-full">
                     <div className='flex-grow '><h3 >Sort By:  JO#</h3></div>
                     <div className='flex justify-end'>
-                        <div className=''><button className="bg-CACACAC hover:bg-CACACAC text-black font-bold py-2 px-4 rounded-full">New Job Order</button></div>            
+                        <div className=''><button className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full ">New Job Order</button></div>            
                     </div>                  
                 </div>
             </div> 
@@ -36,14 +38,14 @@ const Joborder = () => {
                             <th className='border-2'>Details</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='text-center'>
                         <tr>
                             <td>JO-00000002</td>
                             <td>Started</td>
                             <td>Pending</td>
                             <td>09/02/2024</td>
                             <td>Davao</td>
-                            <td><FaEye onClick={handleDetailsClick} /></td>
+                            <td className='text-center'><FaEye onClick={handleDetailsClick} /></td>
                         </tr>
                     </tbody>
                 </table>
