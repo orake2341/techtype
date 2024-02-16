@@ -14,19 +14,26 @@ const Joborder = () => {
     };
 
     return (  
-        <section className="flex w-5/6 h-screen bg-green-200 ">
-            <h1>JobOrder</h1>        
-            <div className="">
-                <button className="">New Job Order</button>
-                <table>
-                    <thead>
+        <section className="flex flex-col w-5/6 h-screen px-8 py-4">
+            <div className='flex flex-col h-1/5 gap-y-24'>
+                <h1 className='text-2xl font-bold'>JobOrder</h1>        
+                <div className="flex items-center w-full">
+                    <div className='flex-grow '><h3 >Sort By:  JO#</h3></div>
+                    <div className='flex justify-end'>
+                        <div className=''><button className="bg-CACACAC hover:bg-CACACAC text-black font-bold py-2 px-4 rounded-full">New Job Order</button></div>            
+                    </div>                  
+                </div>
+            </div> 
+            <div className="h-4/5">
+                <table className='table-fixed w-full'>
+                    <thead className="bg-CACACAC ">
                         <tr>
-                            <th>JO#</th>
-                            <th>JO Status</th>
-                            <th>Payment Status</th>
-                            <th>Due Date</th>
-                            <th>Job Location</th>
-                            <th>Details</th>
+                            <th className='border-2'>JO#</th>
+                            <th className='border-2'>JO Status</th>
+                            <th className='border-2'>Payment Status</th>
+                            <th className='border-2'>Due Date</th>
+                            <th className='border-2'>Job Location</th>
+                            <th className='border-2'>Details</th>
                         </tr>
                     </thead>
                     <tbody>
