@@ -5,18 +5,23 @@ import img from '../../assets/imgs/member4.jpg'
 const Navigation = ({visible, show}) => {
     return ( 
         <>
-            <nav className={!visible ? '' : 'flex flex-col w-1/6 h-screen bg-gradient-to-b from-white to-gray-400'}>
-                     
-                <figure>
+            <nav className={!visible ? '' : 'flex flex-col w-1/6 h-screen bg-gradient-to-b from-white to-CCCCCCC items-center gap-y-4'}>
+
+                <figure className='flex flex-col bg-blue-200 w-full items-center gap-y-24'>
                     <img src={img}  width="150" alt="a profile"/>
+                    <figcaption><h3>Mark Angelo P. Baes</h3></figcaption>
                 </figure>     
-                <h3>Mark Angelo P. Baes</h3>
-                <ul>
-                    <li><Link to="joborder" className="">Job Order</Link></li>
-                    <li><Link to="paymenthistory" className="">Payment History</Link></li>
-                    <li><Link to="settings" className="">Settings</Link></li>
-                    <li className=""><Link to="/" className="">Logout</Link></li>
-                </ul>          
+                
+                <div className='flex flex-col flex-grow bg-red-200 w-full items-center gap-y-96'>
+                    <div className='flex flex-col items-center gap-y-4'>
+                        <Link to="joborder" className='bg-white hover:bg-CACACAC text-black font-bold py-2 px-4 rounded-full'>Job Order</Link>
+                        <Link to="paymenthistory" className='bg-white hover:bg-CACACAC text-black font-bold py-2 px-4 rounded-full'>Payment History</Link>
+                        <Link to="settings" className='bg-white hover:bg-CACACAC text-black font-bold py-2 px-4 rounded-full'>Settings</Link>
+                    </div>
+                    <div>
+                        <Link to="/" className='bg-white hover:bg-CACACAC text-black font-bold py-2 px-4 rounded-full'>Logout</Link>
+                    </div>
+                </div>          
             </nav>
         </>      
      );

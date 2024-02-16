@@ -8,6 +8,7 @@ import PaymentHistory from "./pages/CustomerPortal/Paymenthistory";
 import Settings from "./pages/CustomerPortal/Settings";
 
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -18,7 +19,7 @@ function App() {
               <Route path="/" element={<Home/>}/>   
               <Route path="/customerportal" element={<CustomerPortal/>}>
                 <Route path="" element={<Navigate to="joborder" />} />
-                <Route path="joborder" element={<Joborder/>}/>  
+                <Route path="joborder" element={<Joborder/>}/>          
                 <Route path="paymenthistory" element={<PaymentHistory/>}/> 
                 <Route path="settings" element={<Settings/>}/> 
               </Route>          
