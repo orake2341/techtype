@@ -4,26 +4,25 @@ import { MdOutlinePerson } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
-import SignupCSS from "../../assets/signup.module.css";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import sideImage from "../../assets/imgs/colorfulkeyboard.jpg";
 
 const Signup = () => {
   return (
-    <section className={SignupCSS["section"]}>
-      <figure className={SignupCSS["side-image"]}>
+    <section className="">
+      <figure className="">
         <img src={sideImage} width={458} alt="a keyboard" />
       </figure>
-      <div className={SignupCSS["login-form-box"]}>
-        <figure className={SignupCSS["logo"]}>
+      <div className="">
+        <figure className="">
           <img src={logo} width={300} alt="logo" />
         </figure>
-        <form className={SignupCSS["form"]} method="post">
-          <h2 className={SignupCSS["form-title"]}>Sign Up</h2>
-          <div className={SignupCSS["inputbox"]}>
-            <FaCircleInfo className={`${SignupCSS["icon"]}`} />
+        <form className="" method="post">
+          <h2 className="">Sign Up</h2>
+          <div className="">
+            <FaCircleInfo className="" />
             <input
-              className={SignupCSS["input"]}
+              className=""
               type="text"
               name="fname"
               id="fname"
@@ -31,10 +30,10 @@ const Signup = () => {
               required
             />
           </div>
-          <div className={SignupCSS["inputbox"]}>
-            <FaCircleInfo className={`${SignupCSS["icon"]}`} />
+          <div className="">
+            <FaCircleInfo className="" />
             <input
-              className={SignupCSS["input"]}
+              className=""
               type="text"
               name="lname"
               id="lname"
@@ -42,10 +41,10 @@ const Signup = () => {
               required
             />
           </div>
-          <div className={SignupCSS["inputbox"]}>
-            <MdOutlinePerson className={`${SignupCSS["icon"]}`} />
+          <div className="">
+            <MdOutlinePerson className="" />
             <input
-              className={SignupCSS["input"]}
+              className=""
               type="text"
               name="user"
               id="user"
@@ -53,10 +52,10 @@ const Signup = () => {
               required
             />
           </div>
-          <div className={SignupCSS["inputbox"]}>
-            <MdEmail className={`${SignupCSS["icon"]}`} />
+          <div className="">
+            <MdEmail className="" />
             <input
-              className={SignupCSS["input"]}
+              className=""
               type="email"
               name="email"
               id="email"
@@ -64,10 +63,10 @@ const Signup = () => {
               required
             />
           </div>
-          <div className={SignupCSS["inputbox"]}>
-            <RiLockPasswordFill className={`${SignupCSS["icon"]}`} />
+          <div className="">
+            <RiLockPasswordFill className="" />
             <input
-              className={SignupCSS["input"]}
+              className=""
               type="password"
               name="pwd"
               id="pwd"
@@ -75,10 +74,10 @@ const Signup = () => {
               required
             />
           </div>
-          <div className={SignupCSS["inputbox"]}>
-            <RiLockPasswordFill className={`${SignupCSS["icon"]}`} />
+          <div className="">
+            <RiLockPasswordFill className="" />
             <input
-              className={SignupCSS["input"]}
+              className=""
               type="password"
               name="conpwd"
               id="conpwd"
@@ -86,10 +85,10 @@ const Signup = () => {
               required
             />
           </div>
-          <div className={SignupCSS["inputbox"]}>
-            <BsFillTelephoneFill className={`${SignupCSS["icon"]}`} />
+          <div className="">
+            <BsFillTelephoneFill className="" />
             <input
-              className={SignupCSS["input"]}
+              className=""
               type="tel"
               name="contact"
               id="contact"
@@ -97,16 +96,11 @@ const Signup = () => {
               required
             />
           </div>
-          <input
-            className={SignupCSS["button"]}
-            type="submit"
-            name="submit"
-            value="Sign up"
-          />
-          <div className={SignupCSS["signup"]}>
-            <p className={SignupCSS["p"]}>
+          <input className="" type="submit" name="submit" value="Sign up" />
+          <div className="">
+            <p className="">
               Already have a account?{" "}
-              <Link className={SignupCSS["a"]} to="/login">
+              <Link className="" to="/login">
                 Register
               </Link>
             </p>

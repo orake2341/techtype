@@ -3,10 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup/Signup";
 import Home from "./pages/Home/Home";
 import CustomerPortal from "./pages/CustomerPortal/Portal";
-import Joborder from "./pages/CustomerPortal/Joborder";
+// import Joborder from "./pages/CustomerPortal/Joborder";
 import PaymentHistory from "./pages/CustomerPortal/Paymenthistory";
 import Settings from "./pages/CustomerPortal/Settings";
-import Desktop from "./pages/Home/Desktop";
 
 function App() {
   return (
@@ -18,11 +17,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/customerportal" element={<CustomerPortal />}>
             <Route path="" element={<Navigate to="joborder" />} />
-            <Route path="joborder" element={<Joborder />} />
             <Route path="paymenthistory" element={<PaymentHistory />} />
             <Route path="settings" element={<Settings />} />
           </Route>
-          <Route path="/Desktop" element={<Desktop />} />
         </Routes>
       </div>
     </BrowserRouter>

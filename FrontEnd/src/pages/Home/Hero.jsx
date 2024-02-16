@@ -1,9 +1,8 @@
-import HeroCSS from '../../assets/Hero.module.css';
 
 const Hero = () => {
     return ( 
-        <section className={HeroCSS['hero-section']}>
-            <div className={HeroCSS['hero-container']}>
+        <section className="">
+            <div className="">
                 <h2 class="hero-title">Key to Custom Mastery.</h2>
                 <div className="scroll-text">
                     <h2>

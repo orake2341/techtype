@@ -1,58 +1,44 @@
-import NavbarCSS from "../../assets/HomeNavbar.module.css";
 import { FaBars } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
-// eslint-disable-next-line react/prop-types
 const Navbar = ({ isBarActive, isBarActiveHandler }) => {
   return (
-    <header className={NavbarCSS["header"]} id="top">
-      <nav className={NavbarCSS["nav-main"]}>
+    <header className="" id="top">
+      <nav className="">
         <a href="#top">
-          <h1 className={NavbarCSS["title"]}>
+          <h1 className="">
             {" "}
-            <span className={NavbarCSS["span"]}>Tech</span> Type
+            <span className="">Tech</span> Type
           </h1>
         </a>
-        <ul
-          className={
-            isBarActive
-              ? `${NavbarCSS["nav-list"]} ${NavbarCSS["active"]}`
-              : NavbarCSS["nav-list"]
-          }
-        >
+        <ul className={isBarActive ? "" : ""}>
           <li>
-            <a className={NavbarCSS["nav-a"]} href="#gallery">
+            <a className="" href="#gallery">
               Gallery
             </a>
           </li>
 
           <li>
-            <a className={NavbarCSS["nav-a"]} href="#aboutUs">
+            <a className="" href="#aboutUs">
               About us
             </a>
           </li>
 
           <li>
-            <a className={NavbarCSS["nav-a"]} href="#contact">
+            <a className="" href="#contact">
               Contact
             </a>
           </li>
 
           <li>
-            <a className={NavbarCSS["nav-a"]} href="login/login.html">
+            <a className="" href="login/login.html">
               Login
             </a>
           </li>
         </ul>
         {isBarActive ? (
-          <FaTimes
-            className={NavbarCSS["menu-btn-active"]}
-            onClick={isBarActiveHandler}
-          />
+          <FaTimes className="" onClick={isBarActiveHandler} />
         ) : (
-          <FaBars
-            className={NavbarCSS["menu-btn"]}
-            onClick={isBarActiveHandler}
-          />
+          <FaBars className="" onClick={isBarActiveHandler} />
         )}
       </nav>
     </header>
