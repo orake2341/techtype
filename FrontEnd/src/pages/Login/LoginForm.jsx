@@ -44,11 +44,11 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row self-start">
+      <div className="flex flex-row self-start items-center">
         <MdCheckBox />
         <p>Remember me</p>
       </div>
-      <input className="" type="submit" name="submit" value="Log in" />
+      <input className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold rounded-full py-3 px-6 " type="submit" name="submit" value="Log in" />
       <div className="">
         <p className="">
           Dont have a account?{" "}

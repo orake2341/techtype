@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 
 const Login = () => {
   return (
-    <section className="flex bg-gradient-to-r from-white to-gray-300 ...">
+    <section className="flex bg-gradient-to-r from-white to-gray-300">
       <figure className="w-1/5">
         <img className="h-screen" src={sideImage} alt="a keyboard" />
       </figure>

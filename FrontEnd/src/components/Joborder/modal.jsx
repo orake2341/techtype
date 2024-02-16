@@ -122,7 +122,7 @@ const Modal = ({ isOpen, onClose }) => {
                     Description:                   
                   </label>
                   <textarea className="border-2" name="postContent" rows={4} cols={40} />
-                  
+                  <button className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full ">Submit</button>
                 </div>
               )
                 : servicechoice==="PC Cleaning"?
@@ -133,6 +133,7 @@ const Modal = ({ isOpen, onClose }) => {
                       Write your post:                   
                     </label>
                     <textarea  className="border-2" name="postContent" rows={4} cols={40} />
+                    <button className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full ">Submit</button>
                   </div>
                 )
                 : servicechoice==="PC Building"?
@@ -143,6 +144,7 @@ const Modal = ({ isOpen, onClose }) => {
                       Write your post:                   
                     </label>
                     <textarea  className="border-2" name="postContent" rows={4} cols={40} />
+                    <button className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full ">Submit</button>
                   </div>
                 )
                 
