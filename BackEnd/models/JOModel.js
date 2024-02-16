@@ -5,26 +5,24 @@ import { serviceMod } from "./serviceModel.js";
 const JOrderSchema = mongoose.Schema({
   JOStatus: {
     type: String,
+    default: "Pending",
   },
-  PaymentStatus: [
-    {
-      Status: {type: String,},
-      TotalPayment: {type: Number},
-      Balance: {type: Number},
-      paymentHistory: []//INSERT PAYMENT SCHEMA
-
-    }
-  ],
+  PaymentStatus: {
+    type: String,
+    default: "Pending",
+  },
+  PaymentHistory: [], //CREATE SCHEMA
   TotalPrice: {
     type: Number,
   },
   selectedDate: {
     type: String,
+    default: "Pending",
   },
   services: [serviceMod.schema],
 });
 
-
+export const JO = mongoose.model("JobOrder", JOrderSchema);
 
 //create a new class for this one
 
@@ -38,10 +36,8 @@ export const addSubCollection = async (parentID, childData) => {
       console.log("Parent not found");
       return;
     }
-
     const newJo = new JO(childData);
     parentDoc.JobOrder.push(newJo);
-
     await parentDoc.save();
 
     console.log("Added JO to subcollection");
@@ -49,6 +45,3 @@ export const addSubCollection = async (parentID, childData) => {
     console.error("Error adding JO to subcollection:", error);
   }
 };
-
-export const JO = mongoose.model("JobOrder", JOrderSchema);
-
