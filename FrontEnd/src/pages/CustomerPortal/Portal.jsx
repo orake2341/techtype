@@ -6,8 +6,11 @@ const Portal = () => {
     const [navVisible, showNavbar] = useState(true);
     return (  
         <>
-            <Navigation visible={ navVisible } show={ showNavbar }></Navigation>
-            <Outlet visible={ navVisible }/>
+            <div className="flex">
+                <Navigation visible={ navVisible } show={ showNavbar }></Navigation>
+                <Outlet visible={ navVisible }/>
+            </div>
+            
         </>          
     );
 }

@@ -1,4 +1,3 @@
-import HomeCSS from '../../assets/home.module.css'
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Hero from './Hero';

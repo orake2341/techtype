@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import JoborderCSS from '../../assets/Joborder.module.css';
 import { FaEye } from "react-icons/fa";
 import Modal from '../../components/modal';
 
@@ -15,10 +14,10 @@ const Joborder = () => {
     };
 
     return (  
-        <section className={JoborderCSS.section}>
+        <section className="flex w-5/6 h-screen bg-green-200">
             <h1>JobOrder</h1>        
-            <div className={JoborderCSS['app-container']}>
-                <button className={JoborderCSS.button}>New Job Order</button>
+            <div className="">
+                <button className="">New Job Order</button>
                 <table>
                     <thead>
                         <tr>
