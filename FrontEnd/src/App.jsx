@@ -8,7 +8,6 @@ import PaymentHistory from "./pages/CustomerPortal/Paymenthistory";
 import Settings from "./pages/CustomerPortal/Settings";
 
 
-
 function App() {
   return (
     <BrowserRouter>

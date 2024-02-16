@@ -31,10 +31,16 @@ app.post("/crt", async (req, res) => {
   }
 });
 
-app.post("/sub", async (req, res) => {
+app.get("/", async (req, res) => {
+  const findYou = await userMod.countDocuments({
+    "JobOrder.JOStatus": "Pending",
+  }); //only count user that have jo
+  res.status(201).json(findYou);
+});
+
+app.post("/Create", async (req, res) => {
   try {
-    const newColl = new JO(req.body);
-    await addSubCollection("65cea5784230305c5b1099d6", newColl);
+    await addSubCollection("65cf03a57996b7138851bb01", req.body);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Internal server error" });
