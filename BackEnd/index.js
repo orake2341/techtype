@@ -34,7 +34,7 @@ app.post("/crt", async (req, res) => {
 app.post("/sub", async (req, res) => {
   try {
     const newColl = new JO(req.body);
-    await addSubCollection("65ce21e03097dc398595bfd1", newColl);
+    await addSubCollection("65cea5784230305c5b1099d6", newColl);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Internal server error" });

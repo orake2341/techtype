@@ -1,23 +1,30 @@
 import mongoose from "mongoose";
 import { userMod } from "./userModel.js";
+import { serviceMod } from "./serviceModel.js";
 
 const JOrderSchema = mongoose.Schema({
-  name: {
+  JOStatus: {
     type: String,
-    required: true,
   },
-  services: [],
+  PaymentStatus: [
+    {
+      Status: {type: String,},
+      TotalPayment: {type: Number},
+      Balance: {type: Number},
+      paymentHistory: []//INSERT PAYMENT SCHEMA
+
+    }
+  ],
+  TotalPrice: {
+    type: Number,
+  },
+  selectedDate: {
+    type: String,
+  },
+  services: [serviceMod.schema],
 });
 
-const serviceSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  details: {
-    type: String,
-  },
-});
+
 
 //create a new class for this one
 
@@ -44,4 +51,4 @@ export const addSubCollection = async (parentID, childData) => {
 };
 
 export const JO = mongoose.model("JobOrder", JOrderSchema);
-export const serviceMod = mongoose.model("service", serviceSchema);
+

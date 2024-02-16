@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { JO } from "./JOModel.js";
 const userSchema = mongoose.Schema({
   name: {
     type: String,
@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
   address: {
     type: String,
   },
-  JobOrder: [],
+  JobOrder: [JO.schema],
 });
 
 export const userMod = mongoose.model("user", userSchema);
