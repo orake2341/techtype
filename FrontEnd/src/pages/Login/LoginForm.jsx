@@ -53,7 +53,7 @@ const LoginForm = () => {
         <p className="">
           Dont have a account?{" "}
           <Link className="" to="/signup">
-            Register
+            Signup
           </Link>
         </p>
       </div>

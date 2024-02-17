@@ -91,7 +91,7 @@ const SignupForm = () => {
             <p className="">
               Already have a account?{" "}
               <Link className="" to="/login">
-                Register
+                Login
               </Link>
             </p>
           </div>
