@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import img from "../../assets/imgs/member4.jpg";
 
-const Navigation = ({ visible, show }) => {
+type NavigationProps = {
+  visible: boolean;
+};
+
+const Navigation = ({ visible }: NavigationProps) => {
   return (
     <>
       <nav
