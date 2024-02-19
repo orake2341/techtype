@@ -1,14 +1,62 @@
 import { useState, useEffect } from "react";
+import Select from "./select";
+import KeyboardModdingForm from "./keyboardmoddingform";
+import PCCleaningForm from "./pccleaningform";
+import PCBuildingForm from "./pcbuildingform";
 
-// eslint-disable-next-line react/prop-types
-const Modal = ({ isOpen, onClose }) => {
+type ModalProp = {
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+type KeyboardModdingData = {
+  typeofservice: string;
+  typeofkeyboardmods: string;
+  keyboarddeepclean: boolean;
+  keycapcleaning: boolean;
+  switchlubing: boolean;
+  description: string;
+};
+
+type PCCleaningData = {
+  cleaningMethod: string;
+};
+
+type PCBuildingData = {
+  processorType: string;
+  graphicsCardType: string;
+};
+
+const Modal = ({ isOpen, onClose }: ModalProp) => {
   const [servicetype, setServiceTypeValue] = useState("");
-  const [servicechoice, setServiceChoice] = useState("");
-  const [keyboardmodstype, setKeyboardModsTypeValue] = useState("");
 
-  const [keyboardcleanenabled, setKeyboardCleanEnabled] = useState(false);
-  const [keycapenabled, setKeyCapEnabled] = useState(false);
-  const [switchenabled, setSwitchEnabled] = useState(false);
+  const [keyboardModdingData, setKeyboardModdingData] =
+    useState<KeyboardModdingData>({
+      typeofservice: "Keyboard Modding",
+      typeofkeyboardmods: "",
+      keyboarddeepclean: false,
+      keycapcleaning: false,
+      switchlubing: false,
+      description: "",
+    });
+  const [pcCleaningData, setPCCleaningData] = useState<PCCleaningData>({
+    cleaningMethod: "",
+  });
+  const [pcBuildingData, setPCBuildingData] = useState<PCBuildingData>({
+    processorType: "",
+    graphicsCardType: "",
+  });
+
+  const options = [
+    { value: "", label: " --Please Select--" },
+    { value: "Keyboard Modding", label: "Keyboard Modding" },
+    { value: "PC Cleaning", label: "PC Cleaning" },
+    { value: "PC Building", label: "PC Building" },
+  ];
+
+  const buttonHandle = (keyboardModdingData: KeyboardModdingData) => {
+    console.log(keyboardModdingData);
+  };
 
   return (
     <>
@@ -36,87 +84,34 @@ const Modal = ({ isOpen, onClose }) => {
                 </svg>
               </button>
             </div>
-            <div className=" flex  flex-col mt-4 gap-8">
+            <form className=" flex  flex-col mt-4 gap-8">
               <h1 className="text-center text-4xl font-bold">Service</h1>
-              <div className="flex">
-                <h3 className="flex-grow">Type of Service:</h3>
-                <select
-                  value={servicetype}
-                  onChange={(e) => {
-                    setServiceTypeValue(e.target.value);
-                    setServiceChoice(e.target.value);
-                  }}
-                >
-                  <option value="">-- Please Select --</option>
-                  <option value="Keyboard Modding">Keyboard Modding</option>
-                  <option value="PC Cleaning">PC Cleaning</option>
-                  <option value="PC Building">PC Building</option>
-                </select>
-              </div>
-              {servicechoice === "Keyboard Modding" ? (
-                <div className=" flex flex-col gap-8">
-                  <div className="flex ">
-                    <h3 className="flex-grow">Type of Keyboard Mods:</h3>
-                    <select
-                      value={keyboardmodstype}
-                      onChange={(e) => setKeyboardModsTypeValue(e.target.value)}
-                    >
-                      <option value="">-- Please Select --</option>
-                      <option value="Foam mod">Foam mod</option>
-                      <option value="Holee mod">Holee mod</option>
-                      <option value="Tape mod">Tape mod</option>
-                    </select>
-                  </div>
-                  <div className="flex">
-                    <h2 className="flex-grow">keyboard deep clean</h2>
-                  </div>
-                  <div className="flex gap-8">
-                    <h2 className="flex-grow">Keycap cleaning</h2>
-                  </div>
-                  <div className="flex">
-                    <h2 className="flex-grow">Switch Lubing</h2>
-                  </div>
-                  <label className="flex items-center">Description:</label>
-                  <textarea
-                    className="border-2"
-                    name="postContent"
-                    rows={4}
-                    cols={40}
-                  />
-                  <button className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full ">
-                    Submit
-                  </button>
-                </div>
-              ) : servicechoice === "PC Cleaning" ? (
-                <div className="flex flex-col gap-8">
-                  <p className="flex-grow">Chosen Service: {servicechoice}</p>
-                  <label className="flex items-center">Write your post:</label>
-                  <textarea
-                    className="border-2"
-                    name="postContent"
-                    rows={4}
-                    cols={40}
-                  />
-                  <button className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full ">
-                    Submit
-                  </button>
-                </div>
-              ) : servicechoice === "PC Building" ? (
-                <div className="flex flex-col gap-8">
-                  <p className="flex-grow">Chosen Service: {servicechoice}</p>
-                  <label className="flex items-center">Write your post:</label>
-                  <textarea
-                    className="border-2"
-                    name="postContent"
-                    rows={4}
-                    cols={40}
-                  />
-                  <button className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full ">
-                    Submit
-                  </button>
-                </div>
+              <Select
+                label="Type of Service:"
+                value={servicetype}
+                onChange={setServiceTypeValue}
+                options={options}
+              />
+              {servicetype === "Keyboard Modding" ? (
+                <KeyboardModdingForm
+                  data={keyboardModdingData}
+                  setData={setKeyboardModdingData}
+                />
+              ) : servicetype === "PC Cleaning" ? (
+                <PCCleaningForm servicetype={servicetype} />
+              ) : servicetype === "PC Building" ? (
+                <PCBuildingForm servicetype={servicetype} />
               ) : null}
-            </div>
+              <button
+                className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full "
+                onClick={(e) => {
+                  e.preventDefault();
+                  buttonHandle(keyboardModdingData);
+                }}
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       )}
