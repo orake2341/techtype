@@ -34,56 +34,75 @@ const JobOrder = () => {
       <div className="flex-1 flex overflow-x-auto">
         <div className="mx-4 flex-1">
           <div className="shadow rounded-lg overflow-auto">
-          <div className="flex justify-center">
-          <table className="table-auto">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    JO Number
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type of Service
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Site of Service
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Description
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {jobOrders.map((jobOrder) => (
-                  <tr key={jobOrder.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">{jobOrder.joNumber}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{jobOrder.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{jobOrder.typeOfService}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{jobOrder.siteOfService}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{jobOrder.description}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => (jobOrder.id)}>
-                        Edit
-                      </button>
-                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => (jobOrder.id)}>
-                        Delete
-                      </button>
-                      <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => (jobOrder.id)}>
-                        Preview
-                      </button>
-                    </td>
+            <div className="flex justify-center">
+              <table className="table-auto">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      JO Number
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Type of Service
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Site of Service
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Description
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {jobOrders.map((jobOrder) => (
+                    <tr key={jobOrder.id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {jobOrder.joNumber}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {jobOrder.name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {jobOrder.typeOfService}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {jobOrder.siteOfService}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {jobOrder.description}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                          onClick={() => jobOrder.id}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
+                          onClick={() => jobOrder.id}
+                        >
+                          Delete
+                        </button>
+                        <button
+                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                          onClick={() => jobOrder.id}
+                        >
+                          Preview
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </section>
   );
