@@ -3,6 +3,7 @@ import { userMod } from "./models/userModel.js";
 import { PORT, mongoDB } from "./config.js";
 import { JO, addSubCollection } from "./models/JOModel.js";
 import mongoose from "mongoose";
+import router from "./routes/user.js";
 
 const app = express();
 app.use(express.json()); // Add middleware to parse JSON bodies
@@ -18,7 +19,7 @@ mongoose
   });
 
 // MIDDLEWARE
-
+app.use("/user", router);
 // ROUTING
 app.post("/crt", async (req, res) => {
   try {

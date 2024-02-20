@@ -24,8 +24,9 @@ const JOrderSchema = mongoose.Schema({
 
 export const JO = mongoose.model("JobOrder", JOrderSchema);
 
-//create a new class for this one
-
+//SUB COLLECTIONS
+//=========================================
+//TODO: FIX ERROR HANDLING
 export const addSubCollection = async (parentID, childData) => {
   try {
     // Find the parent document by ID
