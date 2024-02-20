@@ -7,9 +7,11 @@ import PCBuildingForm from "./pcbuildingform";
 type ModalProp = {
   isOpen: boolean;
   onClose: () => void;
+  addRow: ({}) => void;
 };
 
 type KeyboardModdingData = {
+  id: number;
   typeofservice: string;
   typeofkeyboardmods: string;
   keyboarddeepclean: boolean;
@@ -19,19 +21,22 @@ type KeyboardModdingData = {
 };
 
 type PCCleaningData = {
+  id: number;
   cleaningMethod: string;
 };
 
 type PCBuildingData = {
+  id: number;
   processorType: string;
   graphicsCardType: string;
 };
 
-const Modal = ({ isOpen, onClose }: ModalProp) => {
+const Modal = ({ isOpen, onClose, addRow }: ModalProp) => {
   const [servicetype, setServiceTypeValue] = useState("");
 
   const [keyboardModdingData, setKeyboardModdingData] =
     useState<KeyboardModdingData>({
+      id: 0,
       typeofservice: "Keyboard Modding",
       typeofkeyboardmods: "",
       keyboarddeepclean: false,
@@ -40,9 +45,11 @@ const Modal = ({ isOpen, onClose }: ModalProp) => {
       description: "",
     });
   const [pcCleaningData, setPCCleaningData] = useState<PCCleaningData>({
+    id: 0,
     cleaningMethod: "",
   });
   const [pcBuildingData, setPCBuildingData] = useState<PCBuildingData>({
+    id: 0,
     processorType: "",
     graphicsCardType: "",
   });
@@ -54,14 +61,15 @@ const Modal = ({ isOpen, onClose }: ModalProp) => {
     { value: "PC Building", label: "PC Building" },
   ];
 
-  const buttonHandle = (keyboardModdingData: KeyboardModdingData) => {
-    console.log(keyboardModdingData);
+  const buttonHandle = () => {
+    addRow(keyboardModdingData);
+    onClose();
   };
 
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 ">
           <div className="bg-white p-6 rounded-lg">
             <div className="flex justify-end">
               <button
@@ -104,10 +112,7 @@ const Modal = ({ isOpen, onClose }: ModalProp) => {
               ) : null}
               <button
                 className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full "
-                onClick={(e) => {
-                  e.preventDefault();
-                  buttonHandle(keyboardModdingData);
-                }}
+                onClick={buttonHandle}
               >
                 Submit
               </button>

@@ -7,6 +7,7 @@ import Joborder from "./pages/CustomerPortal/Joborder";
 import PaymentHistory from "./pages/CustomerPortal/Paymenthistory";
 import Settings from "./pages/CustomerPortal/Settings";
 import JobOrderForm from "./pages/CustomerPortal/JobOrderForm";
+import Modal from "./components/Joborder/modal";
 
 function App() {
   return (
