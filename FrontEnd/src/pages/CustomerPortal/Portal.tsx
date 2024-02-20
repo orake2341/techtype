@@ -8,7 +8,9 @@ const Portal = () => {
     <>
       <div className="flex">
         <Navigation visible={navVisible}></Navigation>
-        <Outlet />
+        <main>
+          <Outlet />
+        </main>
       </div>
     </>
   );
