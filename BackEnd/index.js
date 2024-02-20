@@ -4,9 +4,14 @@ import { PORT, mongoDB } from "./config.js";
 import { JO, addSubCollection } from "./models/JOModel.js";
 import mongoose from "mongoose";
 import router from "./routes/user.js";
-
+import cors from "cors";
+import bodyParser from "body-parser";
 const app = express();
 app.use(express.json()); // Add middleware to parse JSON bodies
+
+// Parse JSON bodies
+app.use(cors());
+app.use(bodyParser.json());
 
 // Connect to DB
 mongoose
@@ -20,6 +25,7 @@ mongoose
 
 // MIDDLEWARE
 app.use("/user", router);
+
 // ROUTING
 app.post("/crt", async (req, res) => {
   try {
