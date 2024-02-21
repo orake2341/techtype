@@ -8,10 +8,12 @@ type ModalProp = {
   isOpen: boolean;
   onClose: () => void;
   addRow: ({}) => void;
+  serviceData: any;
+  editRow: (id: number, newData: any) => void;
 };
 
 type KeyboardModdingData = {
-  id: number;
+  id: string;
   typeofservice: string;
   typeofkeyboardmods: string;
   keyboarddeepclean: boolean;
@@ -21,22 +23,28 @@ type KeyboardModdingData = {
 };
 
 type PCCleaningData = {
-  id: number;
+  id: string;
   cleaningMethod: string;
 };
 
 type PCBuildingData = {
-  id: number;
+  id: string;
   processorType: string;
   graphicsCardType: string;
 };
 
-const Modal = ({ isOpen, onClose, addRow }: ModalProp) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  addRow,
+  serviceData,
+  editRow,
+}: ModalProp) => {
   const [servicetype, setServiceTypeValue] = useState("");
 
   const [keyboardModdingData, setKeyboardModdingData] =
     useState<KeyboardModdingData>({
-      id: 0,
+      id: "",
       typeofservice: "Keyboard Modding",
       typeofkeyboardmods: "",
       keyboarddeepclean: false,
@@ -45,14 +53,53 @@ const Modal = ({ isOpen, onClose, addRow }: ModalProp) => {
       description: "",
     });
   const [pcCleaningData, setPCCleaningData] = useState<PCCleaningData>({
-    id: 0,
+    id: "",
     cleaningMethod: "",
   });
   const [pcBuildingData, setPCBuildingData] = useState<PCBuildingData>({
-    id: 0,
+    id: "",
     processorType: "",
     graphicsCardType: "",
   });
+
+  useEffect(() => {
+    if (serviceData !== null) {
+      if (serviceData.typeofservice === "Keyboard Modding") {
+        setServiceTypeValue("Keyboard Modding");
+        setKeyboardModdingData({
+          id: serviceData.id,
+          typeofservice: serviceData.typeofservice,
+          typeofkeyboardmods: serviceData.typeofkeyboardmods,
+          keyboarddeepclean: serviceData.keyboarddeepclean,
+          keycapcleaning: serviceData.keycapcleaning,
+          switchlubing: serviceData.switchlubing,
+          description: serviceData.description,
+        });
+      }
+    }
+
+    if (!isOpen) {
+      setServiceTypeValue("");
+      setKeyboardModdingData({
+        id: "",
+        typeofservice: "Keyboard Modding",
+        typeofkeyboardmods: "",
+        keyboarddeepclean: false,
+        keycapcleaning: false,
+        switchlubing: false,
+        description: "",
+      });
+      setPCCleaningData({
+        id: "",
+        cleaningMethod: "",
+      });
+      setPCBuildingData({
+        id: "",
+        processorType: "",
+        graphicsCardType: "",
+      });
+    }
+  }, [isOpen]);
 
   const options = [
     { value: "", label: " --Please Select--" },
@@ -62,7 +109,12 @@ const Modal = ({ isOpen, onClose, addRow }: ModalProp) => {
   ];
 
   const buttonHandle = () => {
-    addRow(keyboardModdingData);
+    if (serviceData === null) {
+      addRow(keyboardModdingData);
+    } else {
+      editRow(serviceData.id, keyboardModdingData);
+    }
+    serviceData === null;
     onClose();
   };
 

@@ -3,7 +3,7 @@ import Switch from "./switch";
 import { useState, useEffect } from "react";
 
 type KeyboardModdingData = {
-  id: number;
+  id: string;
   typeofservice: string;
   typeofkeyboardmods: string;
   keyboarddeepclean: boolean;

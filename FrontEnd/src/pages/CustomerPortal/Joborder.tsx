@@ -11,7 +11,7 @@ const Joborder = () => {
   };
 
   return (
-    <section className="flex flex-col w-5/6 h-screen px-8 py-4">
+    <section className="flex flex-col h-screen px-8 py-4">
       <div className="flex flex-col h-1/5 gap-y-24">
         <h1 className="text-2xl font-bold">JobOrder</h1>
         <div className="flex items-center w-full">
