@@ -1,6 +1,6 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Modal from "../../components/Joborder/modal";
 import Select from "../../components/Joborder/select";
