@@ -8,12 +8,12 @@ import { useState } from "react";
 import axios from "axios";
 const SignupForm = () => {
   const [data, setData] = useState({ email: "", password: "" });
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setError("");
     setIsLoading(true);
 
     try {
@@ -23,11 +23,13 @@ const SignupForm = () => {
       });
 
       console.log("Response:", response.data);
-      // Optionally handle successful signup
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.error("Error during signup:", error.response.data.message);
-      setError(error.response.data.message);
+
+      //
+    } catch (error) {
+      // MISSING ERROR HANDLING
+      setError(error.response?.data?.message);
+
+      //
     } finally {
       setIsLoading(false);
     }

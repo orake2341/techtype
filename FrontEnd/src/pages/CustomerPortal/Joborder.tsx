@@ -1,13 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
-import Modal from "../../components/Joborder/modal";
 import { Outlet, useNavigate } from "react-router-dom";
+import axios from "axios";
 
+interface NestedDocument {
+  _id: string;
+  JOStatus: string;
+  PaymentStatus: string;
+  selectedDate: string;
+  jobSite: string;
+  // Add other properties as needed
+}
 const Joborder = () => {
   const navigate = useNavigate();
 
   const handleNewJobOrder = () => {
     navigate("joborderform");
+  };
+
+  const [nestedDocuments, setNestedDocuments] = useState<NestedDocument[]>([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/");
+      const responseData = response.data.message;
+      setNestedDocuments(responseData);
+    } catch (error) {
+      console.error();
+    }
   };
 
   return (
@@ -43,16 +67,24 @@ const Joborder = () => {
             </tr>
           </thead>
           <tbody className="text-center">
-            <tr>
-              <td>JO-00000002</td>
-              <td>Started</td>
-              <td>Pending</td>
-              <td>09/02/2024</td>
-              <td>Davao</td>
-              <td className="text-center">
-                <FaEye />
-              </td>
-            </tr>
+            {nestedDocuments.length === 0 ? (
+              <tr>
+                <td colSpan={6}>No data available</td>
+              </tr>
+            ) : (
+              nestedDocuments.map((nestedDoc) => (
+                <tr key={nestedDoc._id}>
+                  <td>#JO00001</td>
+                  <td>{nestedDoc.JOStatus}</td>
+                  <td>{nestedDoc.PaymentStatus}</td>
+                  <td>{nestedDoc.selectedDate}</td>
+                  <td>{nestedDoc.jobSite}</td>
+                  <td className="text-center">
+                    <FaEye />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

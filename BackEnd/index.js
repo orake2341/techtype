@@ -39,15 +39,26 @@ app.post("/crt", async (req, res) => {
 });
 
 app.get("/", async (req, res) => {
-  const findYou = await userMod.countDocuments({
-    "JobOrder.JOStatus": "Pending",
-  }); //only count user that have jo
-  res.status(201).json(findYou);
+  //TODO: ADD ERROR HANDLING
+  //CONNECT PROPERLY
+  const userId = "65d587cc5aa59eb2edd397ca"; // It's a good practice to make your code dynamic or configurable
+  const findYou = await userMod.findById(userId);
+
+  // Check if the user was found
+  if (!findYou) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  const hasPendingJobOrder = findYou.JobOrder.filter(
+    (jobOrder) => jobOrder.JOStatus === "Pending"
+  );
+
+  // Return it in json file
+  res.status(200).json({ message: hasPendingJobOrder });
 });
 
 app.post("/Create", async (req, res) => {
   try {
-    await addSubCollection("65cf03a57996b7138851bb01", req.body);
+    await addSubCollection("65d587cc5aa59eb2edd397ca", req.body);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Internal server error" });

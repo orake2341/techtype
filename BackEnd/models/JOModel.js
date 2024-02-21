@@ -15,6 +15,10 @@ const JOrderSchema = mongoose.Schema({
   TotalPrice: {
     type: Number,
   },
+  jobSite: {
+    type: String,
+    default: "On-site",
+  },
   selectedDate: {
     type: String,
     default: "Pending",
