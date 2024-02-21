@@ -1,14 +1,37 @@
 import { MdOutlinePerson } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdCheckBox } from "react-icons/md";
+import { useState } from "react";
+import axios from "axios";
 
 const LoginForm = () => {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:4000/user/login", {
+        email: data.email,
+        password: data.password,
+      });
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/customerportal");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <form
       className="bg-gray-300 p-6 flex flex-col items-center rounded-2xl gap-y-5"
       method="post"
+      onSubmit={handleSubmit}
     >
       <h2 className="">Login</h2>
       <div className="flex flex-col items-center self-start w-full">
@@ -22,6 +45,7 @@ const LoginForm = () => {
             type="text"
             name="Luser"
             id="Luser"
+            onChange={(e) => setData({ ...data, email: e.target.value })}
             required
           />
         </div>
@@ -38,6 +62,7 @@ const LoginForm = () => {
               type="password"
               name="Lpwd"
               id="Lpwd"
+              onChange={(e) => setData({ ...data, password: e.target.value })}
               required
             />
             <FaEye className="absolute self-end" />
