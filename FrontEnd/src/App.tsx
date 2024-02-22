@@ -7,9 +7,11 @@ import Joborder from "./pages/CustomerPortal/Joborder";
 import PaymentHistory from "./pages/CustomerPortal/Paymenthistory";
 import Settings from "./pages/CustomerPortal/Settings";
 import JobOrderForm from "./pages/CustomerPortal/JobOrderForm";
-import Modal from "./components/Joborder/modal";
+import AdminJobOrderForm from "./pages/Admin/JobOrderForm";
 import Dashboard from "./pages/Admin/Dashboard";
 import JobOrder from "./pages/Admin/JobOrder";
+import Modal from "./components/Joborder/modal";
+import PaymentModal from "./components/AdminJoborder/paymentmodal";
 
 function App() {
   return (
@@ -29,7 +31,10 @@ function App() {
           </Route>
           <Route path="/admin" element={<Dashboard />}>
             <Route path="" element={<Navigate to="joborder" />} />
-            <Route path="joborder" element={<JobOrder />} />
+            <Route path="joborder" element={<JobOrder />}>
+              <Route path="joborderform/:id" element={<AdminJobOrderForm />} />
+              <Route path="payment/:id" element={<PaymentModal />} />
+            </Route>
           </Route>
         </Routes>
       </div>

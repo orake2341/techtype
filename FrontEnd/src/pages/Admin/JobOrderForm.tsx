@@ -1,6 +1,6 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Modal from "../../components/Joborder/modal";
 import Select from "../../components/Joborder/select";
@@ -9,12 +9,11 @@ const JobOrderForm = () => {
   const navigate = useNavigate();
   const Location = useLocation();
   const [modalState, setModalState] = useState(false);
-
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
 
-  // The Details to put in the database
-  const [servicerows, setServiceRows] = useState<any>([]);
-  const [siteOfService, setSiteOfService] = useState("");
+  const [siteOfService, setSiteOfService] = useState(
+    Location.state.jobOrderData.jobSite
+  );
   const [message, setMessage] = useState("");
 
   const options = [
@@ -37,7 +36,7 @@ const JobOrderForm = () => {
     setModalState(!modalState);
   };
 
-  const addRow = (newRow: any) => {
+  /*   const addRow = (newRow: any) => {
     const newId =
       servicerows.length > 0 ? servicerows[servicerows.length - 1].id + 1 : 1;
     newRow.id = newId;
@@ -55,7 +54,7 @@ const JobOrderForm = () => {
   const deleteRow = (id: number) => {
     const updatedRows = servicerows.filter((row: any) => row.id !== id);
     setServiceRows(updatedRows);
-  };
+  }; */
 
   return (
     <div
@@ -140,7 +139,7 @@ const JobOrderForm = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {servicerows.length > 0 &&
+                  {/* {servicerows.length > 0 &&
                     servicerows.map((row: any) => (
                       <tr key={row.id}>
                         <td className="border border-gray-300 px-4 py-2 w-1/4">
@@ -166,7 +165,7 @@ const JobOrderForm = () => {
                           </button>
                         </td>
                       </tr>
-                    ))}
+                    ))} */}
                 </tbody>
               </table>
             </div>
@@ -192,17 +191,15 @@ const JobOrderForm = () => {
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
               onClick={() => {
-                console.log(servicerows);
-                console.log(message);
-                console.log(siteOfService);
+                // edit
               }}
             >
-              Submit
+              Edit
             </button>
           </div>
         </div>
       </div>
-      <Modal
+      {/* <Modal
         isOpen={modalState}
         onClose={handleModalState}
         addRow={addRow}
@@ -212,7 +209,7 @@ const JobOrderForm = () => {
             ? servicerows.find((row: any) => row.id === selectedRowId)
             : null
         }
-      />
+      /> */}
     </div>
   );
 };

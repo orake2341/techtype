@@ -9,13 +9,17 @@ interface NestedDocument {
   PaymentStatus: string;
   selectedDate: string;
   jobSite: string;
-  // Add other properties as needed
 }
 const Joborder = () => {
   const navigate = useNavigate();
 
-  const handleNewJobOrder = () => {
-    navigate("joborderform");
+  const handleModalState = (jobOrderData: any) => {
+    navigate(jobOrderData !== null ? `${jobOrderData.id} ` : "newjoborder", {
+      replace: true,
+      state: { jobOrderData },
+    });
+
+    console.log(jobOrderData);
   };
 
   const [nestedDocuments, setNestedDocuments] = useState<NestedDocument[]>([]);
@@ -46,7 +50,7 @@ const Joborder = () => {
             <div className="">
               <button
                 className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full "
-                onClick={handleNewJobOrder}
+                onClick={() => handleModalState(null)}
               >
                 New Job Order
               </button>
