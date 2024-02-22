@@ -26,13 +26,15 @@ type PCCleaningData = {
   id: string;
   typeofservice: string;
   cleaningMethod: string;
+  description: string;
 };
 
 type PCBuildingData = {
   id: string;
   typeofservice: string;
-  processorType: string;
-  graphicsCardType: string;
+  processor: string;
+  graphicsCard: string;
+  description: string;
 };
 
 const Modal = ({
@@ -58,12 +60,14 @@ const Modal = ({
     id: "",
     typeofservice: "PC Cleaning",
     cleaningMethod: "",
+    description: "",
   });
   const [pcBuildingData, setPCBuildingData] = useState<PCBuildingData>({
     id: "",
     typeofservice: "PC Building",
-    processorType: "",
-    graphicsCardType: "",
+    processor: "",
+    graphicsCard: "",
+    description: "",
   });
 
   useEffect(() => {
@@ -77,6 +81,23 @@ const Modal = ({
           keyboarddeepclean: serviceData.keyboarddeepclean,
           keycapcleaning: serviceData.keycapcleaning,
           switchlubing: serviceData.switchlubing,
+          description: serviceData.description,
+        });
+      } else if (serviceData.typeofservice === "PC Cleaning") {
+        setServiceTypeValue("PC Cleaning");
+        setPCCleaningData({
+          id: serviceData.id,
+          typeofservice: serviceData.typeofservice,
+          cleaningMethod: serviceData.cleaningMethod,
+          description: serviceData.description,
+        });
+      } else if (serviceData.typeofservice === "PC Building") {
+        setServiceTypeValue("PC Building");
+        setPCBuildingData({
+          id: serviceData.id,
+          typeofservice: serviceData.typeofservice,
+          processor: serviceData.processor,
+          graphicsCard: serviceData.graphicsCard,
           description: serviceData.description,
         });
       }
@@ -97,12 +118,14 @@ const Modal = ({
         id: "",
         typeofservice: "PC Cleaning",
         cleaningMethod: "",
+        description: "",
       });
       setPCBuildingData({
         id: "",
         typeofservice: "PC Building",
-        processorType: "",
-        graphicsCardType: "",
+        processor: "",
+        graphicsCard: "",
+        description: "",
       });
     }
   }, [isOpen]);
@@ -114,7 +137,7 @@ const Modal = ({
     { value: "PC Building", label: "PC Building" },
   ];
 
-  const buttonHandle = () => {
+  const addEventHandler = () => {
     addRow(keyboardModdingData);
     switch (servicetype) {
       case "Keyboard Modding":
@@ -128,6 +151,11 @@ const Modal = ({
         break;
       default:
     }
+    onClose();
+  };
+
+  const editEventHandler = (id: number, newData: any) => {
+    editRow(id, newData);
     onClose();
   };
 
@@ -171,13 +199,32 @@ const Modal = ({
                   setData={setKeyboardModdingData}
                 />
               ) : servicetype === "PC Cleaning" ? (
-                <PCCleaningForm servicetype={servicetype} />
+                <PCCleaningForm
+                  data={pcCleaningData}
+                  setData={setPCCleaningData}
+                />
               ) : servicetype === "PC Building" ? (
-                <PCBuildingForm servicetype={servicetype} />
+                <PCBuildingForm
+                  data={pcBuildingData}
+                  setData={setPCBuildingData}
+                />
               ) : null}
               <button
+                type="button"
                 className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold py-2 px-4 rounded-full "
-                onClick={buttonHandle}
+                onClick={() => {
+                  if (serviceData === null) {
+                    addEventHandler();
+                  } else {
+                    if (servicetype === "Keyboard Modding")
+                      editEventHandler(serviceData.id, keyboardModdingData);
+                    else if (servicetype === "PC Cleaning") {
+                      editEventHandler(serviceData.id, pcCleaningData);
+                    } else {
+                      editEventHandler(serviceData.id, pcBuildingData);
+                    }
+                  }
+                }}
               >
                 Submit
               </button>
