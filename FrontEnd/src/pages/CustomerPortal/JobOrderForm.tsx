@@ -1,14 +1,15 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Modal from "../../components/Joborder/modal";
 import Select from "../../components/Joborder/select";
 
 const JobOrderForm = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const [modalState, setModalState] = useState(false);
+
+  const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
 
   // The Details to put in the database
   const [servicerows, setServiceRows] = useState<any>([]);
@@ -36,23 +37,23 @@ const JobOrderForm = () => {
   };
 
   const addRow = (newRow: any) => {
-    const newId = servicerows.length + 1;
+    const newId =
+      servicerows.length > 0 ? servicerows[servicerows.length - 1].id + 1 : 1;
     newRow.id = newId;
     setServiceRows([...servicerows, newRow]);
   };
 
-  const deleteRow = (idToDelete: number) => {
-    const updatedRows = servicerows.filter((row: any) => row.id !== idToDelete);
-
-    const updatedRowsWithNewIds = updatedRows.map(
-      (row: any, index: number) => ({
-        ...row,
-        id: index + 1,
-      })
+  const editRow = (id: number, newData: any) => {
+    const updatedRows = servicerows.map((row: any) =>
+      row.id === id ? newData : row
     );
+    setServiceRows(updatedRows);
+    setModalState(false);
+  };
 
-    // Set the updated rows
-    setServiceRows(updatedRowsWithNewIds);
+  const deleteRow = (id: number) => {
+    const updatedRows = servicerows.filter((row: any) => row.id !== id);
+    setServiceRows(updatedRows);
   };
 
   // TODO: CREATE AXIOS TO POST DATA IN DATABASE
@@ -117,7 +118,10 @@ const JobOrderForm = () => {
               </h2>
               <button
                 type="button"
-                onClick={handleModalState}
+                onClick={() => {
+                  setSelectedRowId(null);
+                  handleModalState();
+                }}
                 className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
               >
                 <FaPlusCircle className="text-lg mr-2" />
@@ -147,7 +151,8 @@ const JobOrderForm = () => {
                           <button
                             type="button"
                             onClick={() => {
-                              /* Add edit functionality */
+                              setSelectedRowId(row.id);
+                              handleModalState();
                             }}
                             className="text-blue-500 hover:text-blue-700 mr-2"
                           >
@@ -198,7 +203,17 @@ const JobOrderForm = () => {
           </div>
         </div>
       </div>
-      <Modal isOpen={modalState} onClose={handleModalState} addRow={addRow} />
+      <Modal
+        isOpen={modalState}
+        onClose={handleModalState}
+        addRow={addRow}
+        editRow={editRow}
+        serviceData={
+          selectedRowId
+            ? servicerows.find((row: any) => row.id === selectedRowId)
+            : null
+        }
+      />
     </div>
   );
 };

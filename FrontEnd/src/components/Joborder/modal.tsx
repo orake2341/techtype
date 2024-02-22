@@ -11,7 +11,7 @@ type ModalProp = {
 };
 
 type KeyboardModdingData = {
-  id: number;
+  id: string;
   typeofservice: string;
   typeofkeyboardmods: string;
   keyboarddeepclean: boolean;
@@ -33,12 +33,18 @@ type PCBuildingData = {
   graphicsCardType: string;
 };
 
-const Modal = ({ isOpen, onClose, addRow }: ModalProp) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  addRow,
+  serviceData,
+  editRow,
+}: ModalProp) => {
   const [servicetype, setServiceTypeValue] = useState("");
 
   const [keyboardModdingData, setKeyboardModdingData] =
     useState<KeyboardModdingData>({
-      id: 0,
+      id: "",
       typeofservice: "Keyboard Modding",
       typeofkeyboardmods: "",
       keyboarddeepclean: false,
@@ -57,6 +63,45 @@ const Modal = ({ isOpen, onClose, addRow }: ModalProp) => {
     processorType: "",
     graphicsCardType: "",
   });
+
+  useEffect(() => {
+    if (serviceData !== null) {
+      if (serviceData.typeofservice === "Keyboard Modding") {
+        setServiceTypeValue("Keyboard Modding");
+        setKeyboardModdingData({
+          id: serviceData.id,
+          typeofservice: serviceData.typeofservice,
+          typeofkeyboardmods: serviceData.typeofkeyboardmods,
+          keyboarddeepclean: serviceData.keyboarddeepclean,
+          keycapcleaning: serviceData.keycapcleaning,
+          switchlubing: serviceData.switchlubing,
+          description: serviceData.description,
+        });
+      }
+    }
+
+    if (!isOpen) {
+      setServiceTypeValue("");
+      setKeyboardModdingData({
+        id: "",
+        typeofservice: "Keyboard Modding",
+        typeofkeyboardmods: "",
+        keyboarddeepclean: false,
+        keycapcleaning: false,
+        switchlubing: false,
+        description: "",
+      });
+      setPCCleaningData({
+        id: "",
+        cleaningMethod: "",
+      });
+      setPCBuildingData({
+        id: "",
+        processorType: "",
+        graphicsCardType: "",
+      });
+    }
+  }, [isOpen]);
 
   const options = [
     { value: "", label: " --Please Select--" },
