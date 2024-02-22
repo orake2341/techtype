@@ -1,6 +1,7 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios"; // Import Axios
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Modal from "../../components/Joborder/modal";
 import Select from "../../components/Joborder/select";
@@ -58,7 +59,22 @@ const JobOrderForm = () => {
     setServiceRows(updatedRows);
   };
 
-  // TODO: CREATE AXIOS TO POST DATA IN DATABASE
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/joborder/create",
+        {
+          services: servicerows,
+          jobSite: siteOfService,
+        }
+      );
+      console.log(response.data); // Log response if needed
+      navigate(-1); // Redirect or perform any action upon successful submission
+    } catch (error) {
+      console.error("Error submitting job order:", error);
+      // Handle error or show error message to the user
+    }
+  };
 
   return (
     <div
@@ -93,20 +109,6 @@ const JobOrderForm = () => {
               />
             </div>
             <div className="col-span-3">
-              {/* <label className="text-lg font-medium mb-2 text-gray-700">
-                Site of Service:{" "}
-              </label>
-              
-              <select
-                value={siteOfService}
-                onChange={handleSiteOfServiceChange}
-                className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
-              >
-                <option value="">Select Service</option>
-                <option value="site1">Site 1</option>
-                <option value="site2">Site 2</option>
-                <option value="site3">Site 3</option>
-              </select> */}
               <Select
                 label="Site of Service:"
                 value={siteOfService}
@@ -194,11 +196,7 @@ const JobOrderForm = () => {
             </button>
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-              onClick={() => {
-                console.log(servicerows);
-                console.log(message);
-                console.log(siteOfService);
-              }}
+              onClick={handleSubmit} // Call handleSubmit function on button click
             >
               Submit
             </button>

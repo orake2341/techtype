@@ -1,7 +1,7 @@
 import express from "express";
 import { userMod } from "./models/userModel.js";
 import { PORT, mongoDB } from "./config.js";
-import { JO, addSubCollection } from "./models/JOModel.js";
+import JobOrderRouter from "./routes/jobOrder.js";
 import mongoose from "mongoose";
 import router from "./routes/user.js";
 import cors from "cors";
@@ -25,6 +25,7 @@ mongoose
 
 // MIDDLEWARE
 app.use("/user", router);
+app.use("/joborder", JobOrderRouter);
 
 // ROUTING
 app.post("/crt", async (req, res) => {
@@ -54,16 +55,6 @@ app.get("/", async (req, res) => {
 
   // Return it in json file
   res.status(200).json({ message: hasPendingJobOrder });
-});
-
-app.post("/Create", async (req, res) => {
-  try {
-    await addSubCollection("65d587cc5aa59eb2edd397ca", req.body);
-  } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-  res.status(200).json({ message: "ADDED" });
 });
 
 //listen
