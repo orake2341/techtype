@@ -7,7 +7,9 @@ import PCBuildingForm from "./pcbuildingform";
 type ModalProp = {
   isOpen: boolean;
   onClose: () => void;
-  addRow: ([]) => void;
+  addRow: ({}) => void;
+  serviceData: any;
+  editRow: (id: number, newData: any) => void;
 };
 
 type KeyboardModdingData = {
@@ -21,13 +23,13 @@ type KeyboardModdingData = {
 };
 
 type PCCleaningData = {
-  id: number;
+  id: string;
   typeofservice: string;
   cleaningMethod: string;
 };
 
 type PCBuildingData = {
-  id: number;
+  id: string;
   typeofservice: string;
   processorType: string;
   graphicsCardType: string;
@@ -53,12 +55,12 @@ const Modal = ({
       description: "",
     });
   const [pcCleaningData, setPCCleaningData] = useState<PCCleaningData>({
-    id: 0,
+    id: "",
     typeofservice: "PC Cleaning",
     cleaningMethod: "",
   });
   const [pcBuildingData, setPCBuildingData] = useState<PCBuildingData>({
-    id: 0,
+    id: "",
     typeofservice: "PC Building",
     processorType: "",
     graphicsCardType: "",
@@ -93,10 +95,12 @@ const Modal = ({
       });
       setPCCleaningData({
         id: "",
+        typeofservice: "PC Cleaning",
         cleaningMethod: "",
       });
       setPCBuildingData({
         id: "",
+        typeofservice: "PC Building",
         processorType: "",
         graphicsCardType: "",
       });
@@ -111,6 +115,7 @@ const Modal = ({
   ];
 
   const buttonHandle = () => {
+    addRow(keyboardModdingData);
     switch (servicetype) {
       case "Keyboard Modding":
         addRow(keyboardModdingData);
@@ -122,7 +127,6 @@ const Modal = ({
         addRow(pcBuildingData);
         break;
       default:
-      // Handle default case if needed
     }
     onClose();
   };

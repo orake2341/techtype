@@ -19,16 +19,16 @@ const JobOrder = () => {
           keyboarddeepclean: false,
           keycapcleaning: false,
           switchlubing: false,
-          description: "sadadfsaf",
+          description: "asdsa",
         },
         {
-          id: 1,
+          id: 2,
           typeofservice: "Keyboard Modding",
           typeofkeyboardmods: "Tape mod",
           keyboarddeepclean: true,
           keycapcleaning: false,
           switchlubing: true,
-          description: "fdsfds",
+          description: "dsfsdf",
         },
       ],
       dueDate: "4/24/24",
@@ -190,34 +190,7 @@ const JobOrder = () => {
                             </div>
                           )}
 
-                          {jobOrder.JOstatus === "completed" && (
-                            <div>
-                              <button
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() =>
-                                  console.log("Accepted", jobOrder.id)
-                                }
-                              >
-                                Accept
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() =>
-                                  console.log("Rejected", jobOrder.id)
-                                }
-                              >
-                                Reject
-                              </button>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() =>
-                                  console.log("Accepted", jobOrder.id)
-                                }
-                              >
-                                Accept
-                              </button>
-                            </div>
-                          )}
+                          {jobOrder.JOstatus === "completed" && <div></div>}
                         </td>
                       </tr>
                     ))}

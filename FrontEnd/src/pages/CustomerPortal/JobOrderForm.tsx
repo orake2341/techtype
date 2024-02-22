@@ -41,6 +41,7 @@ const JobOrderForm = () => {
     const newId =
       servicerows.length > 0 ? servicerows[servicerows.length - 1].id + 1 : 1;
     newRow.id = newId;
+    console.log(newRow);
     setServiceRows([...servicerows, newRow]);
   };
 
