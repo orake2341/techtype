@@ -9,11 +9,12 @@ type PCBuildingData = {
 };
 
 type PCBuildingProp = {
+  id: string;
   data: PCBuildingData;
   setData: (data: PCBuildingData) => void;
 };
 
-const PCBuildingForm = ({ data, setData }: PCBuildingProp) => {
+const PCBuildingForm = ({ data, setData, id }: PCBuildingProp) => {
   const [processor, setProcessorValue] = useState(data.processor);
   const [graphicsCard, setGraphicsCardValue] = useState(data.graphicsCard);
   const [description, setDescription] = useState(data.description);
@@ -27,6 +28,7 @@ const PCBuildingForm = ({ data, setData }: PCBuildingProp) => {
   useEffect(() => {
     setData({
       ...data,
+      id: id,
       processor: processor,
       graphicsCard: graphicsCard,
       description: description,

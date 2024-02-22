@@ -8,11 +8,12 @@ type PCCleaningData = {
 };
 
 type PCCleaningProp = {
+  id: string;
   data: PCCleaningData;
   setData: (data: PCCleaningData) => void;
 };
 
-const PCCleaningForm = ({ data, setData }: PCCleaningProp) => {
+const PCCleaningForm = ({ data, setData, id }: PCCleaningProp) => {
   const [cleaningMethod, setGraphicsCardValue] = useState(data.cleaningMethod);
   const [description, setDescription] = useState(data.description);
 
@@ -25,6 +26,7 @@ const PCCleaningForm = ({ data, setData }: PCCleaningProp) => {
   useEffect(() => {
     setData({
       ...data,
+      id: id,
       cleaningMethod: cleaningMethod,
       description: description,
     });

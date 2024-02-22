@@ -44,6 +44,7 @@ const Modal = ({
   serviceData,
   editRow,
 }: ModalProp) => {
+  const [serviceId, setServiceIdValue] = useState("");
   const [servicetype, setServiceTypeValue] = useState("");
 
   const [keyboardModdingData, setKeyboardModdingData] =
@@ -71,7 +72,8 @@ const Modal = ({
   });
 
   useEffect(() => {
-    if (serviceData !== null) {
+    if (serviceData !== null && serviceData !== undefined) {
+      setServiceIdValue(serviceData.id);
       if (serviceData.typeofservice === "Keyboard Modding") {
         setServiceTypeValue("Keyboard Modding");
         setKeyboardModdingData({
@@ -197,16 +199,19 @@ const Modal = ({
                 <KeyboardModdingForm
                   data={keyboardModdingData}
                   setData={setKeyboardModdingData}
+                  id={serviceId}
                 />
               ) : servicetype === "PC Cleaning" ? (
                 <PCCleaningForm
                   data={pcCleaningData}
                   setData={setPCCleaningData}
+                  id={serviceId}
                 />
               ) : servicetype === "PC Building" ? (
                 <PCBuildingForm
                   data={pcBuildingData}
                   setData={setPCBuildingData}
+                  id={serviceId}
                 />
               ) : null}
               <button

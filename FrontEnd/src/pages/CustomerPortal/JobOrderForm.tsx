@@ -7,7 +7,6 @@ import Select from "../../components/Joborder/select";
 
 const JobOrderForm = () => {
   const navigate = useNavigate();
-  const Location = useLocation();
   const [modalState, setModalState] = useState(false);
 
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
@@ -49,6 +48,7 @@ const JobOrderForm = () => {
     const updatedRows = servicerows.map((row: any) =>
       row.id === id ? newData : row
     );
+    console.log(updatedRows);
     setServiceRows(updatedRows);
     setModalState(false);
   };

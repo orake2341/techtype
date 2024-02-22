@@ -13,11 +13,16 @@ type KeyboardModdingData = {
 };
 
 type KeyboardModdingFormProps = {
+  id: string;
   data: KeyboardModdingData;
   setData: (data: KeyboardModdingData) => void;
 };
 
-const KeyboardModdingForm = ({ data, setData }: KeyboardModdingFormProps) => {
+const KeyboardModdingForm = ({
+  data,
+  setData,
+  id,
+}: KeyboardModdingFormProps) => {
   const [keyboardmoddingtype, setKeyboardModdingTypeValue] = useState(
     data.typeofkeyboardmods
   );
@@ -40,6 +45,7 @@ const KeyboardModdingForm = ({ data, setData }: KeyboardModdingFormProps) => {
   useEffect(() => {
     setData({
       ...data,
+      id: id,
       typeofkeyboardmods: keyboardmoddingtype,
       keyboarddeepclean: keyboarddeepclean,
       keycapcleaning: keycapcleaning,
