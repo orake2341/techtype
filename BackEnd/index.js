@@ -42,7 +42,7 @@ app.post("/crt", async (req, res) => {
 app.get("/", async (req, res) => {
   //TODO: ADD ERROR HANDLING
   //CONNECT PROPERLY
-  const userId = "65d587cc5aa59eb2edd397ca"; // It's a good practice to make your code dynamic or configurable
+  const userId = "65d88b1e685871a9997cb32a"; // It's a good practice to make your code dynamic or configurable
   const findYou = await userMod.findById(userId);
 
   // Check if the user was found

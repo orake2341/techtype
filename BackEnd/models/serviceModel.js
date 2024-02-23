@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const serviceSchema = mongoose.Schema({
+  id: String,
   typeofservice: String,
   typeofkeyboardmods: String,
   keyboarddeepclean: Boolean,

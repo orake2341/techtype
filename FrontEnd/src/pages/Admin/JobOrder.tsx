@@ -61,7 +61,7 @@ const JobOrder = () => {
     filterJobOrders("created");
   }, []);
 
-  const handleFormState = (jobOrderData: any) => {
+  const openForm = (jobOrderData: any) => {
     navigate(`joborderform/${jobOrderData.id}`, {
       replace: true,
       state: { jobOrderData },
@@ -161,7 +161,7 @@ const JobOrder = () => {
                             <div>
                               <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => handleFormState(jobOrder)}
+                                onClick={() => openForm(jobOrder)}
                               >
                                 Preview
                               </button>
@@ -177,13 +177,13 @@ const JobOrder = () => {
                             <div>
                               <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => handleFormState(jobOrder)}
+                                onClick={() => openForm(jobOrder)}
                               >
                                 Preview
                               </button>
                               <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => handleFormState(jobOrder)}
+                                onClick={() => openForm(jobOrder)}
                               >
                                 Finish
                               </button>

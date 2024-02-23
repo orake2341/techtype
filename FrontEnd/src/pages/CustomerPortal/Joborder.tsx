@@ -5,13 +5,17 @@ import axios from "axios";
 
 interface NestedDocument {
   _id: string;
+  id: string;
   JOStatus: string;
   PaymentStatus: string;
   selectedDate: string;
   jobSite: string;
+  services: [];
 }
 const Joborder = () => {
   const navigate = useNavigate();
+
+  const [nestedDocuments, setNestedDocuments] = useState<NestedDocument[]>([]);
 
   const handleModalState = (jobOrderData: any) => {
     navigate(jobOrderData !== null ? `${jobOrderData.id} ` : "newjoborder", {
@@ -19,10 +23,8 @@ const Joborder = () => {
       state: { jobOrderData },
     });
 
-    console.log(jobOrderData);
+    console.log(nestedDocuments);
   };
-
-  const [nestedDocuments, setNestedDocuments] = useState<NestedDocument[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -84,7 +86,9 @@ const Joborder = () => {
                   <td>{nestedDoc.selectedDate}</td>
                   <td>{nestedDoc.jobSite}</td>
                   <td className="text-center">
-                    <FaEye />
+                    <button onClick={() => handleModalState(nestedDoc)}>
+                      <FaEye />
+                    </button>
                   </td>
                 </tr>
               ))

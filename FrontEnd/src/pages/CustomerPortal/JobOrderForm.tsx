@@ -1,5 +1,5 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios"; // Import Axios
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
@@ -8,6 +8,10 @@ import Select from "../../components/Joborder/select";
 
 const JobOrderForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const jobOrderData = location.state?.jobOrderData;
+
   const [modalState, setModalState] = useState(false);
 
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
@@ -16,6 +20,14 @@ const JobOrderForm = () => {
   const [servicerows, setServiceRows] = useState<any>([]);
   const [siteOfService, setSiteOfService] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (jobOrderData) {
+      setServiceRows(jobOrderData.services);
+      setSiteOfService(jobOrderData.jobSite);
+      setMessage(jobOrderData.message || "");
+    }
+  }, [jobOrderData]);
 
   const options = [
     { value: "", label: " --Please Select--" },
@@ -194,12 +206,21 @@ const JobOrderForm = () => {
             >
               Cancel
             </button>
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-              onClick={handleSubmit} // Call handleSubmit function on button click
-            >
-              Submit
-            </button>
+            {jobOrderData === null ? (
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            ) : (
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+                onClick={handleSubmit}
+              >
+                Edit
+              </button>
+            )}
           </div>
         </div>
       </div>
