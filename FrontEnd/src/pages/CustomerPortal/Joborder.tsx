@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 interface NestedDocument {
@@ -18,7 +18,7 @@ const Joborder = () => {
   const [nestedDocuments, setNestedDocuments] = useState<NestedDocument[]>([]);
 
   const handleModalState = (jobOrderData: any) => {
-    navigate(jobOrderData !== null ? `${jobOrderData.id} ` : "newjoborder", {
+    navigate(jobOrderData !== null ? `${jobOrderData._id} ` : "newjoborder", {
       replace: true,
       state: { jobOrderData },
     });
@@ -86,7 +86,7 @@ const Joborder = () => {
                   <td>{nestedDoc.selectedDate}</td>
                   <td>{nestedDoc.jobSite}</td>
                   <td className="text-center">
-                    <button onClick={() => handleModalState(nestedDoc)}>
+                    <button onClick={() => handleModalState({ ...nestedDoc })}>
                       <FaEye />
                     </button>
                   </td>

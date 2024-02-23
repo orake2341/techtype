@@ -1,6 +1,6 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios"; // Import Axios
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Modal from "../../components/Joborder/modal";
@@ -57,7 +57,7 @@ const JobOrderForm = () => {
     setServiceRows([...servicerows, newRow]);
   };
 
-  const editRow = (id: number, newData: any) => {
+  const editRow = async (id: number, newData: any) => {
     const updatedRows = servicerows.map((row: any) =>
       row.id === id ? newData : row
     );
@@ -66,6 +66,25 @@ const JobOrderForm = () => {
     setModalState(false);
   };
 
+  const editData = async () => {
+    //edit to database
+    try {
+      console.log(servicerows);
+      const response = await axios.put(
+        "http://localhost:4000/joborder/update",
+        {
+          joid: jobOrderData._id,
+          services: servicerows,
+          jobSite: siteOfService,
+        }
+      );
+      console.log(response.data);
+      navigate(-1);
+    } catch (error) {
+      console.error("Error submitting job order:", error);
+      // Handle error or show error message to the user
+    }
+  };
   const deleteRow = (id: number) => {
     const updatedRows = servicerows.filter((row: any) => row.id !== id);
     setServiceRows(updatedRows);
@@ -86,6 +105,7 @@ const JobOrderForm = () => {
       console.error("Error submitting job order:", error);
       // Handle error or show error message to the user
     }
+    navigate(-1);
   };
 
   return (
@@ -216,9 +236,9 @@ const JobOrderForm = () => {
             ) : (
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                onClick={handleSubmit}
+                onClick={editData}
               >
-                Edit
+                Confirm
               </button>
             )}
           </div>

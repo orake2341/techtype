@@ -17,7 +17,7 @@ JobOrderRouter.post("/create", async (req, res) => {
       createdServices.push(newService);
     }
 
-    const parentDoc = await userMod.findById("65d88b1e685871a9997cb32a");
+    const parentDoc = await userMod.findById("65d8cc4c11e26b678c43a99b");
 
     if (!parentDoc) {
       console.log("Parent not found");
@@ -37,6 +37,38 @@ JobOrderRouter.post("/create", async (req, res) => {
   } catch (error) {
     console.error("Error creating JobOrder:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// UPDATE JO TO DATABASE
+//=========================================
+
+JobOrderRouter.put("/update", async (req, res) => {
+  const userId = "65d8cc4c11e26b678c43a99b";
+
+  try {
+    // Find the user by ID
+    const user = await userMod.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Find the job order by ID within the user's job orders
+    const jobOrder = user.JobOrder.id(req.body.joid);
+    if (!jobOrder) {
+      throw new Error("Job order not found");
+    }
+
+    jobOrder.jobSite = req.body.jobSite;
+    jobOrder.services = req.body.services;
+    await user.save();
+
+    res.status(200).send("Job order updated successfully");
+  } catch (error) {
+    console.error(`Error updating job order: ${error.message}`);
+    res
+      .status(500)
+      .send({ error: `Error updating job order: ${error.message}` });
   }
 });
 
