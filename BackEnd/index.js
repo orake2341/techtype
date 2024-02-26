@@ -42,18 +42,18 @@ app.post("/crt", async (req, res) => {
 app.get("/", async (req, res) => {
   //TODO: ADD ERROR HANDLING
   //CONNECT PROPERLY
-  const userId = "65d92a037b4fa104d253eb82"; // It's a good practice to make your code dynamic or configurable
+  const userId = "65d92a037b4fa104d253eb82";
   const findYou = await userMod.findById(userId);
 
   // Check if the user was found
   if (!findYou) {
     return res.status(404).json({ message: "User not found" });
   }
+  //TODO: GET ALL JO REGARDLESS OF STATUS
   const hasPendingJobOrder = findYou.JobOrder.filter(
     (jobOrder) => jobOrder.JOStatus === "Pending"
   );
 
-  // Return it in json file
   res.status(200).json({ message: hasPendingJobOrder });
 });
 

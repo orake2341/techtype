@@ -20,8 +20,8 @@ const JobOrder = () => {
     filterJobOrders("Pending");
   }, []);
 
-  const openForm = (jobOrderData: any) => {
-    navigate(`joborderform/${jobOrderData.id}`, {
+  const openForm = (jobOrderData: JobOrder) => {
+    navigate(`joborderform/${jobOrderData._id}`, {
       replace: true,
       state: { jobOrderData },
     });
@@ -35,8 +35,8 @@ const JobOrder = () => {
     setFilteredJobOrders(filtered);
   };
 
-  const CreatePayment = (jobOrderData: any) => {
-    navigate(`payment/${jobOrderData.id}`, {
+  const CreatePayment = (jobOrderData: JobOrder) => {
+    navigate(`payment/${jobOrderData._id}`, {
       replace: true,
       state: { jobOrderData },
     });
