@@ -31,10 +31,9 @@ router.post("/login", async (req, res) => {
 // SIGNUP METHOD
 //=========================================
 router.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
   try {
-    const user = await userMod.signup(email, password); // Call the signup method on the model class
-
+    const user = await userMod.signup(req.body); // Call the signup method on the model class
+    const email = req.body.email;
     //CREATE A TOKEN
     const token = createToken(user._id);
     res.status(201).json({ email, token });
@@ -42,6 +41,20 @@ router.post("/signup", async (req, res) => {
     //
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+});
+
+// TODO: GET USER FIRSTNAME AND JO
+// TODO: WHERE JO STATUS = PENDING
+//=========================================
+router.get("/getUser", async (req, res) => {
+  try {
+    // Fetch all users with their associated job orders
+    const usersWithJobOrders = await userMod.find().populate("JobOrder");
+    res.json(usersWithJobOrders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
   }
 });
 

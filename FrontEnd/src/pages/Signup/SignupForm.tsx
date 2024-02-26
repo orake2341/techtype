@@ -18,6 +18,7 @@ const SignupForm = () => {
 
     try {
       const response = await axios.post("http://localhost:4000/user/signup", {
+        // TODO: PUT NAMES AND ALL USER INFO
         email: data.email,
         password: data.password,
       });
@@ -26,7 +27,7 @@ const SignupForm = () => {
 
       //
     } catch (error) {
-      // MISSING ERROR HANDLING
+      // TODO: ERROR HANDLING
       setError(error.response?.data?.message);
 
       //

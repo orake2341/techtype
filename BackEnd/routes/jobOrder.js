@@ -28,6 +28,7 @@ JobOrderRouter.post("/create", async (req, res) => {
       status: "Pending",
       jobSite: req.body.jobSite,
       services: createdServices,
+      message: req.body.message,
     });
     parentDoc.JobOrder.push(newJobOrder);
     await parentDoc.save();
@@ -60,6 +61,7 @@ JobOrderRouter.put("/update", async (req, res) => {
     }
 
     jobOrder.jobSite = req.body.jobSite;
+    jobOrder.message = req.body.message;
     jobOrder.services = req.body.services;
     await user.save();
 

@@ -76,6 +76,7 @@ const JobOrderForm = () => {
           joid: jobOrderData._id,
           services: servicerows,
           jobSite: siteOfService,
+          message: message,
         }
       );
       console.log(response.data);
@@ -97,6 +98,7 @@ const JobOrderForm = () => {
         {
           services: servicerows,
           jobSite: siteOfService,
+          description: message,
         }
       );
       console.log(response.data); // Log response if needed

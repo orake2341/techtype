@@ -1,87 +1,125 @@
 import React, { useState, useEffect } from "react";
 import PaymentModal from "../../components/AdminJoborder/paymentmodal";
 import { useNavigate, Outlet } from "react-router-dom";
+import axios from "axios";
+import { FaEye } from "react-icons/fa";
+
+interface JobOrderData {
+  _id: number;
+  firstName: string;
+  JobOrder: {
+    joNumber?: string;
+    paymentStatus?: string;
+    dueDate?: string;
+    jobSite?: string;
+    JOstatus?: string;
+    services?: {
+      id?: number;
+      typeofservice?: string;
+      typeofkeyboardmods?: string;
+      keyboarddeepclean?: boolean;
+      keycapcleaning?: boolean;
+      switchlubing?: boolean;
+      cleaningMethod?: string;
+      processor?: string;
+      graphicsCard?: string;
+      description?: string;
+    }[];
+  }[];
+}
 
 const JobOrder = () => {
   const navigate = useNavigate();
   const [modalState, setModalState] = useState(false);
-  const [jobOrders, setJobOrders] = useState([
+  const [jobOrders, setJobOrders] = useState<JobOrderData[]>([
     {
-      id: 1,
-      joNumber: "JO001",
-      customerName: "Mark Baes",
-      paymentStatus: "pending",
-      services: [
+      _id: 1,
+      firstName: "Mark Baes",
+      JobOrder: [
         {
-          id: 1,
-          typeofservice: "Keyboard Modding",
-          typeofkeyboardmods: "Foam mod",
-          keyboarddeepclean: false,
-          keycapcleaning: false,
-          switchlubing: false,
-          description: "asdsa",
-        },
-        {
-          id: 2,
-          typeofservice: "Keyboard Modding",
-          typeofkeyboardmods: "Tape mod",
-          keyboarddeepclean: true,
-          keycapcleaning: false,
-          switchlubing: true,
-          description: "dsfsdf",
+          dueDate: "4/24/24",
+          jobSite: "Onsite",
+          JOstatus: "created",
+          services: [
+            {
+              id: 1,
+              typeofservice: "Keyboard Modding",
+              typeofkeyboardmods: "Foam mod",
+              keyboarddeepclean: false,
+              keycapcleaning: false,
+              switchlubing: false,
+              description: "asdsa",
+            },
+            {
+              id: 2,
+              typeofservice: "Keyboard Modding",
+              typeofkeyboardmods: "Tape mod",
+              keyboarddeepclean: true,
+              keycapcleaning: false,
+              switchlubing: true,
+              description: "dsfsdf",
+            },
+          ],
         },
       ],
-      dueDate: "4/24/24",
-      jobSite: "Onsite",
-      JOstatus: "created",
     },
     {
-      id: 2,
-      joNumber: "JO002",
-      customerName: "John Paul",
-      paymentStatus: "pending",
-      dueDate: "4/24/24",
-      jobSite: "Home",
-      JOstatus: "active",
+      _id: 2,
+      firstName: "John Paul",
+      JobOrder: [
+        {
+          joNumber: "JO002",
+          paymentStatus: "pending",
+          dueDate: "4/24/24",
+          jobSite: "Home",
+          JOstatus: "active",
+        },
+      ],
     },
     {
-      id: 3,
-      joNumber: "JO003",
-      customerName: "David Foster",
-      paymentStatus: "pending",
-      dueDate: "4/24/24",
-      jobSite: "Onsite",
-      JOstatus: "completed",
+      _id: 3,
+      firstName: "David Foster",
+      JobOrder: [
+        {
+          joNumber: "JO003",
+          paymentStatus: "pending",
+          dueDate: "4/24/24",
+          jobSite: "Onsite",
+          JOstatus: "completed",
+        },
+      ],
     },
   ]);
 
-  const [filteredJobOrders, setFilteredJobOrders] = useState([]);
+  const [filteredJobOrders, setFilteredJobOrders] = useState<JobOrderData[]>(
+    [] as JobOrderData[] // Type assertion
+  );
 
   useEffect(() => {
     filterJobOrders("created");
   }, []);
 
-  const openForm = (jobOrderData: any) => {
-    navigate(`joborderform/${jobOrderData.id}`, {
+  const openForm = (jobOrderData: JobOrderData) => {
+    navigate(`joborderform/${jobOrderData._id}`, {
       replace: true,
       state: { jobOrderData },
     });
     console.log(jobOrderData);
   };
 
-  const filterJobOrders = (status: any) => {
-    const filtered: any = jobOrders.filter(
-      (jobOrder) => jobOrder.JOstatus === status
+  const filterJobOrders = (status: string) => {
+    const filtered = jobOrders.filter(
+      (jobOrder) => jobOrder.JobOrder[0].JOstatus === status
     );
     setFilteredJobOrders(filtered);
   };
 
-  const CreatePayment = (jobOrderData: any) => {
-    navigate(`payment/${jobOrderData.id}`, {
+  const CreatePayment = (jobOrderData: JobOrderData) => {
+    navigate(`payment/${jobOrderData._id}`, {
       replace: true,
       state: { jobOrderData },
     });
-    console.log("Creating payment details for job order ID:", jobOrderData.id);
+    console.log("Creating payment details for job order ID:", jobOrderData._id);
     console.log(jobOrderData);
   };
 
@@ -139,25 +177,25 @@ const JobOrder = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredJobOrders.map((jobOrder: any) => (
-                      <tr key={jobOrder.id}>
+                    {filteredJobOrders.map((jobOrder) => (
+                      <tr key={jobOrder._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.joNumber}
+                          {jobOrder._id}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.customerName}
+                          {jobOrder.firstName}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.paymentStatus}
+                          {jobOrder.JobOrder[0].JOstatus}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.dueDate}
+                          {jobOrder.JobOrder[0].dueDate}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.jobSite}
+                          {jobOrder.JobOrder[0].jobSite}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.JOstatus === "created" && (
+                          {jobOrder.JobOrder[0].JOstatus === "created" && (
                             <div>
                               <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -173,7 +211,7 @@ const JobOrder = () => {
                               </button>
                             </div>
                           )}
-                          {jobOrder.JOstatus === "active" && (
+                          {jobOrder.JobOrder[0].JOstatus === "active" && (
                             <div>
                               <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -189,8 +227,9 @@ const JobOrder = () => {
                               </button>
                             </div>
                           )}
-
-                          {jobOrder.JOstatus === "completed" && <div></div>}
+                          {jobOrder.JobOrder[0].JOstatus === "completed" && (
+                            <div></div>
+                          )}
                         </td>
                       </tr>
                     ))}

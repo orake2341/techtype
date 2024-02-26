@@ -23,6 +23,7 @@ const JOrderSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
+  message: String,
   services: [serviceMod.schema],
 });
 
