@@ -61,3 +61,36 @@ app.get("/", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+app.get("/users", async (req, res) => {
+  try {
+    const allUsers = await userMod.find().populate({
+      path: "email",
+      path: "JobOrder",
+      populate: {
+        path: "services",
+        model: "service",
+      },
+    });
+
+    if (!allUsers || allUsers.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    }
+
+    const usersWithEmailInJobOrders = allUsers
+      .map((user) => {
+        return user.JobOrder.map((jobOrder) => {
+          return {
+            ...jobOrder.toObject(),
+            email: user.email,
+          };
+        });
+      })
+      .flat();
+
+    res.status(200).json({ users: usersWithEmailInJobOrders });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});

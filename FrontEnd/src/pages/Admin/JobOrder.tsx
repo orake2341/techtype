@@ -1,64 +1,23 @@
 import React, { useState, useEffect } from "react";
 import PaymentModal from "../../components/AdminJoborder/paymentmodal";
 import { useNavigate, Outlet } from "react-router-dom";
+import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../state/store";
+import { fetchAllJobOrders } from "../../state/joborderlist/jobOrderListSlice";
 
 const JobOrder = () => {
   const navigate = useNavigate();
   const [modalState, setModalState] = useState(false);
-  const [jobOrders, setJobOrders] = useState([
-    {
-      id: 1,
-      joNumber: "JO001",
-      customerName: "Mark Baes",
-      paymentStatus: "pending",
-      services: [
-        {
-          id: 1,
-          typeofservice: "Keyboard Modding",
-          typeofkeyboardmods: "Foam mod",
-          keyboarddeepclean: false,
-          keycapcleaning: false,
-          switchlubing: false,
-          description: "asdsa",
-        },
-        {
-          id: 2,
-          typeofservice: "Keyboard Modding",
-          typeofkeyboardmods: "Tape mod",
-          keyboarddeepclean: true,
-          keycapcleaning: false,
-          switchlubing: true,
-          description: "dsfsdf",
-        },
-      ],
-      dueDate: "4/24/24",
-      jobSite: "Onsite",
-      JOstatus: "created",
-    },
-    {
-      id: 2,
-      joNumber: "JO002",
-      customerName: "John Paul",
-      paymentStatus: "pending",
-      dueDate: "4/24/24",
-      jobSite: "Home",
-      JOstatus: "active",
-    },
-    {
-      id: 3,
-      joNumber: "JO003",
-      customerName: "David Foster",
-      paymentStatus: "pending",
-      dueDate: "4/24/24",
-      jobSite: "Onsite",
-      JOstatus: "completed",
-    },
-  ]);
-
   const [filteredJobOrders, setFilteredJobOrders] = useState([]);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const jobOrderList = useSelector(
+    (state: RootState) => state.joborderlist.list
+  );
 
   useEffect(() => {
-    filterJobOrders("created");
+    filterJobOrders("Pending");
   }, []);
 
   const openForm = (jobOrderData: any) => {
@@ -66,12 +25,12 @@ const JobOrder = () => {
       replace: true,
       state: { jobOrderData },
     });
-    console.log(jobOrderData);
   };
 
   const filterJobOrders = (status: any) => {
-    const filtered: any = jobOrders.filter(
-      (jobOrder) => jobOrder.JOstatus === status
+    dispatch(fetchAllJobOrders());
+    const filtered: any = jobOrderList.filter(
+      (jobOrder) => jobOrder.JOStatus === status
     );
     setFilteredJobOrders(filtered);
   };
@@ -81,8 +40,6 @@ const JobOrder = () => {
       replace: true,
       state: { jobOrderData },
     });
-    console.log("Creating payment details for job order ID:", jobOrderData.id);
-    console.log(jobOrderData);
   };
 
   return (
@@ -92,9 +49,9 @@ const JobOrder = () => {
       <div className="flex">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-          onClick={() => filterJobOrders("created")}
+          onClick={() => filterJobOrders("Pending")}
         >
-          Created JO
+          New JO
         </button>
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -139,61 +96,72 @@ const JobOrder = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredJobOrders.map((jobOrder: any) => (
-                      <tr key={jobOrder.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.joNumber}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.customerName}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.paymentStatus}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.dueDate}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.jobSite}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.JOstatus === "created" && (
-                            <div>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => openForm(jobOrder)}
-                              >
-                                Preview
-                              </button>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => CreatePayment(jobOrder)}
-                              >
-                                Payment
-                              </button>
-                            </div>
-                          )}
-                          {jobOrder.JOstatus === "active" && (
-                            <div>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => openForm(jobOrder)}
-                              >
-                                Preview
-                              </button>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => openForm(jobOrder)}
-                              >
-                                Finish
-                              </button>
-                            </div>
-                          )}
+                    {filteredJobOrders.length > 0 ? (
+                      filteredJobOrders.map((jobOrder: any) => (
+                        <tr key={jobOrder._id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.joNumber}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.email}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.paymentStatus}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.dueDate}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.jobSite}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.JOstatus === "new" && (
+                              <div>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => openForm(jobOrder)}
+                                >
+                                  Preview
+                                </button>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => CreatePayment(jobOrder)}
+                                >
+                                  Payment
+                                </button>
+                              </div>
+                            )}
+                            {jobOrder.JOstatus === "active" && (
+                              <div>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => openForm(jobOrder)}
+                                >
+                                  Preview
+                                </button>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => openForm(jobOrder)}
+                                >
+                                  Finish
+                                </button>
+                              </div>
+                            )}
 
-                          {jobOrder.JOstatus === "completed" && <div></div>}
+                            {jobOrder.JOstatus === "completed" && <div></div>}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="px-6 py-4 whitespace-nowrap text-center text-gray-500"
+                        >
+                          No job orders found.
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>

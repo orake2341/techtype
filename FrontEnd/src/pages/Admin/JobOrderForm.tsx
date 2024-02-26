@@ -4,10 +4,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Modal from "../../components/Joborder/servicemodal";
 import Select from "../../components/Joborder/select";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../state/store";
 
 const JobOrderForm = () => {
   const navigate = useNavigate();
   const Location = useLocation();
+  const jobOrderData = useSelector((state: RootState) => state.joborder);
+  const dispatch = useDispatch<AppDispatch>();
   const [modalState, setModalState] = useState(false);
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
 
@@ -139,7 +143,7 @@ const JobOrderForm = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {servicerows.length > 0 &&
+                  {servicerows.length > 0 &&
                     servicerows.map((row: any) => (
                       <tr key={row.id}>
                         <td className="border border-gray-300 px-4 py-2 w-1/4">
@@ -165,7 +169,7 @@ const JobOrderForm = () => {
                           </button>
                         </td>
                       </tr>
-                    ))} */}
+                    ))}
                 </tbody>
               </table>
             </div>

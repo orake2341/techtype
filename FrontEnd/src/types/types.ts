@@ -3,6 +3,7 @@ interface JobOrder {
   JOStatus: string;
   PaymentStatus: string;
   selectedDate: string;
+  paymentHistory: any[];
   jobSite: string;
   services: any[];
   message: string;
@@ -11,6 +12,17 @@ interface JobOrder {
 interface JobOrderList {
   list: JobOrder[];
   error: string;
+}
+
+interface AdminJobOrder {
+  _id: string;
+  email: string;
+  JOStatus: string;
+  PaymentStatus: string;
+  selectedDate: string;
+  jobSite: string;
+  services: any[];
+  message: string;
 }
 
 type ModalProp = {

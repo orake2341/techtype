@@ -1,6 +1,6 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../state/store";
@@ -85,7 +85,6 @@ const JobOrderForm = () => {
       }
     } catch (error) {
       console.error("Error submitting job order:", error);
-      // Handle error or show error message to the user
     }
     dispatch(setSelectedJobOrder(initialJobOrderState));
     navigate("../");
