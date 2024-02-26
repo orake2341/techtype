@@ -16,7 +16,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await userMod.login(email, password); // Call the signup method on the model class
+    const user = await userMod.login(email, password);
 
     //CREATE A TOKEN
     const token = createToken(user._id);
@@ -32,13 +32,11 @@ router.post("/login", async (req, res) => {
 //=========================================
 router.post("/signup", async (req, res) => {
   try {
-    const user = await userMod.signup(req.body); // Call the signup method on the model class
-    const email = req.body.email;
+    const { email, password } = req.body;
+    const user = await userMod.signup(email, password);
     //CREATE A TOKEN
     const token = createToken(user._id);
     res.status(201).json({ email, token });
-
-    //
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

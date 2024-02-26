@@ -32,31 +32,35 @@ const userSchema = mongoose.Schema({
 // SIGNUP STATIC METHOD
 //=========================================
 userSchema.statics.signup = async function (email, password) {
-  //validation
-  if (!email || !password) {
-    throw Error("All Fields must be filled");
-  }
-  if (!validator.isEmail(email)) {
-    throw Error("Email is not valid");
-  }
-  if (!validator.isStrongPassword(password)) {
-    throw Error("Password not strign enough");
-  }
-  const exist = await this.findOne({ email });
+  try {
+    //validation
+    if (!email || !password) {
+      throw Error("All Fields must be filled");
+    }
+    if (!validator.isEmail(email)) {
+      throw Error("Email is not valid");
+    }
+    if (!validator.isStrongPassword(password)) {
+      throw Error("Password not strong enough");
+    }
+    const exist = await this.findOne({ email }); // Add await here
 
-  if (exist) {
-    throw Error("Email already in use");
+    if (exist) {
+      throw Error("Email already in use");
+    }
+
+    // Hashing
+    const salt = await bcrypt.genSalt(10); // Add await here
+    const hash = await bcrypt.hash(password, salt); // Add await here
+
+    const user = await this.create({
+      email,
+      password: hash,
+    });
+    return user;
+  } catch (error) {
+    throw error; // Ensure to rethrow the error here so that it's caught in the route handler
   }
-
-  // Hashing
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-
-  const user = await this.create({
-    email,
-    password: hash,
-  });
-  return user;
 };
 
 // STATIC LOGIN METHOD

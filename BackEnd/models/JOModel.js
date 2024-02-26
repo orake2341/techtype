@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { userMod } from "./userModel.js";
 import { serviceMod } from "./serviceModel.js";
+import { paymentDetailsModel } from "./paymentDetails.js";
 
 const JOrderSchema = mongoose.Schema({
   JOStatus: {
@@ -11,10 +12,13 @@ const JOrderSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
-  PaymentHistory: [],
-  TotalPrice: {
-    type: Number,
-  },
+  PaymentDetails: [paymentDetailsModel.schema],
+  PaymentHistory: [
+    {
+      picture: String,
+      details: String,
+    },
+  ],
   jobSite: {
     type: String,
     default: "On-site",

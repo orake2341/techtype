@@ -6,6 +6,7 @@ const initialState: JobOrder = {
   PaymentStatus: "",
   selectedDate: "",
   jobSite: "",
+  paymentHistory: [],
   services: [],
   message: "",
 };

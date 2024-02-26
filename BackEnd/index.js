@@ -5,6 +5,7 @@ import JobOrderRouter from "./routes/jobOrder.js";
 import mongoose from "mongoose";
 import router from "./routes/user.js";
 import cors from "cors";
+import paymentRouter from "./routes/payment.js";
 import bodyParser from "body-parser";
 const app = express();
 app.use(express.json()); // Add middleware to parse JSON bodies
@@ -26,6 +27,7 @@ mongoose
 // MIDDLEWARE
 app.use("/user", router);
 app.use("/joborder", JobOrderRouter);
+app.use("/payment", paymentRouter);
 
 // ROUTING
 app.post("/crt", async (req, res) => {
@@ -42,7 +44,7 @@ app.post("/crt", async (req, res) => {
 app.get("/", async (req, res) => {
   //TODO: ADD ERROR HANDLING
   //CONNECT PROPERLY
-  const userId = "65d8cc4c11e26b678c43a99b";
+  const userId = "65dc8adc57090b27b1244b70";
   const findYou = await userMod.findById(userId);
 
   // Check if the user was found
@@ -60,4 +62,37 @@ app.get("/", async (req, res) => {
 //listen
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const allUsers = await userMod.find().populate({
+      path: "email",
+      path: "JobOrder",
+      populate: {
+        path: "services",
+        model: "service",
+      },
+    });
+
+    if (!allUsers || allUsers.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    }
+
+    const usersWithEmailInJobOrders = allUsers
+      .map((user) => {
+        return user.JobOrder.map((jobOrder) => {
+          return {
+            ...jobOrder.toObject(),
+            email: user.email,
+          };
+        });
+      })
+      .flat();
+
+    res.status(200).json({ users: usersWithEmailInJobOrders });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });

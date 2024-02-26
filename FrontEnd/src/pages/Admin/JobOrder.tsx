@@ -1,80 +1,45 @@
 import React, { useState, useEffect } from "react";
 import PaymentModal from "../../components/AdminJoborder/paymentmodal";
 import { useNavigate, Outlet } from "react-router-dom";
-import axios from "axios";
-import { FaEye } from "react-icons/fa";
-
-interface JobOrderData {
-  _id: string;
-  firstName: string;
-  JobOrder: {
-    _id: string;
-    joNumber?: string;
-    PaymentStatus?: string;
-    selectedDate?: string;
-    jobSite?: string;
-    JOStatus?: string;
-    services?: {
-      id?: string;
-      typeofservice?: string;
-      typeofkeyboardmods?: string;
-      keyboarddeepclean?: boolean;
-      keycapcleaning?: boolean;
-      switchlubing?: boolean;
-      cleaningMethod?: string;
-      processor?: string;
-      graphicsCard?: string;
-      description?: string;
-    }[];
-  }[];
-}
+import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../state/store";
+import { fetchAllJobOrders } from "../../state/joborderlist/jobOrderListSlice";
 
 const JobOrder = () => {
   const navigate = useNavigate();
   const [modalState, setModalState] = useState(false);
-  const [jobOrders, setJobOrders] = useState<JobOrderData[]>([]);
-  const [filteredJobOrders, setFilteredJobOrders] = useState<JobOrderData[]>(
-    []
+  const [filteredJobOrders, setFilteredJobOrders] = useState([]);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const jobOrderList = useSelector(
+    (state: RootState) => state.joborderlist.list
   );
 
-  const fetchJobOrders = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/user/getUser");
-      console.log(response.data);
-      setJobOrders(response.data);
-      console.log(jobOrders);
-    } catch (error) {
-      console.error("Error fetching job orders:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchJobOrders();
-    setFilteredJobOrders(jobOrders);
+    filterJobOrders("Pending");
   }, []);
 
-  const openForm = (jobOrderData: JobOrderData) => {
+  const openForm = (jobOrderData: JobOrder) => {
     navigate(`joborderform/${jobOrderData._id}`, {
       replace: true,
       state: { jobOrderData },
     });
-    console.log(jobOrderData);
   };
 
-  const filterJobOrders = (status: string) => {
-    const filtered = jobOrders.filter((jobOrder) => {
-      return jobOrder.JobOrder.some((order) => order.JOStatus === status);
-    });
+  const filterJobOrders = (status: any) => {
+    dispatch(fetchAllJobOrders());
+    const filtered: any = jobOrderList.filter(
+      (jobOrder) => jobOrder.JOStatus === status
+    );
     setFilteredJobOrders(filtered);
   };
 
-  const CreatePayment = (jobOrderData: JobOrderData) => {
+  const CreatePayment = (jobOrderData: JobOrder) => {
     navigate(`payment/${jobOrderData._id}`, {
       replace: true,
       state: { jobOrderData },
     });
-    console.log("Creating payment details for job order ID:", jobOrderData._id);
-    console.log(jobOrderData);
   };
 
   return (
@@ -84,9 +49,9 @@ const JobOrder = () => {
       <div className="flex">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-          onClick={() => filterJobOrders("created")}
+          onClick={() => filterJobOrders("Pending")}
         >
-          Created JO
+          New JO
         </button>
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -131,26 +96,26 @@ const JobOrder = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {jobOrders.map((jobOrder) =>
-                      jobOrder.JobOrder.map((order) => (
-                        <tr key={order._id}>
+                    {filteredJobOrders.length > 0 ? (
+                      filteredJobOrders.map((jobOrder: any) => (
+                        <tr key={jobOrder._id}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {order._id}
+                            {jobOrder.joNumber}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {jobOrder.firstName}
+                            {jobOrder.email}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {order.JOStatus}
+                            {jobOrder.paymentStatus}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {order.selectedDate}
+                            {jobOrder.dueDate}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {order.jobSite}
+                            {jobOrder.jobSite}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {order.JOStatus === "created" && (
+                            {jobOrder.JOstatus === "new" && (
                               <div>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -166,7 +131,7 @@ const JobOrder = () => {
                                 </button>
                               </div>
                             )}
-                            {order.JOStatus === "active" && (
+                            {jobOrder.JOstatus === "active" && (
                               <div>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -183,10 +148,19 @@ const JobOrder = () => {
                               </div>
                             )}
 
-                            {order.JOStatus === "completed" && <div></div>}
+                            {jobOrder.JOstatus === "completed" && <div></div>}
                           </td>
                         </tr>
                       ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="px-6 py-4 whitespace-nowrap text-center text-gray-500"
+                        >
+                          No job orders found.
+                        </td>
+                      </tr>
                     )}
                   </tbody>
                 </table>
