@@ -2,7 +2,7 @@ import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
-import Modal from "../../components/Joborder/modal";
+import Modal from "../../components/Joborder/servicemodal";
 import Select from "../../components/Joborder/select";
 
 const JobOrderForm = () => {

@@ -1,18 +1,5 @@
 import { useEffect, useState } from "react";
 
-type PCCleaningData = {
-  id: string;
-  typeofservice: string;
-  cleaningMethod: string;
-  description: string;
-};
-
-type PCCleaningProp = {
-  id: string;
-  data: PCCleaningData;
-  setData: (data: PCCleaningData) => void;
-};
-
 const PCCleaningForm = ({ data, setData, id }: PCCleaningProp) => {
   const [cleaningMethod, setGraphicsCardValue] = useState(data.cleaningMethod);
   const [description, setDescription] = useState(data.description);

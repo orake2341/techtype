@@ -1,44 +1,31 @@
 import { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../state/store";
+import { fetchJobOrders } from "../../state/joborderlist/jobOrderListSlice";
+import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
 
-interface NestedDocument {
-  _id: string;
-  id: string;
-  JOStatus: string;
-  PaymentStatus: string;
-  selectedDate: string;
-  jobSite: string;
-  services: [];
-}
 const Joborder = () => {
   const navigate = useNavigate();
 
-  const [nestedDocuments, setNestedDocuments] = useState<NestedDocument[]>([]);
+  const jobOrderList = useSelector(
+    (state: RootState) => state.joborderlist.list
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleModalState = (jobOrderData: any) => {
-    navigate(jobOrderData !== null ? `${jobOrderData._id} ` : "newjoborder", {
-      replace: true,
-      state: { jobOrderData },
-    });
-
-    console.log(nestedDocuments);
+  const handleModalState = (jobOrderData: JobOrder | null) => {
+    if (jobOrderData) {
+      navigate(`${jobOrderData._id}`, { replace: true });
+      dispatch(setSelectedJobOrder(jobOrderData));
+    } else {
+      navigate("newjoborder", { replace: true });
+    }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/");
-      const responseData = response.data.message;
-      setNestedDocuments(responseData);
-    } catch (error) {
-      console.error();
-    }
-  };
+    dispatch(fetchJobOrders());
+  }, [dispatch]);
 
   return (
     <section className="flex flex-col h-screen px-8 py-4">
@@ -73,20 +60,20 @@ const Joborder = () => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {nestedDocuments.length === 0 ? (
+            {jobOrderList.length === 0 ? (
               <tr>
                 <td colSpan={6}>No data available</td>
               </tr>
             ) : (
-              nestedDocuments.map((nestedDoc) => (
-                <tr key={nestedDoc._id}>
+              jobOrderList.map((jobOrder) => (
+                <tr key={jobOrder._id}>
                   <td>#JO00001</td>
-                  <td>{nestedDoc.JOStatus}</td>
-                  <td>{nestedDoc.PaymentStatus}</td>
-                  <td>{nestedDoc.selectedDate}</td>
-                  <td>{nestedDoc.jobSite}</td>
+                  <td>{jobOrder.JOStatus}</td>
+                  <td>{jobOrder.PaymentStatus}</td>
+                  <td>{jobOrder.selectedDate}</td>
+                  <td>{jobOrder.jobSite}</td>
                   <td className="text-center">
-                    <button onClick={() => handleModalState({ ...nestedDoc })}>
+                    <button onClick={() => handleModalState(jobOrder)}>
                       <FaEye />
                     </button>
                   </td>

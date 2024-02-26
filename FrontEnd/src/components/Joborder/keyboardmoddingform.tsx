@@ -2,22 +2,6 @@ import Select from "./select";
 import Switch from "./switch";
 import { useState, useEffect } from "react";
 
-type KeyboardModdingData = {
-  id: string;
-  typeofservice: string;
-  typeofkeyboardmods: string;
-  keyboarddeepclean: boolean;
-  keycapcleaning: boolean;
-  switchlubing: boolean;
-  description: string;
-};
-
-type KeyboardModdingFormProps = {
-  id: string;
-  data: KeyboardModdingData;
-  setData: (data: KeyboardModdingData) => void;
-};
-
 const KeyboardModdingForm = ({
   data,
   setData,

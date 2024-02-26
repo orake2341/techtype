@@ -1,19 +1,5 @@
 import { useEffect, useState } from "react";
 
-type PCBuildingData = {
-  id: string;
-  typeofservice: string;
-  processor: string;
-  graphicsCard: string;
-  description: string;
-};
-
-type PCBuildingProp = {
-  id: string;
-  data: PCBuildingData;
-  setData: (data: PCBuildingData) => void;
-};
-
 const PCBuildingForm = ({ data, setData, id }: PCBuildingProp) => {
   const [processor, setProcessorValue] = useState(data.processor);
   const [graphicsCard, setGraphicsCardValue] = useState(data.graphicsCard);

@@ -11,7 +11,7 @@ const JOrderSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
-  PaymentHistory: [], //CREATE SCHEMA
+  PaymentHistory: [],
   TotalPrice: {
     type: Number,
   },
@@ -22,6 +22,10 @@ const JOrderSchema = mongoose.Schema({
   selectedDate: {
     type: String,
     default: "Pending",
+  },
+  message: {
+    type: String,
+    default: "",
   },
   services: [serviceMod.schema],
 });
