@@ -50,6 +50,7 @@ const JobOrder = () => {
 
   useEffect(() => {
     fetchJobOrders();
+    setFilteredJobOrders(jobOrders);
   }, []);
 
   const openForm = (jobOrderData: JobOrderData) => {
