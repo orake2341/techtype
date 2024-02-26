@@ -50,47 +50,6 @@ const JobOrderForm = () => {
     dispatch(setMessage(event.target.value));
   };
 
-<<<<<<< HEAD
-  const handleModalState = () => {
-    setModalState(!modalState);
-  };
-
-  const addRow = (newRow: any) => {
-    const newId =
-      servicerows.length > 0 ? servicerows[servicerows.length - 1].id + 1 : 1;
-    newRow.id = newId;
-    console.log(newRow);
-    setServiceRows([...servicerows, newRow]);
-  };
-
-  const editRow = async (id: number, newData: any) => {
-    const updatedRows = servicerows.map((row: any) =>
-      row.id === id ? newData : row
-    );
-    console.log(updatedRows);
-    setServiceRows(updatedRows);
-    setModalState(false);
-  };
-
-  const editData = async () => {
-    //edit to database
-    try {
-      console.log(servicerows);
-      const response = await axios.put(
-        "http://localhost:4000/joborder/update",
-        {
-          joid: jobOrderData._id,
-          services: servicerows,
-          jobSite: siteOfService,
-          message: message,
-        }
-      );
-      console.log(response.data);
-      navigate(-1);
-    } catch (error) {
-      console.error("Error submitting job order:", error);
-      // Handle error or show error message to the user
-=======
   const openService = (service: any | null) => {
     if (service) {
       navigate(`service/${service.id}`, {
@@ -99,24 +58,11 @@ const JobOrderForm = () => {
       });
     } else {
       navigate("service/newservice", { replace: true });
->>>>>>> 82d43c19349e52926f3022f2593a88d51beee011
     }
   };
 
   const handleSubmit = async () => {
     try {
-<<<<<<< HEAD
-      const response = await axios.post(
-        "http://localhost:4000/joborder/create",
-        {
-          services: servicerows,
-          jobSite: siteOfService,
-          description: message,
-        }
-      );
-      console.log(response.data); // Log response if needed
-      navigate(-1); // Redirect or perform any action upon successful submission
-=======
       if (jobOrderData._id === "") {
         const response = await axios.post(
           "http://localhost:4000/joborder/create",
@@ -137,7 +83,6 @@ const JobOrderForm = () => {
         );
         console.log(response.data);
       }
->>>>>>> 82d43c19349e52926f3022f2593a88d51beee011
     } catch (error) {
       console.error("Error submitting job order:", error);
       // Handle error or show error message to the user

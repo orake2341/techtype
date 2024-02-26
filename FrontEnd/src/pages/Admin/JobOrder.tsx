@@ -5,16 +5,17 @@ import axios from "axios";
 import { FaEye } from "react-icons/fa";
 
 interface JobOrderData {
-  _id: number;
+  _id: string;
   firstName: string;
   JobOrder: {
+    _id: string;
     joNumber?: string;
-    paymentStatus?: string;
-    dueDate?: string;
+    PaymentStatus?: string;
+    selectedDate?: string;
     jobSite?: string;
-    JOstatus?: string;
+    JOStatus?: string;
     services?: {
-      id?: number;
+      id?: string;
       typeofservice?: string;
       typeofkeyboardmods?: string;
       keyboarddeepclean?: boolean;
@@ -31,72 +32,24 @@ interface JobOrderData {
 const JobOrder = () => {
   const navigate = useNavigate();
   const [modalState, setModalState] = useState(false);
-  const [jobOrders, setJobOrders] = useState<JobOrderData[]>([
-    {
-      _id: 1,
-      firstName: "Mark Baes",
-      JobOrder: [
-        {
-          dueDate: "4/24/24",
-          jobSite: "Onsite",
-          JOstatus: "created",
-          services: [
-            {
-              id: 1,
-              typeofservice: "Keyboard Modding",
-              typeofkeyboardmods: "Foam mod",
-              keyboarddeepclean: false,
-              keycapcleaning: false,
-              switchlubing: false,
-              description: "asdsa",
-            },
-            {
-              id: 2,
-              typeofservice: "Keyboard Modding",
-              typeofkeyboardmods: "Tape mod",
-              keyboarddeepclean: true,
-              keycapcleaning: false,
-              switchlubing: true,
-              description: "dsfsdf",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      _id: 2,
-      firstName: "John Paul",
-      JobOrder: [
-        {
-          joNumber: "JO002",
-          paymentStatus: "pending",
-          dueDate: "4/24/24",
-          jobSite: "Home",
-          JOstatus: "active",
-        },
-      ],
-    },
-    {
-      _id: 3,
-      firstName: "David Foster",
-      JobOrder: [
-        {
-          joNumber: "JO003",
-          paymentStatus: "pending",
-          dueDate: "4/24/24",
-          jobSite: "Onsite",
-          JOstatus: "completed",
-        },
-      ],
-    },
-  ]);
-
+  const [jobOrders, setJobOrders] = useState<JobOrderData[]>([]);
   const [filteredJobOrders, setFilteredJobOrders] = useState<JobOrderData[]>(
-    [] as JobOrderData[] // Type assertion
+    []
   );
 
+  const fetchJobOrders = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/user/getUser");
+      console.log(response.data);
+      setJobOrders(response.data);
+      console.log(jobOrders);
+    } catch (error) {
+      console.error("Error fetching job orders:", error);
+    }
+  };
+
   useEffect(() => {
-    filterJobOrders("created");
+    fetchJobOrders();
   }, []);
 
   const openForm = (jobOrderData: JobOrderData) => {
@@ -108,9 +61,9 @@ const JobOrder = () => {
   };
 
   const filterJobOrders = (status: string) => {
-    const filtered = jobOrders.filter(
-      (jobOrder) => jobOrder.JobOrder[0].JOstatus === status
-    );
+    const filtered = jobOrders.filter((jobOrder) => {
+      return jobOrder.JobOrder.some((order) => order.JOStatus === status);
+    });
     setFilteredJobOrders(filtered);
   };
 
@@ -177,62 +130,63 @@ const JobOrder = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredJobOrders.map((jobOrder) => (
-                      <tr key={jobOrder._id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder._id}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.firstName}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.JobOrder[0].JOstatus}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.JobOrder[0].dueDate}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.JobOrder[0].jobSite}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {jobOrder.JobOrder[0].JOstatus === "created" && (
-                            <div>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => openForm(jobOrder)}
-                              >
-                                Preview
-                              </button>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => CreatePayment(jobOrder)}
-                              >
-                                Payment
-                              </button>
-                            </div>
-                          )}
-                          {jobOrder.JobOrder[0].JOstatus === "active" && (
-                            <div>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => openForm(jobOrder)}
-                              >
-                                Preview
-                              </button>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={() => openForm(jobOrder)}
-                              >
-                                Finish
-                              </button>
-                            </div>
-                          )}
-                          {jobOrder.JobOrder[0].JOstatus === "completed" && (
-                            <div></div>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
+                    {jobOrders.map((jobOrder) =>
+                      jobOrder.JobOrder.map((order) => (
+                        <tr key={order._id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {order._id}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.firstName}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {order.JOStatus}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {order.selectedDate}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {order.jobSite}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {order.JOStatus === "created" && (
+                              <div>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => openForm(jobOrder)}
+                                >
+                                  Preview
+                                </button>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => CreatePayment(jobOrder)}
+                                >
+                                  Payment
+                                </button>
+                              </div>
+                            )}
+                            {order.JOStatus === "active" && (
+                              <div>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => openForm(jobOrder)}
+                                >
+                                  Preview
+                                </button>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() => openForm(jobOrder)}
+                                >
+                                  Finish
+                                </button>
+                              </div>
+                            )}
+
+                            {order.JOStatus === "completed" && <div></div>}
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>

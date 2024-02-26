@@ -50,7 +50,7 @@ router.post("/signup", async (req, res) => {
 router.get("/getUser", async (req, res) => {
   try {
     // Fetch all users with their associated job orders
-    const usersWithJobOrders = await userMod.find().populate("JobOrder");
+    const usersWithJobOrders = await userMod.find();
     res.json(usersWithJobOrders);
   } catch (error) {
     console.error(error);
