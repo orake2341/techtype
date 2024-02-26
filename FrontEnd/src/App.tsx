@@ -10,8 +10,8 @@ import JobOrderForm from "./pages/CustomerPortal/JobOrderForm";
 import AdminJobOrderForm from "./pages/Admin/JobOrderForm";
 import Dashboard from "./pages/Admin/Dashboard";
 import JobOrder from "./pages/Admin/JobOrder";
-import Modal from "./components/Joborder/modal";
 import PaymentModal from "./components/AdminJoborder/paymentmodal";
+import ServiceModal from "./components/Joborder/servicemodal";
 
 function App() {
   return (
@@ -24,7 +24,9 @@ function App() {
           <Route path="/customerportal" element={<CustomerPortal />}>
             <Route path="" element={<Navigate to="joborder" />} />
             <Route path="joborder" element={<Joborder />}>
-              <Route path=":id" element={<JobOrderForm />} />
+              <Route path=":id" element={<JobOrderForm />}>
+                <Route path="service/:serviceId" element={<ServiceModal />} />
+              </Route>
             </Route>
             <Route path="paymenthistory" element={<PaymentHistory />} />
             <Route path="settings" element={<Settings />} />

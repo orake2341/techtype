@@ -1,32 +1,36 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import axios from "axios"; // Import Axios
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../state/store";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
-import Modal from "../../components/Joborder/modal";
 import Select from "../../components/Joborder/select";
+import {
+  setSelectedJobOrder,
+  deleteServiceRow,
+  setSiteOfService,
+  setMessage,
+} from "../../state/joborder/jobOrderSlice";
+
+const initialJobOrderState = {
+  _id: "",
+  JOStatus: "",
+  PaymentStatus: "",
+  selectedDate: "",
+  jobSite: "",
+  services: [],
+  message: "",
+};
 
 const JobOrderForm = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const jobOrderData = location.state?.jobOrderData;
-
-  const [modalState, setModalState] = useState(false);
-
-  const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
-
-  // The Details to put in the database
-  const [servicerows, setServiceRows] = useState<any>([]);
-  const [siteOfService, setSiteOfService] = useState("");
-  const [message, setMessage] = useState("");
+  const jobOrderData = useSelector((state: RootState) => state.joborder);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (jobOrderData) {
-      setServiceRows(jobOrderData.services);
-      setSiteOfService(jobOrderData.jobSite);
-      setMessage(jobOrderData.message || "");
-    }
+    console.log(jobOrderData);
   }, [jobOrderData]);
 
   const options = [
@@ -36,15 +40,17 @@ const JobOrderForm = () => {
   ];
 
   const handleCloseOrder = () => {
-    navigate(-1);
+    dispatch(setSelectedJobOrder(initialJobOrderState));
+    navigate("../");
   };
 
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setMessage(event.target.value);
+    dispatch(setMessage(event.target.value));
   };
 
+<<<<<<< HEAD
   const handleModalState = () => {
     setModalState(!modalState);
   };
@@ -84,15 +90,22 @@ const JobOrderForm = () => {
     } catch (error) {
       console.error("Error submitting job order:", error);
       // Handle error or show error message to the user
+=======
+  const openService = (service: any | null) => {
+    if (service) {
+      navigate(`service/${service.id}`, {
+        replace: true,
+        state: { serviceData: service },
+      });
+    } else {
+      navigate("service/newservice", { replace: true });
+>>>>>>> 82d43c19349e52926f3022f2593a88d51beee011
     }
-  };
-  const deleteRow = (id: number) => {
-    const updatedRows = servicerows.filter((row: any) => row.id !== id);
-    setServiceRows(updatedRows);
   };
 
   const handleSubmit = async () => {
     try {
+<<<<<<< HEAD
       const response = await axios.post(
         "http://localhost:4000/joborder/create",
         {
@@ -103,11 +116,34 @@ const JobOrderForm = () => {
       );
       console.log(response.data); // Log response if needed
       navigate(-1); // Redirect or perform any action upon successful submission
+=======
+      if (jobOrderData._id === "") {
+        const response = await axios.post(
+          "http://localhost:4000/joborder/create",
+          {
+            services: jobOrderData.services,
+            jobSite: jobOrderData.jobSite,
+          }
+        );
+        console.log(response.data);
+      } else {
+        const response = await axios.put(
+          "http://localhost:4000/joborder/update",
+          {
+            joid: jobOrderData._id,
+            services: jobOrderData.services,
+            jobSite: jobOrderData.jobSite,
+          }
+        );
+        console.log(response.data);
+      }
+>>>>>>> 82d43c19349e52926f3022f2593a88d51beee011
     } catch (error) {
       console.error("Error submitting job order:", error);
       // Handle error or show error message to the user
     }
-    navigate(-1);
+    dispatch(setSelectedJobOrder(initialJobOrderState));
+    navigate("../");
   };
 
   return (
@@ -117,7 +153,7 @@ const JobOrderForm = () => {
       <div className="bg-white p-6 rounded-lg w-10/12 h-5/6 flex flex-col relative">
         <button
           className="absolute top-0 right-0 mt-4 mr-4 text-gray-600"
-          onClick={() => navigate(-1)}
+          onClick={handleCloseOrder}
         >
           <FaTimes className="text-xl" />
         </button>
@@ -145,8 +181,10 @@ const JobOrderForm = () => {
             <div className="col-span-3">
               <Select
                 label="Site of Service:"
-                value={siteOfService}
-                onChange={setSiteOfService}
+                value={jobOrderData.jobSite}
+                onChange={(selectedValue) =>
+                  dispatch(setSiteOfService(selectedValue))
+                }
                 options={options}
               />
             </div>
@@ -157,8 +195,7 @@ const JobOrderForm = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedRowId(null);
-                  handleModalState();
+                  openService(null);
                 }}
                 className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
               >
@@ -179,8 +216,8 @@ const JobOrderForm = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {servicerows.length > 0 &&
-                    servicerows.map((row: any) => (
+                  {jobOrderData.services.length > 0 &&
+                    jobOrderData.services.map((row: any) => (
                       <tr key={row.id}>
                         <td className="border border-gray-300 px-4 py-2 w-1/4">
                           {row.typeofservice}
@@ -189,8 +226,7 @@ const JobOrderForm = () => {
                           <button
                             type="button"
                             onClick={() => {
-                              setSelectedRowId(row.id);
-                              handleModalState();
+                              openService(row);
                             }}
                             className="text-blue-500 hover:text-blue-700 mr-2"
                           >
@@ -198,7 +234,7 @@ const JobOrderForm = () => {
                           </button>
                           <button
                             type="button"
-                            onClick={() => deleteRow(row.id)}
+                            onClick={() => dispatch(deleteServiceRow(row.id))}
                             className="text-red-500 hover:text-red-700"
                           >
                             <FaTrash />
@@ -217,7 +253,7 @@ const JobOrderForm = () => {
             <textarea
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400 min-h-32"
               placeholder="Type your message here..."
-              value={message}
+              value={jobOrderData.message}
               onChange={handleMessageChange}
             />
           </div>
@@ -228,7 +264,7 @@ const JobOrderForm = () => {
             >
               Cancel
             </button>
-            {jobOrderData === null ? (
+            {jobOrderData._id === "" ? (
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
                 onClick={handleSubmit}
@@ -238,7 +274,7 @@ const JobOrderForm = () => {
             ) : (
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                onClick={editData}
+                onClick={handleSubmit}
               >
                 Confirm
               </button>
@@ -246,17 +282,7 @@ const JobOrderForm = () => {
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={modalState}
-        onClose={handleModalState}
-        addRow={addRow}
-        editRow={editRow}
-        serviceData={
-          selectedRowId
-            ? servicerows.find((row: any) => row.id === selectedRowId)
-            : null
-        }
-      />
+      <Outlet />
     </div>
   );
 };
