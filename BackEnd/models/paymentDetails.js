@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
 
-const ServiceSchema = mongoose.Schema({
-  typeofkeyboardmodsPrice: { type: Number, default: 250 },
-  keyboarddeepcleanPrice: { type: Number, default: 250 },
-  keycapcleaningPrice: { type: Number, default: 250 },
-  switchlubingPrice: { type: Number, default: 250 },
-  cleaningMethodPrice: { type: Number, default: 250 },
-});
-
 const PaymentDetailsSchema = mongoose.Schema({
-  services: [ServiceSchema], // Use the ServiceSchema here
+  services: [
+    {
+      keyboarddeepcleanPrice: { type: Number, default: 250 },
+      keycapcleaningPrice: { type: Number, default: 250 },
+      switchlubingPrice: { type: Number, default: 250 },
+      cleaningMethodPrice: { type: Number, default: 250 },
+    },
+  ],
   serviceFee: Number,
   TotalPayment: Number,
+  paymentScreenshot: String,
+});
+
+const paymentHistorySchema = mongoose.Schema({
+  joid: String,
+  PaymentDetails: [PaymentDetailsSchema],
 });
 
 export const paymentDetailsModel = mongoose.model(
-  "PaymentDetails",
+  "Payment Details",
   PaymentDetailsSchema
 );

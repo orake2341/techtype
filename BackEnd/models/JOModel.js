@@ -20,10 +20,7 @@ const JOrderSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
-  PaymentDetails: {
-    servicesFee: [PriceSchema],
-    TotalPayment: { type: Number },
-  },
+  PaymentDetails: [paymentDetailsModel.schema],
   PaymentHistory: [
     {
       picture: String,
