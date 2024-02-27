@@ -31,10 +31,10 @@ JobOrderRouter.post("/create", async (req, res) => {
     const paymentDetails = new paymentDetailsModel({
       services: createdServices.map((service) => ({
         servicetype: service.typeofservice,
-        isset: false,
         subtype: service,
         servicetotal: service.servicetotal,
       })),
+      isset: false,
       Balance: 0,
       TotalPayment: 0,
     });
