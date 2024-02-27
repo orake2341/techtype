@@ -3,15 +3,20 @@ import mongoose from "mongoose";
 const PaymentDetailsSchema = mongoose.Schema({
   services: [
     {
-      keyboarddeepcleanPrice: { type: Number, default: 250 },
-      keycapcleaningPrice: { type: Number, default: 250 },
-      switchlubingPrice: { type: Number, default: 250 },
-      cleaningMethodPrice: { type: Number, default: 250 },
+      servicetype: String,
+      subtype: [
+        {
+          subservicename: String,
+          price: Number,
+        },
+      ],
+      servicetotal: Number,
     },
   ],
-  serviceFee: Number,
+  Balance: Number,
   TotalPayment: Number,
-  paymentScreenshot: String,
+
+  paymentScreenshots: [],
 });
 
 const paymentHistorySchema = mongoose.Schema({

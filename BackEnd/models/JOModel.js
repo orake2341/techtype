@@ -21,12 +21,6 @@ const JOrderSchema = mongoose.Schema({
     default: "Pending",
   },
   PaymentDetails: [paymentDetailsModel.schema],
-  PaymentHistory: [
-    {
-      picture: String,
-      details: String,
-    },
-  ],
   jobSite: {
     type: String,
     default: "On-site",
