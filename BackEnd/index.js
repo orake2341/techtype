@@ -5,7 +5,6 @@ import JobOrderRouter from "./routes/jobOrder.js";
 import mongoose from "mongoose";
 import router from "./routes/user.js";
 import cors from "cors";
-import paymentRouter from "./routes/payment.js";
 import bodyParser from "body-parser";
 const app = express();
 app.use(express.json()); // Add middleware to parse JSON bodies
@@ -27,7 +26,6 @@ mongoose
 // MIDDLEWARE
 app.use("/user", router);
 app.use("/joborder", JobOrderRouter);
-app.use("/payment", paymentRouter);
 
 // ROUTING
 app.post("/crt", async (req, res) => {
@@ -44,7 +42,7 @@ app.post("/crt", async (req, res) => {
 app.get("/", async (req, res) => {
   //TODO: ADD ERROR HANDLING
   //CONNECT PROPERLY
-  const userId = "65dc8adc57090b27b1244b70";
+  const userId = "65d92a037b4fa104d253eb82";
   const findYou = await userMod.findById(userId);
 
   // Check if the user was found
@@ -85,6 +83,7 @@ app.get("/users", async (req, res) => {
           return {
             ...jobOrder.toObject(),
             email: user.email,
+            _id: user._id,
           };
         });
       })

@@ -3,6 +3,14 @@ import { userMod } from "./userModel.js";
 import { serviceMod } from "./serviceModel.js";
 import { paymentDetailsModel } from "./paymentDetails.js";
 
+const PriceSchema = mongoose.Schema({
+  typeofkeyboardmodsPrice: { type: Number, default: 0 },
+  keyboarddeepcleanPrice: { type: Number, default: 0 },
+  keycapcleaningPrice: { type: Number, default: 0 },
+  switchlubingPrice: { type: Number, default: 0 },
+  cleaningMethodPrice: { type: Number, default: 0 },
+});
+
 const JOrderSchema = mongoose.Schema({
   JOStatus: {
     type: String,
@@ -12,7 +20,10 @@ const JOrderSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
-  PaymentDetails: [paymentDetailsModel.schema],
+  PaymentDetails: {
+    servicesFee: [PriceSchema],
+    TotalPayment: { type: Number },
+  },
   PaymentHistory: [
     {
       picture: String,

@@ -5,6 +5,7 @@ import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../state/store";
 import { fetchAllJobOrders } from "../../state/joborderlist/jobOrderListSlice";
+import axios from "axios";
 
 const JobOrder = () => {
   const navigate = useNavigate();
@@ -42,6 +43,20 @@ const JobOrder = () => {
     });
   };
 
+  const updateJOStatus = async (state: string) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:4000/joborder/update",
+        {
+          JOStatus: state,
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error submitting job order:", error);
+    }
+  };
+
   return (
     <section className="flex flex-col h-screen">
       <h2 className="text-2xl font-bold mb-4">Job Orders</h2>
@@ -55,13 +70,13 @@ const JobOrder = () => {
         </button>
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-          onClick={() => filterJobOrders("active")}
+          onClick={() => filterJobOrders("Active")}
         >
           Accepted JO
         </button>
         <button
           className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => filterJobOrders("completed")}
+          onClick={() => filterJobOrders("Completed")}
         >
           Completed JO
         </button>
@@ -85,6 +100,9 @@ const JobOrder = () => {
                         Payment Status
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        JO Status
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Due Date
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -100,13 +118,16 @@ const JobOrder = () => {
                       filteredJobOrders.map((jobOrder: any) => (
                         <tr key={jobOrder._id}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {jobOrder.joNumber}
+                            {jobOrder._id}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {jobOrder.email}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {jobOrder.paymentStatus}
+                            {jobOrder.PaymentStatus}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {jobOrder.JOStatus}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {jobOrder.dueDate}
@@ -115,7 +136,7 @@ const JobOrder = () => {
                             {jobOrder.jobSite}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {jobOrder.JOstatus === "new" && (
+                            {jobOrder.JOStatus === "Pending" && (
                               <div>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -131,7 +152,7 @@ const JobOrder = () => {
                                 </button>
                               </div>
                             )}
-                            {jobOrder.JOstatus === "active" && (
+                            {jobOrder.JOStatus === "Active" && (
                               <div>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
@@ -141,14 +162,14 @@ const JobOrder = () => {
                                 </button>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                  onClick={() => openForm(jobOrder)}
+                                  onClick={() => updateJOStatus("Complete")}
                                 >
-                                  Finish
+                                  Complete
                                 </button>
                               </div>
                             )}
 
-                            {jobOrder.JOstatus === "completed" && <div></div>}
+                            {jobOrder.JOstatus === "Complete" && <div></div>}
                           </td>
                         </tr>
                       ))
