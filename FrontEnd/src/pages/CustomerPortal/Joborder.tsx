@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../state/store";
 import { fetchJobOrders } from "../../state/joborderlist/jobOrderListSlice";
 import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
+import { MdOutlinePayments } from "react-icons/md";
 
 const Joborder = () => {
   const navigate = useNavigate();
@@ -72,9 +73,12 @@ const Joborder = () => {
                   <td>{jobOrder.PaymentStatus}</td>
                   <td>{jobOrder.selectedDate}</td>
                   <td>{jobOrder.jobSite}</td>
-                  <td className="text-center">
+                  <td className="flex justify-center gap-3">
                     <button onClick={() => handleModalState(jobOrder)}>
                       <FaEye />
+                    </button>
+                    <button>
+                      <MdOutlinePayments />
                     </button>
                   </td>
                 </tr>
