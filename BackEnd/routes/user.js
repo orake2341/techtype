@@ -1,14 +1,7 @@
 import express from "express";
 import { userMod } from "../models/userModel.js";
-import jwt from "jsonwebtoken";
-import { SECRET } from "../config.js";
+import generateToken from "../utils/generateToken.js";
 const router = express.Router();
-
-//CREATING TOKEN
-//=========================================
-const createToken = (_id) => {
-  return jwt.sign({ _id }, SECRET, { expiresIn: "3d" });
-};
 
 // LOGIN METHOD
 //=========================================
@@ -17,12 +10,11 @@ router.post("/login", async (req, res) => {
 
   try {
     const user = await userMod.login(email, password);
-
-    //CREATE A TOKEN
-    const token = createToken(user._id);
-    res.status(201).json({ email, token });
+    generateToken(res, user._id);
+    console.log(email);
 
     //
+    res.status(200).json({ message: "LOGGED IN" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -34,12 +26,21 @@ router.post("/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await userMod.signup(email, password);
-    //CREATE A TOKEN
-    const token = createToken(user._id);
-    res.status(201).json({ email, token });
+    generateToken(res, user._id);
+    res.status(200).json({ message: "SIGNED UP" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+});
+
+// LOGOUT METHOD
+//=========================================
+router.post("/logout", async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "LOGGED OUT" });
 });
 
 // TODO: GET USER FIRSTNAME AND JO

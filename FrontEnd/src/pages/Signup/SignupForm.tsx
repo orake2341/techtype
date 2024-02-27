@@ -7,8 +7,15 @@ import { MdEmail } from "react-icons/md";
 import { useState } from "react";
 import axios from "axios";
 const SignupForm = () => {
-  const [data, setData] = useState({ email: "", password: "" });
-  const [error, setError] = useState<string>(null);
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+    phoneNo: "",
+  });
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,13 +30,21 @@ const SignupForm = () => {
         password: data.password,
       });
 
-      console.log("Response:", response.data);
-
       //
-    } catch (error) {
+    } catch (error: any) {
       // TODO: ERROR HANDLING
-      setError(error.response?.data?.message);
-
+      if (error.response) {
+        console.log("Server Error:", error.response.data);
+        setError(error.response.data.error || "Server Error");
+        //
+      } else if (error.request) {
+        console.log("Network Error:", error.request);
+        setError("Network Error");
+        //
+      } else {
+        console.log("Error:", error.message);
+        setError("Error");
+      }
       //
     } finally {
       setIsLoading(false);
@@ -130,6 +145,7 @@ const SignupForm = () => {
       />
 
       {error && <div className="text-red-500">{error}</div>}
+
       <div className="">
         <p className="">
           Already have a account?{" "}

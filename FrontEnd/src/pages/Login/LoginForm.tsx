@@ -14,6 +14,8 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  const [error, setError] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -23,8 +25,21 @@ const LoginForm = () => {
       });
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/customerportal");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      // TODO: ERROR HANDLING
+      if (error.response) {
+        console.log("Server Error:", error.response.data);
+        setError(error.response.data.error || "Server Error");
+        //
+      } else if (error.request) {
+        console.log("Network Error:", error.request);
+        setError("Network Error");
+        //
+      } else {
+        console.log("Error:", error.message);
+        setError("Error");
+      }
+      //
     }
   };
   return (
@@ -73,6 +88,7 @@ const LoginForm = () => {
         <MdCheckBox />
         <p>Remember me</p>
       </div>
+      {error && <div className="text-red-500">{error}</div>}
       <input
         className="bg-CACACAC hover:bg-opacity-75 opacity-100 text-black font-bold rounded-full py-3 px-6 "
         type="submit"
