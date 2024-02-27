@@ -1,5 +1,6 @@
 import express from "express";
 import { paymentDetailsModel } from "../models/paymentDetails.js";
+import { paymentHistoryModel } from "../models/paymentHistoryModel.js";
 
 const paymentRouter = express.Router();
 
@@ -18,6 +19,12 @@ paymentRouter.post("/pay", async (req, res) => {
       .status(500)
       .json({ message: "Error uploading payment", error: error.message });
   }
+});
+
+// CREATE JO WITH PAYMENT DETAILS
+paymentRouter.post("/post", (req, res) => {
+  try {
+  } catch (error) {}
 });
 
 export default paymentRouter;

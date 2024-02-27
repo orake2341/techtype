@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import { JO } from "./JOModel.js";
 import validator from "validator";
+import { paymentHistoryModel } from "./paymentHistoryModel.js";
 
 //USER SCHEMA
 //=========================================
@@ -26,6 +27,7 @@ const userSchema = mongoose.Schema({
   number: {
     type: Number,
   },
+  paymentHistory: [paymentHistoryModel.schema],
   JobOrder: [JO.schema],
 });
 

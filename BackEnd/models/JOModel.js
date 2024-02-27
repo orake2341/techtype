@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { userMod } from "./userModel.js";
 import { serviceMod } from "./serviceModel.js";
-import { paymentDetailsModel } from "./paymentDetails.js";
+import { paymentDetailsModel } from "./paymentHistoryModel.js";
 
 const JOrderSchema = mongoose.Schema({
   JOStatus: {
