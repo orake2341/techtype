@@ -1,23 +1,32 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Select from "../../components/Joborder/select";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../state/store";
+import {
+  setSelectedJobOrder,
+  deleteServiceRow,
+  setSiteOfService,
+  setMessage,
+} from "../../state/joborder/jobOrderSlice";
+import axios from "axios";
+
+const initialJobOrderState = {
+  _id: "",
+  JOStatus: "",
+  PaymentStatus: "",
+  selectedDate: "",
+  jobSite: "",
+  services: [],
+  message: "",
+};
 
 const JobOrderForm = () => {
   const navigate = useNavigate();
-  const Location = useLocation();
   const jobOrderData = useSelector((state: RootState) => state.joborder);
   const dispatch = useDispatch<AppDispatch>();
-  const [modalState, setModalState] = useState(false);
-  const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
-
-  const [siteOfService, setSiteOfService] = useState(
-    Location.state.jobOrderData.jobSite
-  );
-  const [message, setMessage] = useState("");
 
   const options = [
     { value: "", label: " --Please Select--" },
@@ -26,38 +35,55 @@ const JobOrderForm = () => {
   ];
 
   const handleCloseOrder = () => {
-    navigate(-1);
+    dispatch(setSelectedJobOrder(initialJobOrderState));
+    navigate("../");
   };
 
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setMessage(event.target.value);
+    dispatch(setMessage(event.target.value));
   };
 
-  const handleModalState = () => {
-    setModalState(!modalState);
+  const openService = (service: any | null) => {
+    if (service) {
+      navigate(`service/${service.id}`, {
+        replace: true,
+        state: { serviceData: service },
+      });
+    } else {
+      navigate("service/newservice", { replace: true });
+    }
   };
 
-  /*   const addRow = (newRow: any) => {
-    const newId =
-      servicerows.length > 0 ? servicerows[servicerows.length - 1].id + 1 : 1;
-    newRow.id = newId;
-    setServiceRows([...servicerows, newRow]);
+  const handleSubmit = async () => {
+    try {
+      if (jobOrderData._id === "") {
+        const response = await axios.post(
+          "http://localhost:4000/joborder/create",
+          {
+            services: jobOrderData.services,
+            jobSite: jobOrderData.jobSite,
+          }
+        );
+        console.log(response.data);
+      } else {
+        const response = await axios.put(
+          "http://localhost:4000/joborder/update",
+          {
+            joid: jobOrderData._id,
+            services: jobOrderData.services,
+            jobSite: jobOrderData.jobSite,
+          }
+        );
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("Error submitting job order:", error);
+    }
+    dispatch(setSelectedJobOrder(initialJobOrderState));
+    navigate("../");
   };
-
-  const editRow = (id: number, newData: any) => {
-    const updatedRows = servicerows.map((row: any) =>
-      row.id === id ? newData : row
-    );
-    setServiceRows(updatedRows);
-    setModalState(false);
-  };
-
-  const deleteRow = (id: number) => {
-    const updatedRows = servicerows.filter((row: any) => row.id !== id);
-    setServiceRows(updatedRows);
-  }; */
 
   return (
     <div
@@ -66,7 +92,7 @@ const JobOrderForm = () => {
       <div className="bg-white p-6 rounded-lg w-10/12 h-5/6 flex flex-col relative">
         <button
           className="absolute top-0 right-0 mt-4 mr-4 text-gray-600"
-          onClick={() => navigate(-1)}
+          onClick={handleCloseOrder}
         >
           <FaTimes className="text-xl" />
         </button>
@@ -82,34 +108,22 @@ const JobOrderForm = () => {
           <form className="grid grid-cols-3 gap-6">
             <div className="col-span-3">
               <label className="text-lg font-medium mb-2 text-gray-700">
-                Job Order Number:{" "}
+                Job Order Number:
               </label>
               <input
                 type="text"
-                value="JO2024-2034"
+                value={jobOrderData._id}
                 readOnly
                 className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
               />
             </div>
             <div className="col-span-3">
-              {/* <label className="text-lg font-medium mb-2 text-gray-700">
-                Site of Service:{" "}
-              </label>
-              
-              <select
-                value={siteOfService}
-                onChange={handleSiteOfServiceChange}
-                className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
-              >
-                <option value="">Select Service</option>
-                <option value="site1">Site 1</option>
-                <option value="site2">Site 2</option>
-                <option value="site3">Site 3</option>
-              </select> */}
               <Select
                 label="Site of Service:"
-                value={siteOfService}
-                onChange={setSiteOfService}
+                value={jobOrderData.jobSite}
+                onChange={(selectedValue) =>
+                  dispatch(setSiteOfService(selectedValue))
+                }
                 options={options}
               />
             </div>
@@ -120,8 +134,7 @@ const JobOrderForm = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedRowId(null);
-                  handleModalState();
+                  openService(null);
                 }}
                 className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
               >
@@ -142,8 +155,8 @@ const JobOrderForm = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {servicerows.length > 0 &&
-                    servicerows.map((row: any) => (
+                  {jobOrderData.services.length > 0 &&
+                    jobOrderData.services.map((row: any) => (
                       <tr key={row.id}>
                         <td className="border border-gray-300 px-4 py-2 w-1/4">
                           {row.typeofservice}
@@ -152,8 +165,7 @@ const JobOrderForm = () => {
                           <button
                             type="button"
                             onClick={() => {
-                              setSelectedRowId(row.id);
-                              handleModalState();
+                              openService(row);
                             }}
                             className="text-blue-500 hover:text-blue-700 mr-2"
                           >
@@ -161,7 +173,7 @@ const JobOrderForm = () => {
                           </button>
                           <button
                             type="button"
-                            onClick={() => deleteRow(row.id)}
+                            onClick={() => dispatch(deleteServiceRow(row.id))}
                             className="text-red-500 hover:text-red-700"
                           >
                             <FaTrash />
@@ -180,7 +192,7 @@ const JobOrderForm = () => {
             <textarea
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400 min-h-32"
               placeholder="Type your message here..."
-              value={message}
+              value={jobOrderData.message}
               onChange={handleMessageChange}
             />
           </div>

@@ -22,10 +22,12 @@ const JobOrder = () => {
   }, []);
 
   const openForm = (jobOrderData: JobOrder) => {
-    navigate(`joborderform/${jobOrderData._id}`, {
-      replace: true,
-      state: { jobOrderData },
-    });
+    if (jobOrderData) {
+      navigate(`joborderform/${jobOrderData._id}`, { replace: true });
+      dispatch(setSelectedJobOrder(jobOrderData));
+    } else {
+      navigate("newjoborder", { replace: true });
+    }
   };
 
   const filterJobOrders = (status: any) => {
