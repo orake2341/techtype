@@ -2,6 +2,7 @@ interface JobOrder {
   _id: string;
   JOStatus: string;
   PaymentStatus: string;
+  PaymentDetails: PaymentDetails;
   selectedDate: string;
   paymentHistory: any[];
   jobSite: string;
@@ -19,10 +20,18 @@ interface AdminJobOrder {
   email: string;
   JOStatus: string;
   PaymentStatus: string;
+  PaymentDetails: PaymentDetails;
   selectedDate: string;
   jobSite: string;
   services: any[];
   message: string;
+}
+
+interface PaymentDetails {
+  services: [];
+  Balance: number;
+  TotalPayment: number;
+  paymentScreenshots: [];
 }
 
 type ModalProp = {
