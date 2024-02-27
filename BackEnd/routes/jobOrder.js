@@ -2,6 +2,7 @@ import express from "express";
 import { userMod } from "../models/userModel.js";
 import { JO } from "../models/JOModel.js";
 import { serviceMod } from "../models/serviceModel.js";
+import { paymentDetailsModel } from "../models/paymentHistoryModel.js";
 
 const JobOrderRouter = express.Router();
 
@@ -11,24 +12,41 @@ JobOrderRouter.post("/create", async (req, res) => {
   try {
     const serviceDataArray = req.body.services;
     const createdServices = [];
+
+    // Create and save service documents
     for (const serviceData of serviceDataArray) {
       const newService = new serviceMod(serviceData);
       await newService.save();
       createdServices.push(newService);
     }
 
-    const parentDoc = await userMod.findById("65d92a037b4fa104d253eb82");
-
+    // Find the parent user document
+    const parentDoc = await userMod.findById("65dc8adc57090b27b1244b70");
     if (!parentDoc) {
       console.log("Parent not found");
       return res.status(404).json({ message: "Parent not found" });
     }
 
+    // Create payment details
+    const paymentDetails = new paymentDetailsModel({
+      services: createdServices.map((service) => ({
+        servicetype: service.typeofservice,
+        isset: false,
+        subtype: service,
+        servicetotal: service.servicetotal,
+      })),
+      Balance: 0,
+      TotalPayment: 0,
+    });
+    await paymentDetails.save();
+
+    // Create new job order and link payment details
     const newJobOrder = new JO({
       status: "Pending",
       jobSite: req.body.jobSite,
       services: createdServices,
       message: req.body.message,
+      PaymentDetails: paymentDetails, // Link payment details with job order
     });
 
     parentDoc.JobOrder.push(newJobOrder);
