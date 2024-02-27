@@ -60,7 +60,7 @@ const JobOrder = () => {
   };
 
   return (
-    <section className="flex flex-col h-screen">
+    <section className="flex flex-col h-screen px-8 py-4">
       <h2 className="text-2xl font-bold mb-4">Job Orders</h2>
 
       <div className="flex">
@@ -145,12 +145,6 @@ const JobOrder = () => {
                                   onClick={() => openForm(jobOrder)}
                                 >
                                   Preview
-                                </button>
-                                <button
-                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                  onClick={() => CreatePayment(jobOrder)}
-                                >
-                                  Payment
                                 </button>
                               </div>
                             )}

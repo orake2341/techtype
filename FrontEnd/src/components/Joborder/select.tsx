@@ -5,13 +5,20 @@ type SelectProps = {
   value: string;
   onChange: (value: string) => void;
   options: { value: string; label: string }[];
+  isforForm: boolean;
 };
 
-const Select = ({ label, value, onChange, options }: SelectProps) => {
+const Select = ({
+  label,
+  value,
+  onChange,
+  options,
+  isforForm,
+}: SelectProps) => {
   const id = useId();
   return (
     <div className="flex">
-      <label htmlFor={id} className="flex-grow">
+      <label htmlFor={id} className={isforForm ? "" : "flex-grow"}>
         {label}
       </label>
       <select

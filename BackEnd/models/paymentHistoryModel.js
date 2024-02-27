@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const PaymentDetailsSchema = mongoose.Schema({
   services: [
     {
+      serviceId: String,
       servicetype: String,
       isset: Boolean,
       subtype: [
