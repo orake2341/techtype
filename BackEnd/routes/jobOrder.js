@@ -20,7 +20,7 @@ JobOrderRouter.post("/create", async (req, res) => {
       createdServices.push(newService);
     }
 
-    const parentDoc = await userMod.findById("65df0aff7ebd20d58ee773ac");
+    const parentDoc = await userMod.findById(req.body._id);
 
     if (!parentDoc) {
       console.log("Parent not found");
