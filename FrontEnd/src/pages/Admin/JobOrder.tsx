@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PaymentModal from "../../components/AdminJoborder/paymentmodal";
 import { useNavigate, Outlet } from "react-router-dom";
 import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
 import { useDispatch, useSelector } from "react-redux";

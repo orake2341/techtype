@@ -27,6 +27,7 @@ function App() {
               <Route path=":id" element={<JobOrderForm />}>
                 <Route path="service/:serviceId" element={<ServiceModal />} />
               </Route>
+              <Route path="payment/:id" element={<PaymentModal />} />
             </Route>
             <Route path="paymenthistory" element={<PaymentHistory />} />
             <Route path="settings" element={<Settings />} />
