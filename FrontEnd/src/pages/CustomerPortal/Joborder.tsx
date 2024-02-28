@@ -29,6 +29,7 @@ const Joborder = () => {
     if (jobOrderData) {
       navigate(`payment/${jobOrderData._id}`, {
         replace: true,
+        state: jobOrderData._id,
       });
       dispatch(setPaymentDetails(jobOrderData.PaymentDetails));
     } else {

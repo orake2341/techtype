@@ -1,6 +1,6 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Select from "../../components/Joborder/select";
 import { useDispatch, useSelector } from "react-redux";
@@ -125,6 +125,15 @@ const JobOrderForm = () => {
     navigate("../");
   };
 
+  const handlePaymentPic = (picture: any) => {
+    if (picture) {
+      navigate(`paymentscreenshot`, {
+        replace: true,
+        state: picture,
+      });
+    }
+  };
+
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50`}
@@ -246,7 +255,7 @@ const JobOrderForm = () => {
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
                 onClick={() => {
-                  console.log(jobOrderData.PaymentDetails.services);
+                  console.log(jobOrderData.PaymentDetails.paymentScreenshots);
                 }}
               >
                 Edit
@@ -393,16 +402,27 @@ const JobOrderForm = () => {
                 <h4>Total Payment</h4>
                 <p>{paymentDetails.TotalPayment}</p>
               </div>
-              <button
-                className="self-end items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                onClick={() => handleSet()}
-              >
-                Set
-              </button>
+              <div className="flex justify-end gap-8">
+                <button
+                  className=" items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+                  onClick={() => handleSet()}
+                >
+                  Set
+                </button>
+                <button
+                  className="items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+                  onClick={() =>
+                    handlePaymentPic(paymentDetails.paymentScreenshots[0])
+                  }
+                >
+                  Payment
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 };

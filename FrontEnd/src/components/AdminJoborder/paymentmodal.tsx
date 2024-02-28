@@ -5,8 +5,11 @@ import { AppDispatch, RootState } from "../../state/store";
 import { updateServiceProperty } from "../../state/paymentdetails/paymentDetailsSilce";
 
 import { useDropzone } from "react-dropzone";
+import axios from "axios";
 
 const PaymentModal = () => {
+  const location = useLocation();
+  const joid = location.state;
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const paymentDetails = useSelector(
@@ -44,6 +47,33 @@ const PaymentModal = () => {
     });
 
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+
+  const handelpay = async () => {
+    try {
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        try {
+          const response = await axios.put(
+            "http://localhost:4000/payment/pay",
+            {
+              joid: joid,
+              picture: reader.result,
+            }
+          );
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error submitting job order:", error);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error("Error handling payment:", error);
+    }
+    navigate("../");
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -215,7 +245,7 @@ const PaymentModal = () => {
 
         <button
           className="self-end items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-          onClick={() => console.log(acceptedFiles)}
+          onClick={handelpay}
         >
           Send
         </button>
