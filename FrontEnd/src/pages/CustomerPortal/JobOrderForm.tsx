@@ -63,10 +63,15 @@ const JobOrderForm = () => {
 
   const handleSubmit = async () => {
     try {
+      const userInfoString = localStorage.getItem("userInfo" || "");
+      const userInfo = JSON.parse(userInfoString);
+      const userId = userInfo._id;
       if (jobOrderData._id === "") {
         const response = await axios.post(
           "http://localhost:4000/joborder/create",
           {
+            _id: userId,
+            message: jobOrderData.message,
             services: jobOrderData.services,
             jobSite: jobOrderData.jobSite,
           }
@@ -77,6 +82,8 @@ const JobOrderForm = () => {
           "http://localhost:4000/joborder/update",
           {
             joid: jobOrderData._id,
+            _id: userId,
+            message: jobOrderData.message,
             services: jobOrderData.services,
             jobSite: jobOrderData.jobSite,
           }
