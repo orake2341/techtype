@@ -1,6 +1,7 @@
 import express from "express";
 import { userMod } from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // LOGIN METHOD
@@ -11,10 +12,9 @@ router.post("/login", async (req, res) => {
   try {
     const user = await userMod.login(email, password);
     generateToken(res, user._id);
-    console.log(email);
 
     //
-    res.status(200).json({ message: "LOGGED IN" });
+    res.status(200).json({ _id: user._id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

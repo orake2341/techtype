@@ -4,6 +4,7 @@ import { PORT, mongoDB } from "./config.js";
 import JobOrderRouter from "./routes/jobOrder.js";
 import mongoose from "mongoose";
 import router from "./routes/user.js";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
 import paymentRouter from "./routes/payment.js";
@@ -27,7 +28,11 @@ mongoose
 // MIDDLEWARE
 app.use("/user", router);
 app.use("/joborder", JobOrderRouter);
+<<<<<<< HEAD
+app.use(cookieParser());
+=======
 app.use("/payment", paymentRouter);
+>>>>>>> ca5b418ed2b5ba90fe697f263f1ab4fe0a74227b
 
 // ROUTING
 app.post("/crt", async (req, res) => {

@@ -3,9 +3,11 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { MdCheckBox } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../../slices/userApiSlice";
+import { setCredentials } from "../../slices/authSlice";
 const LoginForm = () => {
   const [data, setData] = useState({
     email: "",
@@ -13,33 +15,33 @@ const LoginForm = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/customerportal");
+    }
+  }, [navigate, userInfo]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      await axios.post("http://localhost:4000/user/login", {
+      const res = await login({
         email: data.email,
         password: data.password,
-      });
-      localStorage.setItem("user", JSON.stringify(data));
-      navigate("/customerportal");
+      }).unwrap();
+      console.log(res);
+      dispatch(setCredentials({ ...res }));
+      navigate("/customerPortal");
     } catch (error: any) {
-      // TODO: ERROR HANDLING
-      if (error.response) {
-        console.log("Server Error:", error.response.data);
-        setError(error.response.data.error || "Server Error");
-        //
-      } else if (error.request) {
-        console.log("Network Error:", error.request);
-        setError("Network Error");
-        //
-      } else {
-        console.log("Error:", error.message);
-        setError("Error");
-      }
-      //
+      console.log(error);
+
+      setError(error.data.error);
     }
   };
   return (
