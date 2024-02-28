@@ -4,6 +4,7 @@ import { PORT, mongoDB } from "./config.js";
 import JobOrderRouter from "./routes/jobOrder.js";
 import mongoose from "mongoose";
 import router from "./routes/user.js";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
 const app = express();
@@ -26,6 +27,7 @@ mongoose
 // MIDDLEWARE
 app.use("/user", router);
 app.use("/joborder", JobOrderRouter);
+app.use(cookieParser());
 
 // ROUTING
 app.post("/crt", async (req, res) => {
