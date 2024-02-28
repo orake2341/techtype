@@ -21,6 +21,22 @@ paymentRouter.post("/pay", async (req, res) => {
   }
 });
 
+// paki butang ko bai
+paymentRouter.post("/set", async (req, res) => {
+  try {
+    const { picture, details } = req.body;
+    const newPaymentDetails = new paymentDetailsModel({ picture, details });
+    const confirmation = await newPaymentDetails.save();
+    res
+      .status(200)
+      .json({ message: "Payment uploaded successfully", data: confirmation });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error uploading payment", error: error.message });
+  }
+});
+
 // CREATE JO WITH PAYMENT DETAILS
 paymentRouter.post("/post", (req, res) => {
   try {

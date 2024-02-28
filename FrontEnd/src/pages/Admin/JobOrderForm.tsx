@@ -110,6 +110,13 @@ const JobOrderForm = () => {
 
   const handleSet = async () => {
     try {
+      const response = await axios.put(
+        "http://localhost:4000/paymentdetails/set",
+        {
+          joid: jobOrderData._id,
+        }
+      );
+      console.log(response.data);
     } catch (error) {
       console.error("Error submitting job order:", error);
       navigate("../");
@@ -259,7 +266,7 @@ const JobOrderForm = () => {
                       {service.servicetype === "Keyboard Modding" ? (
                         <>
                           <h3>{service.servicetype}</h3>
-                          <div className="pl-28 flex gap-10 mb-4">
+                          <div className="pl-28 flex justify-between gap-10 mb-4">
                             <h4>{service.subtype.typeofkeyboardmods}</h4>
                             <input
                               value={
@@ -276,7 +283,7 @@ const JobOrderForm = () => {
                             />
                           </div>
                           {service.subtype.keyboarddeepclean === true && (
-                            <div className="pl-28 flex gap-10 mb-4">
+                            <div className="pl-28 flex justify-between gap-10 mb-4">
                               <h4>KeyboardDeepClean</h4>
                               <input
                                 value={
@@ -294,7 +301,7 @@ const JobOrderForm = () => {
                             </div>
                           )}
                           {service.subtype.keycapcleaning === true && (
-                            <div className="pl-28 flex gap-10 mb-4">
+                            <div className="pl-28 flex justify-between gap-10 mb-4">
                               <h4>KeyCapCleaning</h4>
                               <input
                                 value={
@@ -312,7 +319,7 @@ const JobOrderForm = () => {
                             </div>
                           )}
                           {service.subtype.switchlubing === true && (
-                            <div className="pl-28 flex gap-10 mb-4">
+                            <div className="pl-28 flex justify-between gap-10 mb-4">
                               <h4>Switch Lubing</h4>
                               <input
                                 value={service.subtype?.switchlubingprice || ""}
@@ -331,7 +338,7 @@ const JobOrderForm = () => {
                       ) : service.servicetype === "PC Cleaning" ? (
                         <>
                           <h3>{service.servicetype}</h3>
-                          <div className="pl-28 flex gap-10 mb-4">
+                          <div className="pl-28 flex justify-between gap-10 mb-4">
                             <h4>PC Cleaning</h4>
                             <input
                               value={service.subtype?.pccleaningprice || ""}
@@ -349,7 +356,7 @@ const JobOrderForm = () => {
                       ) : service.servicetype === "PC Building" ? (
                         <>
                           <h3>{service.servicetype}</h3>
-                          <div className="pl-28 flex gap-10 mb-4">
+                          <div className="pl-28 flex justify-between gap-10 mb-4">
                             <h4>PC Building</h4>
                             <input
                               value={service.subtype?.pcbuildingprice || ""}
