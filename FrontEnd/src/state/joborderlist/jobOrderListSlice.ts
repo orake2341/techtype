@@ -48,6 +48,7 @@ export const fetchAllJobOrders = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get("http://localhost:4000/users");
+      console.log(response.data.users);
       return response.data.users;
     } catch (error) {
       throw error;

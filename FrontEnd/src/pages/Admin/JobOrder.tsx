@@ -5,11 +5,11 @@ import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../state/store";
 import { fetchAllJobOrders } from "../../state/joborderlist/jobOrderListSlice";
+import { setPaymentDetails } from "../../state/paymentdetails/paymentDetailsSilce";
 import axios from "axios";
 
 const JobOrder = () => {
   const navigate = useNavigate();
-  const [modalState, setModalState] = useState(false);
   const [filteredJobOrders, setFilteredJobOrders] = useState([]);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -21,10 +21,14 @@ const JobOrder = () => {
     filterJobOrders("Pending");
   }, []);
 
-  const openForm = (jobOrderData: JobOrder) => {
+  const openForm = (jobOrderData: JobOrder, userid: string) => {
     if (jobOrderData) {
-      navigate(`joborderform/${jobOrderData._id}`, { replace: true });
+      navigate(`joborderform/${jobOrderData._id}`, {
+        replace: true,
+        state: userid,
+      });
       dispatch(setSelectedJobOrder(jobOrderData));
+      dispatch(setPaymentDetails(jobOrderData.PaymentDetails));
     } else {
       navigate("newjoborder", { replace: true });
     }
@@ -78,7 +82,7 @@ const JobOrder = () => {
         </button>
         <button
           className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => filterJobOrders("Completed")}
+          onClick={() => console.log(jobOrderList)}
         >
           Completed JO
         </button>
@@ -142,7 +146,9 @@ const JobOrder = () => {
                               <div>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                  onClick={() => openForm(jobOrder)}
+                                  onClick={() =>
+                                    openForm(jobOrder, jobOrder._userid)
+                                  }
                                 >
                                   Preview
                                 </button>
@@ -152,7 +158,9 @@ const JobOrder = () => {
                               <div>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                  onClick={() => openForm(jobOrder)}
+                                  onClick={() =>
+                                    openForm(jobOrder, jobOrder._userid)
+                                  }
                                 >
                                   Preview
                                 </button>
