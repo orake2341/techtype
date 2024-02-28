@@ -13,7 +13,7 @@ const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, SECRET);
 
       req.user = await userMod.findById(decoded.userId).select("-password");
-      next(); // <-- Corrected: Call next with parentheses
+      next();
     } catch (error) {
       res.status(401);
       throw new Error("Not Authorized, invalid token");

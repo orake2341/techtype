@@ -34,8 +34,14 @@ const jobOrderListSlice = createSlice({
 export const fetchJobOrders = createAsyncThunk(
   "joborderlist/fetchJobOrders",
   async () => {
+    // eslint-disable-next-line no-useless-catch
     try {
-      const response = await axios.get("http://localhost:4000/");
+      const userInfoString = localStorage.getItem("userInfo" || "");
+      const userInfo = JSON.parse(userInfoString);
+      const userId = userInfo._id;
+      const response = await axios.get("http://localhost:4000/", {
+        params: { _id: userId },
+      });
       return response.data.message;
     } catch (error) {
       throw error;

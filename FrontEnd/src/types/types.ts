@@ -32,7 +32,7 @@ interface PaymentDetails {
   services: PaymentDetailsServices[];
   Balance: number;
   TotalPayment: number;
-  paymentScreenshots: [];
+  paymentScreenshots: string[];
   ServiceFee: number;
 }
 

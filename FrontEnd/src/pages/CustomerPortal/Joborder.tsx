@@ -6,6 +6,7 @@ import { RootState, AppDispatch } from "../../state/store";
 import { fetchJobOrders } from "../../state/joborderlist/jobOrderListSlice";
 import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
 import { MdOutlinePayments } from "react-icons/md";
+import { setPaymentDetails } from "../../state/paymentdetails/paymentDetailsSilce";
 
 const Joborder = () => {
   const navigate = useNavigate();
@@ -21,6 +22,18 @@ const Joborder = () => {
       dispatch(setSelectedJobOrder(jobOrderData));
     } else {
       navigate("newjoborder", { replace: true });
+    }
+  };
+
+  const handlePaymentModal = (jobOrderData: JobOrder) => {
+    if (jobOrderData) {
+      navigate(`payment/${jobOrderData._id}`, {
+        replace: true,
+        state: jobOrderData._id,
+      });
+      dispatch(setPaymentDetails(jobOrderData.PaymentDetails));
+    } else {
+      navigate("payment", { replace: true });
     }
   };
 
@@ -77,7 +90,7 @@ const Joborder = () => {
                     <button onClick={() => handleModalState(jobOrder)}>
                       <FaEye />
                     </button>
-                    <button>
+                    <button onClick={() => handlePaymentModal(jobOrder)}>
                       <MdOutlinePayments />
                     </button>
                   </td>

@@ -4,14 +4,21 @@ const paymentRouter = express.Router();
 
 // UPLOAD PAYMENT
 //=========================================
-paymentRouter.post("/pay", async (req, res) => {
+paymentRouter.put("/pay", async (req, res) => {
   try {
-    const { picture, details } = req.body;
-    const newPaymentDetails = new paymentDetailsModel({ picture, details });
-    const confirmation = await newPaymentDetails.save();
-    res
-      .status(200)
-      .json({ message: "Payment uploaded successfully", data: confirmation });
+    const { joid, picture } = req.body;
+    const user = await userMod.findById("65de029e344af5519b2e120c");
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const jobOrder = user.JobOrder.id(joid);
+    if (!jobOrder) {
+      throw new Error("Job order not found");
+    }
+
+    jobOrder.PaymentDetails.paymentScreenshots.push(picture);
+    await user.save();
+    res.status(200).send("payment details sey successfully");
   } catch (error) {
     res
       .status(500)

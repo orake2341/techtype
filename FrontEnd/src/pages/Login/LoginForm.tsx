@@ -35,7 +35,6 @@ const LoginForm = () => {
         email: data.email,
         password: data.password,
       }).unwrap();
-      console.log(res);
       dispatch(setCredentials({ ...res }));
       navigate("/customerPortal");
     } catch (error: any) {
