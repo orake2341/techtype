@@ -1,6 +1,6 @@
 import { FaPlusCircle, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/imgs/parallax/Sticker 3.png";
 import Select from "../../components/Joborder/select";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,10 @@ const initialJobOrderState = {
 };
 
 const JobOrderForm = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const userid = location.state;
 
   const jobOrderData = useSelector((state: RootState) => state.joborder);
   const paymentDetails = useSelector(
@@ -110,17 +113,16 @@ const JobOrderForm = () => {
 
   const handleSet = async () => {
     try {
-      const response = await axios.put(
-        "http://localhost:4000/paymentdetails/set",
-        {
-          joid: jobOrderData._id,
-        }
-      );
+      const response = await axios.put("http://localhost:4000/payment/set", {
+        userid: userid,
+        joid: jobOrderData._id,
+        paymentdetails: paymentDetails,
+      });
       console.log(response.data);
     } catch (error) {
       console.error("Error submitting job order:", error);
-      navigate("../");
     }
+    navigate("../");
   };
 
   return (
@@ -391,7 +393,10 @@ const JobOrderForm = () => {
                 <h4>Total Payment</h4>
                 <p>{paymentDetails.TotalPayment}</p>
               </div>
-              <button className="self-end items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+              <button
+                className="self-end items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+                onClick={() => handleSet()}
+              >
                 Set
               </button>
             </div>

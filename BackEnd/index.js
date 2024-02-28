@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import router from "./routes/user.js";
 import cors from "cors";
 import bodyParser from "body-parser";
+import paymentRouter from "./routes/payment.js";
 const app = express();
 app.use(express.json()); // Add middleware to parse JSON bodies
 
@@ -26,6 +27,7 @@ mongoose
 // MIDDLEWARE
 app.use("/user", router);
 app.use("/joborder", JobOrderRouter);
+app.use("/payment", paymentRouter);
 
 // ROUTING
 app.post("/crt", async (req, res) => {
@@ -42,7 +44,7 @@ app.post("/crt", async (req, res) => {
 app.get("/", async (req, res) => {
   //TODO: ADD ERROR HANDLING
   //CONNECT PROPERLY
-  const userId = "65de029e344af5519b2e120c";
+  const userId = "65df0aff7ebd20d58ee773ac";
   const findYou = await userMod.findById(userId);
 
   // Check if the user was found
