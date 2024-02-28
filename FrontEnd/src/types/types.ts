@@ -28,10 +28,19 @@ interface AdminJobOrder {
 }
 
 interface PaymentDetails {
-  services: [];
+  _id: string;
+  services: PaymentDetailsServices[];
   Balance: number;
   TotalPayment: number;
   paymentScreenshots: [];
+  ServiceFee: number;
+}
+
+interface PaymentDetailsServices {
+  _id: string;
+  servicetype: string;
+  subtype: any;
+  servicetotal: number;
 }
 
 type ModalProp = {

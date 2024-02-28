@@ -5,6 +5,7 @@ import { setSelectedJobOrder } from "../../state/joborder/jobOrderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../state/store";
 import { fetchAllJobOrders } from "../../state/joborderlist/jobOrderListSlice";
+import { setPaymentDetails } from "../../state/paymentdetails/paymentDetailsSilce";
 import axios from "axios";
 
 const JobOrder = () => {
@@ -25,6 +26,7 @@ const JobOrder = () => {
     if (jobOrderData) {
       navigate(`joborderform/${jobOrderData._id}`, { replace: true });
       dispatch(setSelectedJobOrder(jobOrderData));
+      dispatch(setPaymentDetails(jobOrderData.PaymentDetails));
     } else {
       navigate("newjoborder", { replace: true });
     }

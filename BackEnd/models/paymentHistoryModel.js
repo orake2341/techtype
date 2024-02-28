@@ -26,6 +26,7 @@ const PaymentDetailsSchema = mongoose.Schema({
   ],
   Balance: { type: Number, default: 0 },
   TotalPayment: { type: Number, default: 0 },
+  ServiceFee: { type: Number, default: 0 },
 
   paymentScreenshots: [],
 });
