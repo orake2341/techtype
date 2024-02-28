@@ -28,11 +28,8 @@ mongoose
 // MIDDLEWARE
 app.use("/user", router);
 app.use("/joborder", JobOrderRouter);
-<<<<<<< HEAD
 app.use(cookieParser());
-=======
 app.use("/payment", paymentRouter);
->>>>>>> ca5b418ed2b5ba90fe697f263f1ab4fe0a74227b
 
 // ROUTING
 app.post("/crt", async (req, res) => {
