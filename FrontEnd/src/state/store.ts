@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import jobOrderListReducer from "./joborderlist/jobOrderListSlice";
 import jobOrderReducer from "./joborder/jobOrderSlice";
-
 import authReducer from "../slices/authSlice";
 import { apiSlice } from "../slices/apiSlice";
 import { usersApiSlice } from "../slices/userApiSlice";
-
 import paymentDetailReducer from "./paymentdetails/paymentDetailsSilce";
 
 export const store = configureStore({
