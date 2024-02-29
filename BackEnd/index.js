@@ -46,19 +46,29 @@ app.post("/crt", async (req, res) => {
 app.get("/", async (req, res) => {
   //TODO: ADD ERROR HANDLING
   //CONNECT PROPERLY
-  const userId = "65de029e344af5519b2e120c";
-  const findYou = await userMod.findById(userId);
+  try {
+    const userId = req.query._id;
 
-  // Check if the user was found
-  if (!findYou) {
-    return res.status(404).json({ message: "User not found" });
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    const findYou = await userMod.findById(userId);
+
+    // Check if the user was found
+    if (!findYou) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    //TODO: GET ALL JO REGARDLESS OF STATUS
+    const hasPendingJobOrder = findYou.JobOrder.filter(
+      (jobOrder) => jobOrder.JOStatus === "Pending"
+    );
+
+    res.status(200).json({ message: hasPendingJobOrder });
+  } catch (error) {
+    res.status(404).json({ error });
+    console.log(error);
   }
-  //TODO: GET ALL JO REGARDLESS OF STATUS
-  const hasPendingJobOrder = findYou.JobOrder.filter(
-    (jobOrder) => jobOrder.JOStatus === "Pending"
-  );
-
-  res.status(200).json({ message: hasPendingJobOrder });
 });
 
 //listen

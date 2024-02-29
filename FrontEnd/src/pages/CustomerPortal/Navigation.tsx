@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import img from "../../assets/imgs/member4.jpg";
 
 type NavigationProps = {
@@ -6,6 +7,11 @@ type NavigationProps = {
 };
 
 const Navigation = ({ visible }: NavigationProps) => {
+  const navigate = useNavigate();
+  const logoutAction = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/login");
+  };
   return (
     <>
       <nav
@@ -49,12 +55,12 @@ const Navigation = ({ visible }: NavigationProps) => {
             </Link>
           </div>
           <div>
-            <Link
-              to="/"
+            <button
               className="bg-white hover:bg-CACACAC text-black font-bold py-2 px-4 rounded-full"
+              onClick={logoutAction}
             >
               Logout
-            </Link>
+            </button>
           </div>
         </div>
       </nav>
