@@ -60,11 +60,8 @@ app.get("/", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     //TODO: GET ALL JO REGARDLESS OF STATUS
-    const hasPendingJobOrder = findYou.JobOrder.filter(
-      (jobOrder) => jobOrder.JOStatus === "Pending"
-    );
 
-    res.status(200).json({ message: hasPendingJobOrder });
+    res.status(200).json({ message: findYou.JobOrder });
   } catch (error) {
     res.status(404).json({ error });
     console.log(error);

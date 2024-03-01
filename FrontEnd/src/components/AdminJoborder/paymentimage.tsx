@@ -1,11 +1,17 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const PaymentImage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const picture = location.state;
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>();
+  const data = location.state;
+
+  const handleSched = () => {
+    navigate("sched", {
+      replace: true,
+      state: { userid: data.userId, joid: data.jobOrderId },
+    });
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-6 rounded-lg w-full max-w-2xl">
@@ -30,17 +36,24 @@ const PaymentImage = () => {
             </svg>
           </button>
         </div>
-        <div className="mb-12">
+        <div className="mb-12 flex flex-col items-center">
           <h2 className="text-3xl text-center block font-bold">Payment</h2>
           <div>
             <img
-              src={picture as string}
+              src={data.picture as string}
               alt="Payment picture"
               className="max-w-full max-h-px-200 mx-4 block"
             />
           </div>
+          <button
+            className="items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            onClick={handleSched}
+          >
+            Confirm
+          </button>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 };

@@ -41,20 +41,11 @@ const JobOrder = () => {
     setFilteredJobOrders(filtered);
   };
 
-  const CreatePayment = (jobOrderData: JobOrder) => {
-    navigate(`payment/${jobOrderData._id}`, {
-      replace: true,
-      state: { jobOrderData },
-    });
-  };
-
-  const updateJOStatus = async (state: string) => {
+  const updateJOStatus = async (uid: string, joid: string) => {
     try {
       const response = await axios.put(
-        "http://localhost:4000/joborder/update",
-        {
-          JOStatus: state,
-        }
+        "http://localhost:4000/joborder/completestatus",
+        { uid: uid, joid: joid }
       );
       console.log(response.data);
     } catch (error) {
@@ -77,11 +68,11 @@ const JobOrder = () => {
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
           onClick={() => filterJobOrders("Active")}
         >
-          Accepted JO
+          Active JO
         </button>
         <button
           className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => console.log(jobOrderList)}
+          onClick={() => filterJobOrders("Complete")}
         >
           Completed JO
         </button>
@@ -135,7 +126,9 @@ const JobOrder = () => {
                             {jobOrder.JOStatus}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {jobOrder.dueDate}
+                            {jobOrder.DueDateAt
+                              ? jobOrder.DueDateAt.substring(0, 10)
+                              : ""}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {jobOrder.jobSite}
@@ -165,7 +158,12 @@ const JobOrder = () => {
                                 </button>
                                 <button
                                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                  onClick={() => updateJOStatus("Complete")}
+                                  onClick={() =>
+                                    updateJOStatus(
+                                      jobOrder._userid,
+                                      jobOrder._id
+                                    )
+                                  }
                                 >
                                   Complete
                                 </button>

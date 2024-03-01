@@ -12,6 +12,14 @@ const JOrderSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
+  StartedAt: {
+    type: Date,
+    default: "",
+  },
+  DueDateAt: {
+    type: Date,
+    default: "",
+  },
   PaymentDetails: paymentDetailsModel.schema,
   jobSite: {
     type: String,

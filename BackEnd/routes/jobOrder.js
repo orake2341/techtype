@@ -93,4 +93,32 @@ JobOrderRouter.put("/update", async (req, res) => {
   }
 });
 
+JobOrderRouter.put("/completestatus", async (req, res) => {
+  const userId = req.body.uid;
+
+  try {
+    // Find the user by ID
+    const user = await userMod.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Find the job order by ID within the user's job orders
+    const jobOrder = user.JobOrder.id(req.body.joid);
+    if (!jobOrder) {
+      throw new Error("Job order not found");
+    }
+
+    jobOrder.JOStatus = "Complete";
+    await user.save();
+
+    res.status(200).send("Job order updated successfully");
+  } catch (error) {
+    console.error(`Error updating job order: ${error.message}`);
+    res
+      .status(500)
+      .send({ error: `Error updating job order: ${error.message}` });
+  }
+});
+
 export default JobOrderRouter;

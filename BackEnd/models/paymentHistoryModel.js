@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const PaymentDetailsSchema = mongoose.Schema({
+  isSet: {
+    type: Boolean,
+    default: false,
+  },
   services: [
     {
       serviceId: String,

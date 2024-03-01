@@ -70,7 +70,7 @@ const Joborder = () => {
               <th className="border-2">Payment Status</th>
               <th className="border-2">Due Date</th>
               <th className="border-2">Job Location</th>
-              <th className="border-2">Details</th>
+              <th className="border-2">Action</th>
             </tr>
           </thead>
           <tbody className="text-center">
