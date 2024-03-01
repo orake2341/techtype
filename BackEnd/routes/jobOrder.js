@@ -93,18 +93,31 @@ JobOrderRouter.put("/update", async (req, res) => {
   }
 });
 
-// TEST GET JOBORDER VIA JOBORDER NUMBER
-JobOrderRouter.get("/getJO", async (req, res) => {
-  try {
-    const user = await userMod.findById("65df50b54c6630e59d746939");
-    if (!user) res.status(404).json({ message: "User Not Found" });
+JobOrderRouter.put("/completestatus", async (req, res) => {
+  const userId = req.body.uid;
 
-    const jobOrder = await user.JobOrder.id("65df5117688853b4be73e5db");
-    if (!jobOrder) res.status(404).json({ message: "JobOrder doesnt exist" });
-    res.status(201).json(jobOrder);
+  try {
+    // Find the user by ID
+    const user = await userMod.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Find the job order by ID within the user's job orders
+    const jobOrder = user.JobOrder.id(req.body.joid);
+    if (!jobOrder) {
+      throw new Error("Job order not found");
+    }
+
+    jobOrder.JOStatus = "Complete";
+    await user.save();
+
+    res.status(200).send("Job order updated successfully");
   } catch (error) {
-    res.status(404).json(error);
-    console.log(error);
+    console.error(`Error updating job order: ${error.message}`);
+    res
+      .status(500)
+      .send({ error: `Error updating job order: ${error.message}` });
   }
 });
 

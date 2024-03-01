@@ -36,6 +36,7 @@ interface PaymentDetails {
   TotalPayment: number;
   paymentScreenshots: string[];
   ServiceFee: number;
+  isSet: boolean;
 }
 
 interface PaymentDetailsServices {

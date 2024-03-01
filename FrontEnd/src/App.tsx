@@ -13,6 +13,7 @@ import JobOrder from "./pages/Admin/JobOrder";
 import PaymentModal from "./components/AdminJoborder/paymentmodal";
 import ServiceModal from "./components/Joborder/servicemodal";
 import PaymentImage from "./components/AdminJoborder/paymentimage";
+import ScheduleModal from "./components/AdminJoborder/schedulemodal";
 
 function App() {
   return (
@@ -37,7 +38,9 @@ function App() {
             <Route path="" element={<Navigate to="joborder" />} />
             <Route path="joborder" element={<JobOrder />}>
               <Route path="joborderform/:id" element={<AdminJobOrderForm />}>
-                <Route path=":id" element={<PaymentImage />} />
+                <Route path=":id" element={<PaymentImage />}>
+                  <Route path="sched" element={<ScheduleModal />} />
+                </Route>
               </Route>
             </Route>
           </Route>

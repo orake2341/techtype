@@ -134,7 +134,7 @@ const JobOrderForm = () => {
     if (picture) {
       navigate(`paymentscreenshot`, {
         replace: true,
-        state: picture,
+        state: { picture, jobOrderId: jobOrderData._id, userId: userid },
       });
     }
   };
@@ -179,6 +179,7 @@ const JobOrderForm = () => {
                     dispatch(setSiteOfService(selectedValue))
                   }
                   options={options}
+                  readonly={jobOrderData.JOStatus !== "Pending"}
                 />
               </div>
               <div className="col-span-3 flex items-center justify-between">
@@ -191,6 +192,7 @@ const JobOrderForm = () => {
                     openService(null);
                   }}
                   className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+                  disabled={jobOrderData.JOStatus !== "Pending"}
                 >
                   <FaPlusCircle className="text-lg mr-2" />
                   <span>Add Service</span>
@@ -222,6 +224,7 @@ const JobOrderForm = () => {
                                 openService(row);
                               }}
                               className="text-blue-500 hover:text-blue-700 mr-2"
+                              disabled={jobOrderData.JOStatus !== "Pending"}
                             >
                               <FaEdit />
                             </button>
@@ -229,6 +232,7 @@ const JobOrderForm = () => {
                               type="button"
                               onClick={() => dispatch(deleteServiceRow(row.id))}
                               className="text-red-500 hover:text-red-700"
+                              disabled={jobOrderData.JOStatus !== "Pending"}
                             >
                               <FaTrash />
                             </button>
@@ -248,12 +252,14 @@ const JobOrderForm = () => {
                 placeholder="Type your message here..."
                 value={jobOrderData.message}
                 onChange={handleMessageChange}
+                readOnly={jobOrderData.JOStatus !== "Pending"}
               />
             </div>
             <div className="flex justify-end mt-4">
               <button
                 className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg mr-4"
                 onClick={handleCloseOrder}
+                disabled={jobOrderData.JOStatus !== "Pending"}
               >
                 Cancel
               </button>
@@ -294,6 +300,7 @@ const JobOrderForm = () => {
                                   e.target.value
                                 );
                               }}
+                              readOnly={jobOrderData.JOStatus !== "Pending"}
                             />
                           </div>
                           {service.subtype.keyboarddeepclean === true && (
@@ -311,6 +318,7 @@ const JobOrderForm = () => {
                                     e.target.value
                                   );
                                 }}
+                                readOnly={jobOrderData.JOStatus !== "Pending"}
                               />
                             </div>
                           )}
@@ -329,6 +337,7 @@ const JobOrderForm = () => {
                                     e.target.value
                                   );
                                 }}
+                                readOnly={jobOrderData.JOStatus !== "Pending"}
                               />
                             </div>
                           )}
@@ -345,6 +354,7 @@ const JobOrderForm = () => {
                                     e.target.value
                                   );
                                 }}
+                                readOnly={jobOrderData.JOStatus !== "Pending"}
                               />
                             </div>
                           )}
@@ -364,6 +374,7 @@ const JobOrderForm = () => {
                                   e.target.value
                                 );
                               }}
+                              readOnly={jobOrderData.JOStatus !== "Pending"}
                             />
                           </div>
                         </>
@@ -382,6 +393,7 @@ const JobOrderForm = () => {
                                   e.target.value
                                 );
                               }}
+                              readOnly={jobOrderData.JOStatus !== "Pending"}
                             />
                           </div>
                         </>
@@ -398,6 +410,7 @@ const JobOrderForm = () => {
                   onChange={(e) => {
                     handleInputChange("", "ServiceFee", e.target.value);
                   }}
+                  readOnly={jobOrderData.JOStatus !== "Pending"}
                 />
               </div>
 
@@ -409,6 +422,7 @@ const JobOrderForm = () => {
                 <button
                   className=" items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
                   onClick={() => handleSet()}
+                  disabled={jobOrderData.JOStatus !== "Pending"}
                 >
                   Set
                 </button>
