@@ -102,7 +102,6 @@ app.get("/users", async (req, res) => {
         });
       })
       .flat();
-
     res.status(200).json({ users: usersWithEmailInJobOrders });
   } catch (error) {
     console.error("Error fetching users:", error);

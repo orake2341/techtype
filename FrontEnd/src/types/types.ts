@@ -7,6 +7,7 @@ interface JobOrder {
   paymentHistory: any[];
   jobSite: string;
   services: any[];
+  _userid: string;
   message: string;
 }
 
@@ -17,6 +18,7 @@ interface JobOrderList {
 
 interface AdminJobOrder {
   _id: string;
+  _userid: string;
   email: string;
   JOStatus: string;
   PaymentStatus: string;

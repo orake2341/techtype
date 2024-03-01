@@ -93,4 +93,19 @@ JobOrderRouter.put("/update", async (req, res) => {
   }
 });
 
+// TEST GET JOBORDER VIA JOBORDER NUMBER
+JobOrderRouter.get("/getJO", async (req, res) => {
+  try {
+    const user = await userMod.findById("65df50b54c6630e59d746939");
+    if (!user) res.status(404).json({ message: "User Not Found" });
+
+    const jobOrder = await user.JobOrder.id("65df5117688853b4be73e5db");
+    if (!jobOrder) res.status(404).json({ message: "JobOrder doesnt exist" });
+    res.status(201).json(jobOrder);
+  } catch (error) {
+    res.status(404).json(error);
+    console.log(error);
+  }
+});
+
 export default JobOrderRouter;

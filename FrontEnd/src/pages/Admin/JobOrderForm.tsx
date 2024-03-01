@@ -84,12 +84,15 @@ const JobOrderForm = () => {
 
   const handleSubmit = async () => {
     try {
+      console.log(userid);
       if (jobOrderData._id === "") {
         const response = await axios.post(
           "http://localhost:4000/joborder/create",
           {
+            _id: userid,
             services: jobOrderData.services,
             jobSite: jobOrderData.jobSite,
+            message: jobOrderData.message,
           }
         );
         console.log(response.data);
@@ -98,8 +101,10 @@ const JobOrderForm = () => {
           "http://localhost:4000/joborder/update",
           {
             joid: jobOrderData._id,
+            _id: userid,
             services: jobOrderData.services,
             jobSite: jobOrderData.jobSite,
+            message: jobOrderData.message,
           }
         );
         console.log(response.data);
@@ -254,9 +259,7 @@ const JobOrderForm = () => {
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                onClick={() => {
-                  console.log(jobOrderData.PaymentDetails.paymentScreenshots);
-                }}
+                onClick={handleSubmit}
               >
                 Edit
               </button>
