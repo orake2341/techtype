@@ -12,7 +12,12 @@ const app = express();
 app.use(express.json()); // Add middleware to parse JSON bodies
 
 // Parse JSON bodies
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "HEAD"],
+  })
+);
 app.use(bodyParser.json());
 
 // Connect to DB
@@ -99,7 +104,6 @@ app.get("/users", async (req, res) => {
         });
       })
       .flat();
-
     res.status(200).json({ users: usersWithEmailInJobOrders });
   } catch (error) {
     console.error("Error fetching users:", error);

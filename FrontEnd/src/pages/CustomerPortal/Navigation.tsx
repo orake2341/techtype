@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import img from "../../assets/imgs/member4.jpg";
-
+import { logout } from "../../slices/authSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../state/store";
+import { useNavigate } from "react-router-dom";
 type NavigationProps = {
   visible: boolean;
 };
 
 const Navigation = ({ visible }: NavigationProps) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutAction = () => {
-    localStorage.removeItem("userInfo");
+    dispatch(logout(""));
     navigate("/login");
   };
   return (

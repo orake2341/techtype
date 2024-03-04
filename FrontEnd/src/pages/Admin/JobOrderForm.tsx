@@ -12,7 +12,10 @@ import {
   setMessage,
 } from "../../state/joborder/jobOrderSlice";
 import axios from "axios";
-import { updateServiceProperty } from "../../state/paymentdetails/paymentDetailsSilce";
+import {
+  updateServiceProperty,
+  updateBalance,
+} from "../../state/paymentdetails/paymentDetailsSilce";
 
 const initialJobOrderState = {
   _id: "",
@@ -84,12 +87,15 @@ const JobOrderForm = () => {
 
   const handleSubmit = async () => {
     try {
+      console.log(userid);
       if (jobOrderData._id === "") {
         const response = await axios.post(
           "http://localhost:4000/joborder/create",
           {
+            _id: userid,
             services: jobOrderData.services,
             jobSite: jobOrderData.jobSite,
+            message: jobOrderData.message,
           }
         );
         console.log(response.data);
@@ -98,8 +104,10 @@ const JobOrderForm = () => {
           "http://localhost:4000/joborder/update",
           {
             joid: jobOrderData._id,
+            _id: userid,
             services: jobOrderData.services,
             jobSite: jobOrderData.jobSite,
+            message: jobOrderData.message,
           }
         );
         console.log(response.data);
@@ -113,10 +121,12 @@ const JobOrderForm = () => {
 
   const handleSet = async () => {
     try {
+      console.log(paymentDetails.TotalPayment);
       const response = await axios.put("http://localhost:4000/payment/set", {
         userid: userid,
         joid: jobOrderData._id,
         paymentdetails: paymentDetails,
+        totalPayment: paymentDetails.TotalPayment,
       });
       console.log(response.data);
     } catch (error) {
@@ -260,10 +270,7 @@ const JobOrderForm = () => {
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                onClick={() => {
-                  console.log(jobOrderData.PaymentDetails.paymentScreenshots);
-                }}
-                disabled={jobOrderData.JOStatus !== "Pending"}
+                onClick={() => console.log(paymentDetails.TotalPayment)}
               >
                 Edit
               </button>

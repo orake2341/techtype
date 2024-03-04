@@ -41,10 +41,13 @@ const paymentDetailsSilce = createSlice({
           );
         }, 0) + state.ServiceFee;
     },
+    updateBalance: (state, action) => {
+      state.Balance = action.payload;
+    },
   },
 });
 
-export const { setPaymentDetails, updateServiceProperty } =
+export const { setPaymentDetails, updateServiceProperty, updateBalance } =
   paymentDetailsSilce.actions;
 
 export default paymentDetailsSilce.reducer;

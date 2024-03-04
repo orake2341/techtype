@@ -7,7 +7,7 @@ const paymentRouter = express.Router();
 paymentRouter.put("/pay", async (req, res) => {
   try {
     const { joid, picture } = req.body;
-    const user = await userMod.findById("65e146b515bb59d45ad622e5");
+    const user = await userMod.findById("65df50b54c6630e59d746939");
     if (!user) {
       throw new Error("User not found");
     }
@@ -53,7 +53,7 @@ paymentRouter.put("/confirmpayment", async (req, res) => {
 
 paymentRouter.put("/set", async (req, res) => {
   try {
-    const { userid, joid, paymentdetails } = req.body;
+    const { userid, joid, paymentdetails, totalPayment } = req.body;
     const user = await userMod.findById(userid);
     if (!user) {
       throw new Error("User not found");
@@ -66,6 +66,7 @@ paymentRouter.put("/set", async (req, res) => {
 
     jobOrder.PaymentDetails = paymentdetails;
     jobOrder.PaymentDetails.isSet = true;
+    jobOrder.PaymentDetails.Balance = totalPayment;
     await user.save();
 
     res.status(200).send("payment details sey successfully");
