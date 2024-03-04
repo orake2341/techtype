@@ -33,6 +33,7 @@ const Hero = () => {
         duration: 0.5,
         ease: "power1.out",
         delay: 0.5,
+        stagger: 0.2,
       }
     );
   }, []);
@@ -41,8 +42,7 @@ const Hero = () => {
     <section
       className="bg-white text-black py-20 min-h-screen"
       style={{
-        backgroundImage:
-          'url("../src/assets/imgs/4.2.png")',
+        backgroundImage: 'url("../src/assets/imgs/4.2.png")',
       }}
     >
       <div className="container mx-auto py-20">
@@ -67,20 +67,20 @@ const Hero = () => {
           />
         </div>
         <p
-  ref={textRef}
-  className="text-lg md:text-xl leading-relaxed mb-12"
-  style={{ 
-    fontFamily: "Montserrat, sans-serif",
-    fontWeight: "bold",
-    maxWidth: "28rem",
-  }}
->
-  Are you looking to elevate your computing experience to a whole new
-  level? Look no further! TechType is your one-stop destination for
-  premium keyboard modding and PC building services. Whether you're a
-  hardcore gamer, a creative professional, or simply someone who demands
-  the best from their technology, we've got you covered.
-</p>
+          ref={textRef}
+          className="text-lg md:text-xl leading-relaxed mb-12"
+          style={{
+            fontFamily: "Montserrat, sans-serif",
+            fontWeight: "bold",
+            maxWidth: "28rem",
+          }}
+        >
+          Are you looking to elevate your computing experience to a whole new
+          level? Look no further! TechType is your one-stop destination for
+          premium keyboard modding and PC building services. Whether you're a
+          hardcore gamer, a creative professional, or simply someone who demands
+          the best from their technology, we've got you covered.
+        </p>
 
         <a
           ref={buttonRef}
