@@ -36,9 +36,9 @@ const Footer = () => {
           </div>
           <div>
             <p className="mb-2">Contact Us:</p>
-            <p className="mb-2">Phone: +123456789</p>
-            <p className="mb-2">Email: example@example.com</p>
-            <p>Address: 123 Main St, City, Country</p>
+            <p className="mb-2">Phone: 63+ 920 119 2745</p>
+            <p className="mb-2">Email: techtype@gmail.com</p>
+            <p>Address: Green Meadows Subdivision, Sto. Niño, Davao City</p>
           </div>
         </div>
       </div>

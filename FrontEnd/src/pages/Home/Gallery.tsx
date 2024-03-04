@@ -21,7 +21,7 @@ const Gallery: React.FC = () => {
         },
       });
 
-      // Animation on hover
+
       images.forEach((image) => {
         image.addEventListener("mouseenter", () => {
           gsap.to(image, { scale: 1.1, duration: 0.3 });
