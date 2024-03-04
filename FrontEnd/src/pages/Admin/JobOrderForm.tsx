@@ -12,7 +12,10 @@ import {
   setMessage,
 } from "../../state/joborder/jobOrderSlice";
 import axios from "axios";
-import { updateServiceProperty } from "../../state/paymentdetails/paymentDetailsSilce";
+import {
+  updateServiceProperty,
+  updateBalance,
+} from "../../state/paymentdetails/paymentDetailsSilce";
 
 const initialJobOrderState = {
   _id: "",
@@ -118,10 +121,12 @@ const JobOrderForm = () => {
 
   const handleSet = async () => {
     try {
+      console.log(paymentDetails.TotalPayment);
       const response = await axios.put("http://localhost:4000/payment/set", {
         userid: userid,
         joid: jobOrderData._id,
         paymentdetails: paymentDetails,
+        totalPayment: paymentDetails.TotalPayment,
       });
       console.log(response.data);
     } catch (error) {
@@ -265,7 +270,7 @@ const JobOrderForm = () => {
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                onClick={handleSubmit}
+                onClick={() => console.log(paymentDetails.TotalPayment)}
               >
                 Edit
               </button>
