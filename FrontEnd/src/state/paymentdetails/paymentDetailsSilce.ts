@@ -7,6 +7,7 @@ const initialState: PaymentDetails = {
   TotalPayment: 0,
   paymentScreenshots: [],
   ServiceFee: 0,
+  isSet: false,
 };
 
 const paymentDetailsSilce = createSlice({
