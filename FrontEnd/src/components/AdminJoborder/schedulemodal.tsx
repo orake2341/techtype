@@ -15,6 +15,7 @@ const ScheduleModal = () => {
           userid: data.userid,
           joid: data.joid,
           dueDate: date,
+          amount: data.amount,
         }
       );
       console.log(response.data);

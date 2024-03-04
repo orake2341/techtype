@@ -1,15 +1,22 @@
+import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const PaymentImage = () => {
+  const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state;
 
   const handleSched = () => {
+    console.log(amount);
     navigate("sched", {
       replace: true,
-      state: { userid: data.userId, joid: data.jobOrderId },
+      state: { userid: data.userId, joid: data.jobOrderId, amount: amount },
     });
+  };
+
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
   };
 
   return (
@@ -45,6 +52,12 @@ const PaymentImage = () => {
               className="max-w-full max-h-px-200 mx-4 block"
             />
           </div>
+          <label>Amount</label>
+          <input
+            type="number"
+            value={amount}
+            onChange={handleAmountChange}
+          ></input>
           <button
             className="items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
             onClick={handleSched}

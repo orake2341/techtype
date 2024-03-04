@@ -7,7 +7,7 @@ const paymentRouter = express.Router();
 paymentRouter.put("/pay", async (req, res) => {
   try {
     const { joid, picture } = req.body;
-    const user = await userMod.findById("65df50b54c6630e59d746939");
+    const user = await userMod.findById("65e146b515bb59d45ad622e5");
     if (!user) {
       throw new Error("User not found");
     }
@@ -28,7 +28,7 @@ paymentRouter.put("/pay", async (req, res) => {
 
 paymentRouter.put("/confirmpayment", async (req, res) => {
   try {
-    const { joid, userid, dueDate } = req.body;
+    const { joid, userid, dueDate, amount } = req.body;
     const user = await userMod.findById(userid);
     if (!user) {
       throw new Error("User not found");
@@ -37,11 +37,18 @@ paymentRouter.put("/confirmpayment", async (req, res) => {
     if (!jobOrder) {
       throw new Error("Job order not found");
     }
+    jobOrder.PaymentDetails.Balance -= amount;
+    if (jobOrder.JOStatus == "Pending" && jobOrder.PaymentStatus == "Pending") {
+      jobOrder.JOStatus = "Active";
+      jobOrder.StartedAt = new Date().toISOString().substring(0, 10);
+      jobOrder.DueDateAt = dueDate;
+    }
+    if (jobOrder.PaymentDetails.Balance <= 0) {
+      jobOrder.PaymentStatus = "Full Paid";
+    } else {
+      jobOrder.PaymentStatus = "Initial";
+    }
 
-    jobOrder.JOStatus = "Active";
-    jobOrder.PaymentStatus = "Initial";
-    jobOrder.StartedAt = new Date().toISOString().substring(0, 10);
-    jobOrder.DueDateAt = dueDate;
     await user.save();
     res.status(200).send("JO status set successfully");
   } catch (error) {

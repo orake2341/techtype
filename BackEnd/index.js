@@ -9,6 +9,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import paymentRouter from "./routes/payment.js";
 const app = express();
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(express.json()); // Add middleware to parse JSON bodies
 
 // Parse JSON bodies
@@ -18,7 +19,6 @@ app.use(
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "HEAD"],
   })
 );
-app.use(bodyParser.json());
 
 // Connect to DB
 mongoose
