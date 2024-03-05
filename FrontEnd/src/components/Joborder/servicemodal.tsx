@@ -139,7 +139,9 @@ const ServiceModal = () => {
               label="Type of Service:"
               value={servicetype}
               onChange={setServiceTypeValue}
+              isforForm={true}
               options={options}
+              readonly={false}
             />
             {servicetype === "Keyboard Modding" ? (
               <KeyboardModdingForm

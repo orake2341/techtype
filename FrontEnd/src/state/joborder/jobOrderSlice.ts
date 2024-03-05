@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialPayment: PaymentDetails = {
+  isSet: false,
   _id: "",
   services: [],
   Balance: 0,
@@ -10,6 +11,7 @@ const initialPayment: PaymentDetails = {
 };
 
 const initialState: JobOrder = {
+  _userid: "",
   _id: "",
   JOStatus: "",
   PaymentStatus: "",

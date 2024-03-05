@@ -37,6 +37,9 @@ export const fetchJobOrders = createAsyncThunk(
     // eslint-disable-next-line no-useless-catch
     try {
       const userInfoString = localStorage.getItem("userInfo" || "");
+      if (!userInfoString) {
+        throw new Error("User info not found in localStorage");
+      }
       const userInfo = JSON.parse(userInfoString);
       const userId = userInfo._id;
       const response = await axios.get("http://localhost:4000/", {
