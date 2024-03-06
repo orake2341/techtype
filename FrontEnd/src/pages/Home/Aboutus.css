@@ -1,0 +1,31 @@
+.aurora-background {
+    height: 120vh;
+    background: linear-gradient(
+      -45deg,
+      #246eb9,
+      #4387c4,
+      #69a3d0,
+      #8cbde0,
+      #b1d8f0,
+      #f1a7a7,
+      #ec9696,
+      #fa6c6c,
+      #ff4e4e,
+      #ff3434
+    );
+    background-size: 500% 400%;
+    animation: auroraAnimation 20s ease infinite;
+  }
+  
+  @keyframes auroraAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
