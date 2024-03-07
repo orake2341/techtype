@@ -1,5 +1,6 @@
 interface JobOrder {
   _id: string;
+  joid: string;
   JOStatus: string;
   PaymentStatus: string;
   PaymentDetails: PaymentDetails;
