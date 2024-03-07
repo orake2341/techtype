@@ -6,8 +6,8 @@ const paymentRouter = express.Router();
 //=========================================
 paymentRouter.put("/pay", async (req, res) => {
   try {
-    const { joid, picture } = req.body;
-    const user = await userMod.findById("65e146b515bb59d45ad622e5");
+    const { joid, picture, userid } = req.body;
+    const user = await userMod.findById(userid);
     if (!user) {
       throw new Error("User not found");
     }

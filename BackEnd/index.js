@@ -10,13 +10,14 @@ import bodyParser from "body-parser";
 import paymentRouter from "./routes/payment.js";
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
-app.use(express.json()); // Add middleware to parse JSON bodies
-
+app.use(express.json());
+app.use(cookieParser());
 // Parse JSON bodies
 app.use(
   cors({
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "HEAD"],
+    credentials: true,
   })
 );
 
@@ -33,7 +34,6 @@ mongoose
 // MIDDLEWARE
 app.use("/user", router);
 app.use("/joborder", JobOrderRouter);
-app.use(cookieParser());
 app.use("/payment", paymentRouter);
 
 // ROUTING
