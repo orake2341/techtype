@@ -35,9 +35,14 @@ interface PaymentDetails {
   services: PaymentDetailsServices[];
   Balance: number;
   TotalPayment: number;
-  paymentScreenshots: string[];
+  paymentScreenshots: PaymentScreenshotsDetails[];
   ServiceFee: number;
   isSet: boolean;
+}
+interface PaymentScreenshotsDetails {
+  _id: string;
+  isConfirm: boolean;
+  picture: string;
 }
 
 interface PaymentDetailsServices {

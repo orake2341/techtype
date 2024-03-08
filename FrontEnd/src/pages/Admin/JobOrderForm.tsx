@@ -100,6 +100,7 @@ const JobOrderForm = () => {
         );
         console.log(response.data);
       } else {
+        console.log();
         const response = await axios.put(
           "http://localhost:4000/joborder/update",
           {
@@ -444,7 +445,6 @@ const JobOrderForm = () => {
                       paymentDetails.paymentScreenshots.find(
                         (screenshot: any) => screenshot.isConfirm == false
                       );
-                    console.log(confirmedScreenshot);
                     if (confirmedScreenshot) {
                       handlePaymentPic(confirmedScreenshot);
                     }
