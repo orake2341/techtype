@@ -15,8 +15,12 @@ paymentRouter.put("/pay", async (req, res) => {
     if (!jobOrder) {
       throw new Error("Job order not found");
     }
+    const paymentObject = {
+      isConfirm: false,
+      picture: picture,
+    };
 
-    jobOrder.PaymentDetails.paymentScreenshots.push(picture);
+    jobOrder.PaymentDetails.paymentScreenshots.push(paymentObject);
     await user.save();
     res.status(200).send("payment details sey successfully");
   } catch (error) {
@@ -48,6 +52,45 @@ paymentRouter.put("/confirmpayment", async (req, res) => {
     } else {
       jobOrder.PaymentStatus = "Initial";
     }
+    jobOrder.PaymentStatus.paymentScreenshots.isConfirm = "true";
+
+    await user.save();
+    res.status(200).send("JO status set successfully");
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error uploading payment", error: error.message });
+  }
+});
+
+paymentRouter.put("/conpays", async (req, res) => {
+  try {
+    const { joid, userid, amount } = req.body;
+    const user = await userMod.findById(userid);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const jobOrder = user.JobOrder.id(joid);
+    if (!jobOrder) {
+      throw new Error("Job order not found");
+    }
+
+    jobOrder.PaymentDetails.Balance -= amount;
+    console.log(jobOrder.PaymentDetails.Balance);
+    if (jobOrder.JOStatus == "Pending" && jobOrder.PaymentStatus == "Pending") {
+      jobOrder.JOStatus = "Active";
+    }
+    if (jobOrder.PaymentDetails.Balance <= 0) {
+      jobOrder.PaymentStatus = "Full Paid";
+    } else {
+      jobOrder.PaymentStatus = "Initial";
+    }
+    jobOrder.PaymentDetails.paymentScreenshots.forEach((screenshot) => {
+      if (screenshot.isConfirm === false) {
+        screenshot.isConfirm = true;
+      }
+    });
+    console.log(jobOrder.PaymentDetails.paymentScreenshots);
 
     await user.save();
     res.status(200).send("JO status set successfully");

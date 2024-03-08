@@ -14,6 +14,8 @@ import PaymentModal from "./components/AdminJoborder/paymentmodal";
 import ServiceModal from "./components/Joborder/servicemodal";
 import PaymentImage from "./components/AdminJoborder/paymentimage";
 import ScheduleModal from "./components/AdminJoborder/schedulemodal";
+import Aboutus from "./pages/Home/Aboutus";
+import Contact from "./pages/Home/Contact";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<Aboutus />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/customerportal" element={<CustomerPortal />}>
             <Route path="" element={<Navigate to="joborder" />} />
             <Route path="joborder" element={<Joborder />}>

@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
+    "@types/gsap": "^3.0.0",
     "axios": "^1.6.7",
+    "framer-motion": "^11.0.8",
     "gsap": "^3.12.5",
     "owl.carousel": "^2.3.4",
     "react": "^18.2.0",

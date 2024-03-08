@@ -21,7 +21,7 @@ const Gallery: React.FC = () => {
         },
       });
 
-      // Animation on hover
+
       images.forEach((image) => {
         image.addEventListener("mouseenter", () => {
           gsap.to(image, { scale: 1.1, duration: 0.3 });
@@ -34,8 +34,8 @@ const Gallery: React.FC = () => {
   }, []);
 
   return (
-    <section className="bg-gray-900 text-white py-20 min-h-screen grid grid-cols-1 md:grid-cols-2">
-      <div className="md:col-span-1 md:grid md:place-items-center">
+    <section className="bg-gray-900 text-white py-20 min-h-screen border-t-4 border-red-500">
+      <div className="container mx-auto flex flex-wrap justify-center items-center space-x-4">
         <div
           ref={galleryRef}
           className="flex flex-wrap justify-center items-center space-x-4"
@@ -57,30 +57,62 @@ const Gallery: React.FC = () => {
           />
           <img
             src="../src/assets/imgs/3.4.jpg"
-            alt="Image 1"
+            alt="Image 4"
             className="w-64 h-auto rounded-lg shadow-lg mb-4"
           />
           <img
             src="../src/assets/imgs/3.5.jpg"
-            alt="Image 2"
+            alt="Image 5"
             className="w-64 h-auto rounded-lg shadow-lg mb-4"
           />
           <img
             src="../src/assets/imgs/3.6.jpg"
-            alt="Image 3"
+            alt="Image 6"
+            className="w-64 h-auto rounded-lg shadow-lg mb-4"
+          />
+          <img
+            src="../src/assets/imgs/colorfulkeyboard.jpg"
+            alt="Image 7"
+            className="w-64 h-auto rounded-lg shadow-lg mb-4"
+          />
+          <img
+            src="../src/assets/imgs/3.8.jpg"
+            alt="Image 8"
+            className="w-64 h-auto rounded-lg shadow-lg mb-4"
+          />
+          <img
+            src="../src/assets/imgs/BG.jpg"
+            alt="Image 9"
+            className="w-64 h-auto rounded-lg shadow-lg mb-4"
+          />
+          <img
+            src="../src/assets/imgs/keyboard2.jpg"
+            alt="Image 10"
             className="w-64 h-auto rounded-lg shadow-lg mb-4"
           />
         </div>
       </div>
-      <div className="md:col-span-1 md:grid md:place-items-center">
-        {/* Place your video component or video embed code here */}
-        <video width="720" height="500" controls>
+      <div className="container mx-auto flex justify-center items-center mt-10">
+        <video
+          width="720"
+          height="500"
+          controls
+          className="rounded-lg shadow-lg"
+        >
           <source
             src="../src/assets/imgs/parallax/Mini Tuplok 2022 Short.mp4"
             type="video/mp4"
           />
           Your browser does not support the video tag.
         </video>
+      </div>
+      <div className="typography text-center my-10">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          Mini Mini Tuplok 2022
+        </h2>
+        <p className="mt-2 text-lg md:text-xl lg:text-2xl font-medium">
+          Big thanks to: Blnc. Keyboards, Sculpkeys, Coffee at Yellow Hauz.
+        </p>
       </div>
     </section>
   );

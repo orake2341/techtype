@@ -21,6 +21,7 @@ const JobOrder = () => {
   }, []);
 
   const openForm = (jobOrderData: JobOrder, userid: string) => {
+    console.log(jobOrderData.PaymentDetails);
     if (jobOrderData) {
       navigate(`joborderform/${jobOrderData._id}`, {
         replace: true,

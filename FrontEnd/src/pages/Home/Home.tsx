@@ -2,6 +2,8 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Gallery from "./Gallery";
+import Footer from "./Footer";
+import { Outlet } from "react-router-dom";
 
 const Home = () => {
   const [isBarActive, setIsBarActive] = useState(false);
@@ -23,6 +25,8 @@ const Home = () => {
       <main>
         <Hero />
         <Gallery />
+        <Footer />
+        <Outlet />
       </main>
     </>
   );

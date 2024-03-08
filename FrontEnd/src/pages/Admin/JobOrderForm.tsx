@@ -139,7 +139,12 @@ const JobOrderForm = () => {
     if (picture) {
       navigate(`paymentscreenshot`, {
         replace: true,
-        state: { picture, jobOrderId: jobOrderData._id, userId: userid },
+        state: {
+          picture,
+          jobOrderId: jobOrderData._id,
+          userId: userid,
+          jostate: jobOrderData.JOStatus,
+        },
       });
     }
   };
@@ -433,9 +438,16 @@ const JobOrderForm = () => {
                 </button>
                 <button
                   className="items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                  onClick={() =>
-                    handlePaymentPic(paymentDetails.paymentScreenshots[0])
-                  }
+                  onClick={() => {
+                    console.log(paymentDetails.paymentScreenshots);
+                    const confirmedScreenshot =
+                      paymentDetails.paymentScreenshots.find(
+                        (screenshot: any) => screenshot.isConfirm == false
+                      );
+                    if (confirmedScreenshot) {
+                      handlePaymentPic(confirmedScreenshot);
+                    }
+                  }}
                 >
                   Payment
                 </button>

@@ -33,6 +33,7 @@ const Hero = () => {
         duration: 0.5,
         ease: "power1.out",
         delay: 0.5,
+        stagger: 0.2,
       }
     );
   }, []);
@@ -41,12 +42,11 @@ const Hero = () => {
     <section
       className="bg-white text-black py-20 min-h-screen"
       style={{
-        backgroundImage:
-          'url("../src/assets/imgs/parallax/colorfulkeyboard.jpg")',
+        backgroundImage: 'url("../src/assets/imgs/4.2.png")',
       }}
     >
-      <div className="container mx-auto text-center py-20">
-        <div className="bg-white inline-block p-3 rounded-md">
+      <div className="container mx-auto py-20">
+        <div className="inline-block p-3 rounded-md text-left">
           <h2
             ref={titleRef}
             className="text-4xl md:text-6xl font-bold leading-tight mb-6"
@@ -63,13 +63,17 @@ const Hero = () => {
           <img
             src="../src/assets/imgs/parallax/Sticker 3.png"
             alt="TechType"
-            className="w-50 h-40 mx-auto my-auto"
+            className="w-50 h-40 my-auto"
           />
         </div>
         <p
           ref={textRef}
-          className="text-lg md:text-xl leading-relaxed mb-12 mx-auto max-w-2xl"
-          style={{ fontFamily: "Montserrat, sans-serif", fontWeight: "bold" }}
+          className="text-lg md:text-xl leading-relaxed mb-12"
+          style={{
+            fontFamily: "Montserrat, sans-serif",
+            fontWeight: "bold",
+            maxWidth: "28rem",
+          }}
         >
           Are you looking to elevate your computing experience to a whole new
           level? Look no further! TechType is your one-stop destination for
@@ -77,6 +81,7 @@ const Hero = () => {
           hardcore gamer, a creative professional, or simply someone who demands
           the best from their technology, we've got you covered.
         </p>
+
         <a
           ref={buttonRef}
           href="#contact"
