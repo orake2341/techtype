@@ -42,6 +42,7 @@ function App() {
             <Route path="" element={<Navigate to="joborder" />} />
             <Route path="joborder" element={<JobOrder />}>
               <Route path="joborderform/:id" element={<AdminJobOrderForm />}>
+                <Route path="service/:serviceId" element={<ServiceModal />} />
                 <Route path=":id" element={<PaymentImage />}>
                   <Route path="sched" element={<ScheduleModal />} />
                 </Route>
