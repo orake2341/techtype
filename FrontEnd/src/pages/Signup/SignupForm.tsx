@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
 import { MdOutlinePerson } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setCredentials } from "../../slices/authSlice";
+
 import axios from "axios";
 const SignupForm = () => {
   const [data, setData] = useState({
@@ -16,6 +20,15 @@ const SignupForm = () => {
     password2: "",
     phoneNo: "",
   });
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: any) => state.auth);
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/customerportal");
+    }
+  }, [navigate, userInfo]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -35,7 +48,7 @@ const SignupForm = () => {
         number: data.phoneNo,
         password: data.password,
       });
-
+      dispatch(setCredentials({ ...response }));
       //
     } catch (error: any) {
       // TODO: ERROR HANDLING

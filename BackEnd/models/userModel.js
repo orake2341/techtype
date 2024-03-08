@@ -48,6 +48,7 @@ userSchema.statics.signup = async function (
 ) {
   try {
     // Validation
+
     if (
       !email ||
       !password ||
@@ -87,7 +88,7 @@ userSchema.statics.signup = async function (
     });
     return user;
   } catch (error) {
-    throw new Error(error.message); // Rethrow with a proper message
+    throw new Error("Invalid Phone No"); // Rethrow with a proper message
   }
 };
 
