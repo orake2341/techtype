@@ -38,9 +38,13 @@ const PaymentModal = () => {
 
       reader.onload = async () => {
         try {
+          const userInfoString = localStorage.getItem("userInfo") || "";
+          const userInfo = JSON.parse(userInfoString);
+          const userId = userInfo._id;
           const response = await axios.put(
             "http://localhost:4000/payment/pay",
             {
+              userid: userId,
               joid: joid,
               picture: reader.result,
             }

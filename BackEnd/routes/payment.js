@@ -6,8 +6,8 @@ const paymentRouter = express.Router();
 //=========================================
 paymentRouter.put("/pay", async (req, res) => {
   try {
-    const { joid, picture } = req.body;
-    const user = await userMod.findById("65e74c347da229d2ae4d9e2f");
+    const { joid, picture, userid } = req.body;
+    const user = await userMod.findById(userid);
     if (!user) {
       throw new Error("User not found");
     }
@@ -33,6 +33,7 @@ paymentRouter.put("/pay", async (req, res) => {
 paymentRouter.put("/confirmpayment", async (req, res) => {
   try {
     const { joid, userid, dueDate, amount } = req.body;
+
     const user = await userMod.findById(userid);
     if (!user) {
       throw new Error("User not found");
@@ -47,13 +48,17 @@ paymentRouter.put("/confirmpayment", async (req, res) => {
       jobOrder.StartedAt = new Date().toISOString().substring(0, 10);
       jobOrder.DueDateAt = dueDate;
     }
+
     if (jobOrder.PaymentDetails.Balance <= 0) {
       jobOrder.PaymentStatus = "Full Paid";
     } else {
       jobOrder.PaymentStatus = "Initial";
     }
-    jobOrder.PaymentStatus.paymentScreenshots.isConfirm = "true";
 
+    const screenshot = jobOrder.PaymentDetails.paymentScreenshots.id(
+      "65eb15bb9825a3409bf44e6f"
+    );
+    screenshot.isConfirm = true;
     await user.save();
     res.status(200).send("JO status set successfully");
   } catch (error) {
@@ -76,6 +81,10 @@ paymentRouter.put("/conpays", async (req, res) => {
     }
 
     jobOrder.PaymentDetails.Balance -= amount;
+    console.log(jobOrder.PaymentDetails.Balance);
+    if (jobOrder.JOStatus == "Pending" && jobOrder.PaymentStatus == "Pending") {
+      jobOrder.JOStatus = "Active";
+    }
     if (jobOrder.PaymentDetails.Balance <= 0) {
       jobOrder.PaymentStatus = "Full Paid";
     } else {

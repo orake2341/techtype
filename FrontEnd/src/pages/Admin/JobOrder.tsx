@@ -115,7 +115,7 @@ const JobOrder = () => {
                       filteredJobOrders.map((jobOrder: any) => (
                         <tr key={jobOrder._id}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {jobOrder._id}
+                            {jobOrder.joid}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {jobOrder.email}
