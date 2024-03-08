@@ -39,7 +39,7 @@ JobOrderRouter.post("/create", async (req, res) => {
     const serviceDataArray = req.body.services;
     const createdServices = [];
 
-    // Create and save service documents // ARRAY
+    // Create and save service documents
     for (const serviceData of serviceDataArray) {
       const newService = new serviceMod(serviceData);
       await newService.save();
@@ -66,13 +66,14 @@ JobOrderRouter.post("/create", async (req, res) => {
     });
     await paymentDetails.save();
 
+    // Create new job order and link payment details
     const newJobOrder = new JO({
       joid: jobid,
       status: "Pending",
       jobSite: req.body.jobSite,
       services: createdServices,
       message: req.body.message,
-      PaymentDetails: paymentDetails,
+      PaymentDetails: paymentDetails, // Link payment details with job order
     });
 
     parentDoc.JobOrder.push(newJobOrder);
@@ -93,35 +94,29 @@ JobOrderRouter.put("/update", async (req, res) => {
   const userId = req.body._id;
 
   try {
+    const serviceDataArray = req.body.services;
+    const createdServices = [];
+
+    // Create and save service documents
+    for (const serviceData of serviceDataArray) {
+      // Remove _id field to avoid duplication error
+      delete serviceData._id;
+
+      const newService = new serviceMod(serviceData);
+      const savedService = await newService.save();
+      createdServices.push(savedService);
+    }
+
     // Find the user by ID
     const user = await userMod.findById(userId);
     if (!user) {
       throw new Error("User not found");
     }
 
-    console.error(`hello`);
     // Find the job order by ID within the user's job orders
     const jobOrder = user.JobOrder.id(req.body.joid);
     if (!jobOrder) {
       throw new Error("Job order not found");
-    }
-
-    // UPDATE PAYMENT DETAILS
-    const serviceDataArray = req.body.services;
-    const createdServices = [];
-
-    // Create and save service documents // ARRAY
-    for (const serviceData of serviceDataArray) {
-      const newService = new serviceMod(serviceData);
-      await newService.save();
-      createdServices.push(newService);
-    }
-
-    const parentDoc = await userMod.findById(req.body._id);
-
-    if (!parentDoc) {
-      console.log("Parent not found");
-      return res.status(404).json({ message: "Parent not found" });
     }
 
     // Create payment details
@@ -132,10 +127,12 @@ JobOrderRouter.put("/update", async (req, res) => {
         servicetotal: service.servicetotal,
       })),
     });
+    await paymentDetails.save();
+
     jobOrder.jobSite = req.body.jobSite;
     jobOrder.message = req.body.message;
-    jobOrder.services = req.body.services;
-    jobOrder.paymentDetails = paymentDetails;
+    jobOrder.services = createdServices;
+    jobOrder.PaymentDetails = paymentDetails;
     await user.save();
 
     res.status(200).send("Job order updated successfully");
