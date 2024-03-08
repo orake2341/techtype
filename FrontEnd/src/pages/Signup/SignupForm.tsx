@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
 import { MdOutlinePerson } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setCredentials } from "../../slices/authSlice";
+
 import axios from "axios";
 const SignupForm = () => {
   const [data, setData] = useState({
@@ -13,8 +17,18 @@ const SignupForm = () => {
     username: "",
     email: "",
     password: "",
+    password2: "",
     phoneNo: "",
   });
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: any) => state.auth);
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/customerportal");
+    }
+  }, [navigate, userInfo]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -27,9 +41,14 @@ const SignupForm = () => {
       const response = await axios.post("http://localhost:4000/user/signup", {
         // TODO: PUT NAMES AND ALL USER INFO
         email: data.email,
+        firstname: data.firstName,
+        lastname: data.lastName,
+        username: data.username,
+        password2: data.password2,
+        number: data.phoneNo,
         password: data.password,
       });
-
+      dispatch(setCredentials({ ...response }));
       //
     } catch (error: any) {
       // TODO: ERROR HANDLING
@@ -66,6 +85,7 @@ const SignupForm = () => {
           name="fname"
           id="fname"
           placeholder="First Name"
+          onChange={(e) => setData({ ...data, firstName: e.target.value })}
           required
         />
       </div>
@@ -77,6 +97,7 @@ const SignupForm = () => {
           name="lname"
           id="lname"
           placeholder="Last Name"
+          onChange={(e) => setData({ ...data, lastName: e.target.value })}
           required
         />
       </div>
@@ -88,6 +109,7 @@ const SignupForm = () => {
           name="user"
           id="user"
           placeholder="Username"
+          onChange={(e) => setData({ ...data, username: e.target.value })}
           required
         />
       </div>
@@ -123,6 +145,7 @@ const SignupForm = () => {
           name="conpwd"
           id="conpwd"
           placeholder="Confirm Password"
+          onChange={(e) => setData({ ...data, password2: e.target.value })}
           required
         />
       </div>
@@ -134,6 +157,7 @@ const SignupForm = () => {
           name="contact"
           id="contact"
           placeholder="Contact"
+          onChange={(e) => setData({ ...data, phoneNo: e.target.value })}
           required
         />
       </div>

@@ -11,6 +11,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const user = await userMod.login(email, password);
+
     generateToken(res, user._id);
 
     //
@@ -24,8 +25,24 @@ router.post("/login", async (req, res) => {
 //=========================================
 router.post("/signup", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await userMod.signup(email, password);
+    const {
+      email,
+      firstname,
+      lastname,
+      username,
+      password2,
+      number,
+      password,
+    } = req.body;
+    const user = await userMod.signup(
+      email,
+      firstname,
+      lastname,
+      username,
+      password2,
+      number,
+      password
+    );
     generateToken(res, user._id);
     res.status(200).json({ message: "SIGNED UP" });
   } catch (error) {
