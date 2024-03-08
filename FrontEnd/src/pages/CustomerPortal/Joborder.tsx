@@ -30,7 +30,10 @@ const Joborder = () => {
     if (jobOrderData) {
       navigate(`payment/${jobOrderData._id}`, {
         replace: true,
-        state: jobOrderData._id,
+        state: {
+          joid: jobOrderData._id,
+          paymentStatus: jobOrderData.PaymentStatus,
+        },
       });
       dispatch(setPaymentDetails(jobOrderData.PaymentDetails));
     } else {
@@ -91,7 +94,11 @@ const Joborder = () => {
                       <td>{jobOrder.joid}</td>
                       <td>{jobOrder.JOStatus}</td>
                       <td>{jobOrder.PaymentStatus}</td>
-                      <td>{jobOrder.selectedDate}</td>
+                      <td>
+                        {jobOrder.DueDateAt
+                          ? jobOrder.DueDateAt.substring(0, 10)
+                          : ""}
+                      </td>
                       <td>{jobOrder.jobSite}</td>
                       <td className="flex justify-center gap-3">
                         <button onClick={() => handleModalState(jobOrder)}>

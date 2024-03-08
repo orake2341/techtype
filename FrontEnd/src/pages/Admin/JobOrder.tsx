@@ -171,7 +171,18 @@ const JobOrder = () => {
                               </div>
                             )}
 
-                            {jobOrder.JOstatus === "Complete" && <div></div>}
+                            {jobOrder.JOStatus === "Complete" && (
+                              <div>
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                  onClick={() =>
+                                    openForm(jobOrder, jobOrder._userid)
+                                  }
+                                >
+                                  Preview
+                                </button>
+                              </div>
+                            )}
                           </td>
                         </tr>
                       ))

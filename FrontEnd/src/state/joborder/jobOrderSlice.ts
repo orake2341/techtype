@@ -17,6 +17,7 @@ const initialState: JobOrder = {
   JOStatus: "",
   PaymentStatus: "",
   selectedDate: "",
+  DueDateAt: "",
   jobSite: "",
   paymentHistory: [],
   PaymentDetails: initialPayment,

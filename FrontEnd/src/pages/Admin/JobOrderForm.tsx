@@ -414,6 +414,10 @@ const JobOrderForm = () => {
                   readOnly={jobOrderData.JOStatus !== "Pending"}
                 />
               </div>
+              <div className="flex justify-between mb-8">
+                <h4>Balance</h4>
+                <p>{paymentDetails.Balance}</p>
+              </div>
 
               <div className="flex justify-between mb-8">
                 <h4>Total Payment</h4>

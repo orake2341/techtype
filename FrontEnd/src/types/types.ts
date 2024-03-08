@@ -3,6 +3,7 @@ interface JobOrder {
   joid: string;
   JOStatus: string;
   PaymentStatus: string;
+  DueDateAt: string;
   PaymentDetails: PaymentDetails;
   selectedDate: string;
   paymentHistory: any[];
@@ -22,6 +23,7 @@ interface AdminJobOrder {
   _userid: string;
   email: string;
   JOStatus: string;
+  DueDateAt: string;
   PaymentStatus: string;
   PaymentDetails: PaymentDetails;
   selectedDate: string;
