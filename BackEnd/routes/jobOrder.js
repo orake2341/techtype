@@ -39,7 +39,7 @@ JobOrderRouter.post("/create", async (req, res) => {
     const serviceDataArray = req.body.services;
     const createdServices = [];
 
-    // Create and save service documents
+    // Create and save service documents // ARRAY
     for (const serviceData of serviceDataArray) {
       const newService = new serviceMod(serviceData);
       await newService.save();
@@ -105,9 +105,36 @@ JobOrderRouter.put("/update", async (req, res) => {
       throw new Error("Job order not found");
     }
 
+    // UPDATE PAYMENT DETAILS
+    const serviceDataArray = req.body.services;
+    const createdServices = [];
+
+    // Create and save service documents // ARRAY
+    for (const serviceData of serviceDataArray) {
+      const newService = new serviceMod(serviceData);
+      await newService.save();
+      createdServices.push(newService);
+    }
+
+    const parentDoc = await userMod.findById(req.body._id);
+
+    if (!parentDoc) {
+      console.log("Parent not found");
+      return res.status(404).json({ message: "Parent not found" });
+    }
+
+    // Create payment details
+    const paymentDetails = new paymentDetailsModel({
+      services: createdServices.map((service) => ({
+        servicetype: service.typeofservice,
+        subtype: service,
+        servicetotal: service.servicetotal,
+      })),
+    });
     jobOrder.jobSite = req.body.jobSite;
     jobOrder.message = req.body.message;
     jobOrder.services = req.body.services;
+    jobOrder.paymentDetails = paymentDetails;
     await user.save();
 
     res.status(200).send("Job order updated successfully");

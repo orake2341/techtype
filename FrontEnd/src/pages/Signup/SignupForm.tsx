@@ -26,7 +26,7 @@ const SignupForm = () => {
   const { userInfo } = useSelector((state: any) => state.auth);
   useEffect(() => {
     if (userInfo) {
-      navigate("/customerportal");
+      navigate("/");
     }
   }, [navigate, userInfo]);
   const [error, setError] = useState("");
@@ -49,6 +49,7 @@ const SignupForm = () => {
         password: data.password,
       });
       dispatch(setCredentials({ ...response }));
+      navigate("/");
       //
     } catch (error: any) {
       // TODO: ERROR HANDLING
