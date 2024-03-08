@@ -99,6 +99,7 @@ JobOrderRouter.put("/update", async (req, res) => {
       throw new Error("User not found");
     }
 
+    console.error(`hello`);
     // Find the job order by ID within the user's job orders
     const jobOrder = user.JobOrder.id(req.body.joid);
     if (!jobOrder) {
