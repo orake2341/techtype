@@ -33,6 +33,7 @@ const PaymentImage = () => {
           userid: data.userId,
           joid: data.jobOrderId,
           amount: amount,
+          paymentid: data.picture._id,
         }
       );
       console.log(response.data);
