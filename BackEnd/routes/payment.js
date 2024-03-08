@@ -32,7 +32,7 @@ paymentRouter.put("/pay", async (req, res) => {
 
 paymentRouter.put("/confirmpayment", async (req, res) => {
   try {
-    const { joid, userid, dueDate, amount } = req.body;
+    const { joid, userid, dueDate, amount, paymentid } = req.body;
 
     const user = await userMod.findById(userid);
     if (!user) {
@@ -55,9 +55,7 @@ paymentRouter.put("/confirmpayment", async (req, res) => {
       jobOrder.PaymentStatus = "Initial";
     }
 
-    const screenshot = jobOrder.PaymentDetails.paymentScreenshots.id(
-      "65eb15bb9825a3409bf44e6f"
-    );
+    const screenshot = jobOrder.PaymentDetails.paymentScreenshots.id(paymentid);
     screenshot.isConfirm = true;
     await user.save();
     res.status(200).send("JO status set successfully");

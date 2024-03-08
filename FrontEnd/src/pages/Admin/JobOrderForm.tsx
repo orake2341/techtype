@@ -137,6 +137,7 @@ const JobOrderForm = () => {
 
   const handlePaymentPic = (picture: any) => {
     if (picture) {
+      console.log(picture);
       navigate(`paymentscreenshot`, {
         replace: true,
         state: {
@@ -444,7 +445,7 @@ const JobOrderForm = () => {
                       paymentDetails.paymentScreenshots.find(
                         (screenshot: any) => screenshot.isConfirm == false
                       );
-                    console.log(confirmedScreenshot);
+
                     if (confirmedScreenshot) {
                       handlePaymentPic(confirmedScreenshot);
                     }

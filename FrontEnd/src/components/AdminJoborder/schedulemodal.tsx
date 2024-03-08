@@ -7,6 +7,7 @@ const ScheduleModal = () => {
   const location = useLocation();
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const data = location.state;
+
   const handleConfirm = async () => {
     try {
       const response = await axios.put(
@@ -16,6 +17,7 @@ const ScheduleModal = () => {
           joid: data.joid,
           dueDate: date,
           amount: data.amount,
+          paymentid: data.paymentid,
         }
       );
       console.log(response.data);
