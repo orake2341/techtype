@@ -13,6 +13,7 @@ const SignupForm = () => {
     username: "",
     email: "",
     password: "",
+    password2: "",
     phoneNo: "",
   });
   const [error, setError] = useState("");
@@ -27,6 +28,11 @@ const SignupForm = () => {
       const response = await axios.post("http://localhost:4000/user/signup", {
         // TODO: PUT NAMES AND ALL USER INFO
         email: data.email,
+        firstname: data.firstName,
+        lastname: data.lastName,
+        username: data.username,
+        password2: data.password2,
+        number: data.phoneNo,
         password: data.password,
       });
 
@@ -66,6 +72,7 @@ const SignupForm = () => {
           name="fname"
           id="fname"
           placeholder="First Name"
+          onChange={(e) => setData({ ...data, firstName: e.target.value })}
           required
         />
       </div>
@@ -77,6 +84,7 @@ const SignupForm = () => {
           name="lname"
           id="lname"
           placeholder="Last Name"
+          onChange={(e) => setData({ ...data, lastName: e.target.value })}
           required
         />
       </div>
@@ -88,6 +96,7 @@ const SignupForm = () => {
           name="user"
           id="user"
           placeholder="Username"
+          onChange={(e) => setData({ ...data, username: e.target.value })}
           required
         />
       </div>
@@ -123,6 +132,7 @@ const SignupForm = () => {
           name="conpwd"
           id="conpwd"
           placeholder="Confirm Password"
+          onChange={(e) => setData({ ...data, password2: e.target.value })}
           required
         />
       </div>
@@ -134,6 +144,7 @@ const SignupForm = () => {
           name="contact"
           id="contact"
           placeholder="Contact"
+          onChange={(e) => setData({ ...data, phoneNo: e.target.value })}
           required
         />
       </div>

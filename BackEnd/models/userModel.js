@@ -9,11 +9,11 @@ import { paymentHistoryModel } from "./paymentHistoryModel.js";
 const userSchema = mongoose.Schema({
   firstname: {
     type: String,
-    // required: true,
+    required: true,
   },
   lastname: {
     type: String,
-    // required: true,
+    required: true,
   },
   username: {
     type: String,
@@ -29,6 +29,7 @@ const userSchema = mongoose.Schema({
   },
   number: {
     type: Number,
+    required: true,
   },
   paymentHistory: [paymentHistoryModel.schema],
   JobOrder: [JO.schema],
@@ -36,11 +37,29 @@ const userSchema = mongoose.Schema({
 
 // SIGNUP STATIC METHOD
 //=========================================
-userSchema.statics.signup = async function (email, password) {
+userSchema.statics.signup = async function (
+  email,
+  firstname,
+  lastname,
+  username,
+  password2,
+  number,
+  password
+) {
   try {
     // Validation
-    if (!email || !password) {
+    if (
+      !email ||
+      !password ||
+      !firstname ||
+      !lastname ||
+      !username ||
+      !number
+    ) {
       throw new Error("All fields must be filled");
+    }
+    if (password !== password2) {
+      throw new Error("Password must be the same");
     }
     if (!validator.isEmail(email)) {
       throw new Error("Email is not valid");
@@ -59,7 +78,11 @@ userSchema.statics.signup = async function (email, password) {
     const hash = await bcrypt.hash(password, salt);
 
     const user = await this.create({
+      firstname,
+      lastname,
+      username,
       email,
+      number,
       password: hash,
     });
     return user;
