@@ -40,13 +40,12 @@ JobOrderRouter.post("/create", async (req, res) => {
     });
     await paymentDetails.save();
 
-    // Create new job order and link payment details
     const newJobOrder = new JO({
       status: "Pending",
       jobSite: req.body.jobSite,
       services: createdServices,
       message: req.body.message,
-      PaymentDetails: paymentDetails, // Link payment details with job order
+      PaymentDetails: paymentDetails,
     });
 
     parentDoc.JobOrder.push(newJobOrder);

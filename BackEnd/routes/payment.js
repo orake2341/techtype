@@ -76,10 +76,6 @@ paymentRouter.put("/conpays", async (req, res) => {
     }
 
     jobOrder.PaymentDetails.Balance -= amount;
-    console.log(jobOrder.PaymentDetails.Balance);
-    if (jobOrder.JOStatus == "Pending" && jobOrder.PaymentStatus == "Pending") {
-      jobOrder.JOStatus = "Active";
-    }
     if (jobOrder.PaymentDetails.Balance <= 0) {
       jobOrder.PaymentStatus = "Full Paid";
     } else {

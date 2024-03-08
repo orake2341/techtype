@@ -4,6 +4,10 @@ import { serviceMod } from "./serviceModel.js";
 import { paymentDetailsModel } from "./paymentHistoryModel.js";
 
 const JOrderSchema = mongoose.Schema({
+  joid: {
+    type: String,
+    required: true,
+  },
   JOStatus: {
     type: String,
     default: "Pending",
