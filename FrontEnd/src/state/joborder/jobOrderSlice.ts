@@ -13,9 +13,11 @@ const initialPayment: PaymentDetails = {
 const initialState: JobOrder = {
   _userid: "",
   _id: "",
+  joid: "",
   JOStatus: "",
   PaymentStatus: "",
   selectedDate: "",
+  DueDateAt: "",
   jobSite: "",
   paymentHistory: [],
   PaymentDetails: initialPayment,

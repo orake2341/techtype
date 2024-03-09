@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { logout } from "../../slices/authSlice";
+import { useLogoutMutation } from "../../slices/userApiSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -8,10 +9,11 @@ type NavigationProps = {
 };
 
 const Navigation = ({ visible }: NavigationProps) => {
+  const [logoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const logoutAction = () => {
+  const logoutAction = async () => {
+    await logoutApiCall("").unwrap();
     dispatch(logout(""));
     navigate("/login");
   };

@@ -10,10 +10,14 @@ const PaymentImage = () => {
   const pictureSrc = data && data.picture ? data.picture.picture : "";
 
   const handleSched = () => {
-    console.log(amount);
     navigate("sched", {
       replace: true,
-      state: { userid: data.userId, joid: data.jobOrderId, amount: amount },
+      state: {
+        userid: data.userId,
+        joid: data.jobOrderId,
+        amount: amount,
+        paymentid: data.picture._id,
+      },
     });
   };
 
@@ -29,6 +33,7 @@ const PaymentImage = () => {
           userid: data.userId,
           joid: data.jobOrderId,
           amount: amount,
+          paymentid: data.picture._id,
         }
       );
       console.log(response.data);

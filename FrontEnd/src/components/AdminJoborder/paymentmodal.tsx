@@ -8,7 +8,8 @@ import axios from "axios";
 
 const PaymentModal = () => {
   const location = useLocation();
-  const joid = location.state;
+  const joid = location.state.joid;
+  const paymentStatus = location.state.paymentStatus;
   const navigate = useNavigate();
   const paymentDetails = useSelector(
     (state: RootState) => state.paymentdetails
@@ -38,9 +39,13 @@ const PaymentModal = () => {
 
       reader.onload = async () => {
         try {
+          const userInfoString = localStorage.getItem("userInfo") || "";
+          const userInfo = JSON.parse(userInfoString);
+          const userId = userInfo._id;
           const response = await axios.put(
             "http://localhost:4000/payment/pay",
             {
+              userid: userId,
               joid: joid,
               picture: reader.result,
             }
@@ -85,7 +90,7 @@ const PaymentModal = () => {
         <div className="mb-12">
           <h2 className="text-3xl font-bold">Invoice</h2>
         </div>
-        {paymentDetails.isSet ? (
+        {paymentDetails.isSet && paymentStatus !== "Full Paid" ? (
           <>
             <div className="overflow-y-scroll flex flex-col max-h-px-400  bg-gray-300 mb-4 rounded-3xl p-8">
               {paymentDetails.services.length > 0 &&
@@ -166,10 +171,18 @@ const PaymentModal = () => {
                 ))}
             </div>
 
-            <div className="flex justify-between mb-8">
+            <div className="flex justify-between ">
               <h4>Service fee</h4>
               <input
                 value={paymentDetails.ServiceFee || ""}
+                type="number"
+                readOnly
+              />
+            </div>
+            <div className="flex justify-between ">
+              <h4>Balance</h4>
+              <input
+                value={paymentDetails.Balance || ""}
                 type="number"
                 readOnly
               />
@@ -201,8 +214,10 @@ const PaymentModal = () => {
               Send
             </button>
           </>
-        ) : (
+        ) : paymentStatus !== "Full Paid" ? (
           <div>Not yet</div>
+        ) : (
+          <div>Fully Paid</div>
         )}
       </div>
     </div>

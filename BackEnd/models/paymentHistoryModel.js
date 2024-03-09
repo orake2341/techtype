@@ -32,7 +32,12 @@ const PaymentDetailsSchema = mongoose.Schema({
   TotalPayment: { type: Number, default: 0 },
   ServiceFee: { type: Number, default: 0 },
 
-  paymentScreenshots: [],
+  paymentScreenshots: [
+    {
+      isConfirm: Boolean,
+      picture: String,
+    },
+  ],
 });
 
 const paymentHistorySchema = mongoose.Schema({

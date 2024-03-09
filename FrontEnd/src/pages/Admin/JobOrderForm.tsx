@@ -30,7 +30,7 @@ const initialJobOrderState = {
 const JobOrderForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [user, setUser] = useState(location.state);
   const userid = location.state;
 
   const jobOrderData = useSelector((state: RootState) => state.joborder);
@@ -87,31 +87,17 @@ const JobOrderForm = () => {
 
   const handleSubmit = async () => {
     try {
-      console.log(userid);
-      if (jobOrderData._id === "") {
-        const response = await axios.post(
-          "http://localhost:4000/joborder/create",
-          {
-            _id: userid,
-            services: jobOrderData.services,
-            jobSite: jobOrderData.jobSite,
-            message: jobOrderData.message,
-          }
-        );
-        console.log(response.data);
-      } else {
-        const response = await axios.put(
-          "http://localhost:4000/joborder/update",
-          {
-            joid: jobOrderData._id,
-            _id: userid,
-            services: jobOrderData.services,
-            jobSite: jobOrderData.jobSite,
-            message: jobOrderData.message,
-          }
-        );
-        console.log(response.data);
-      }
+      const response = await axios.put(
+        "http://localhost:4000/joborder/update",
+        {
+          joid: jobOrderData._id,
+          _id: user,
+          services: jobOrderData.services,
+          jobSite: jobOrderData.jobSite,
+          message: jobOrderData.message,
+        }
+      );
+      console.log(response.data);
     } catch (error) {
       console.error("Error submitting job order:", error);
     }
@@ -137,6 +123,7 @@ const JobOrderForm = () => {
 
   const handlePaymentPic = (picture: any) => {
     if (picture) {
+      console.log(picture);
       navigate(`paymentscreenshot`, {
         replace: true,
         state: {
@@ -202,7 +189,10 @@ const JobOrderForm = () => {
                     openService(null);
                   }}
                   className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                  disabled={jobOrderData.JOStatus !== "Pending"}
+                  disabled={
+                    jobOrderData._id !== "" &&
+                    jobOrderData.JOStatus !== "Pending"
+                  }
                 >
                   <FaPlusCircle className="text-lg mr-2" />
                   <span>Add Service</span>
@@ -275,7 +265,8 @@ const JobOrderForm = () => {
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                onClick={() => console.log(paymentDetails.TotalPayment)}
+                onClick={handleSubmit}
+                disabled={jobOrderData.JOStatus !== "Pending"}
               >
                 Edit
               </button>
@@ -423,6 +414,10 @@ const JobOrderForm = () => {
                   readOnly={jobOrderData.JOStatus !== "Pending"}
                 />
               </div>
+              <div className="flex justify-between mb-8">
+                <h4>Balance</h4>
+                <p>{paymentDetails.Balance}</p>
+              </div>
 
               <div className="flex justify-between mb-8">
                 <h4>Total Payment</h4>
@@ -444,6 +439,7 @@ const JobOrderForm = () => {
                       paymentDetails.paymentScreenshots.find(
                         (screenshot: any) => screenshot.isConfirm == false
                       );
+
                     if (confirmedScreenshot) {
                       handlePaymentPic(confirmedScreenshot);
                     }

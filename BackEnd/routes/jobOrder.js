@@ -3,6 +3,7 @@ import { userMod } from "../models/userModel.js";
 import { JO } from "../models/JOModel.js";
 import { serviceMod } from "../models/serviceModel.js";
 import { paymentDetailsModel } from "../models/paymentHistoryModel.js";
+import { counterModel } from "../models/counterModel.js";
 
 const JobOrderRouter = express.Router();
 
@@ -10,6 +11,31 @@ const JobOrderRouter = express.Router();
 //=========================================
 JobOrderRouter.post("/create", async (req, res) => {
   try {
+    // GET AUTO INCREMENT
+    // ===================
+    let sqid;
+    let jobid;
+    counterModel
+      .findOneAndUpdate({ id: "autoval" }, { $inc: { seq: 1 } }, { new: true })
+      .then((cd) => {
+        if (cd == null) {
+          const newval = new counterModel({ id: "autoval", seq: 1 });
+          sqid = 1;
+          return newval.save();
+        } else {
+          sqid = cd.seq;
+          return cd;
+        }
+      })
+      .then(() => {
+        jobid = "JO00" + sqid;
+        // Do something with jobid
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    //===============
+
     const serviceDataArray = req.body.services;
     const createdServices = [];
 
@@ -42,6 +68,7 @@ JobOrderRouter.post("/create", async (req, res) => {
 
     // Create new job order and link payment details
     const newJobOrder = new JO({
+      joid: jobid,
       status: "Pending",
       jobSite: req.body.jobSite,
       services: createdServices,
@@ -67,6 +94,19 @@ JobOrderRouter.put("/update", async (req, res) => {
   const userId = req.body._id;
 
   try {
+    const serviceDataArray = req.body.services;
+    const createdServices = [];
+
+    // Create and save service documents
+    for (const serviceData of serviceDataArray) {
+      // Remove _id field to avoid duplication error
+      delete serviceData._id;
+
+      const newService = new serviceMod(serviceData);
+      const savedService = await newService.save();
+      createdServices.push(savedService);
+    }
+
     // Find the user by ID
     const user = await userMod.findById(userId);
     if (!user) {
@@ -79,9 +119,20 @@ JobOrderRouter.put("/update", async (req, res) => {
       throw new Error("Job order not found");
     }
 
+    // Create payment details
+    const paymentDetails = new paymentDetailsModel({
+      services: createdServices.map((service) => ({
+        servicetype: service.typeofservice,
+        subtype: service,
+        servicetotal: service.servicetotal,
+      })),
+    });
+    await paymentDetails.save();
+
     jobOrder.jobSite = req.body.jobSite;
     jobOrder.message = req.body.message;
-    jobOrder.services = req.body.services;
+    jobOrder.services = createdServices;
+    jobOrder.PaymentDetails = paymentDetails;
     await user.save();
 
     res.status(200).send("Job order updated successfully");
