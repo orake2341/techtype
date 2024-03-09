@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/icons-material": "^5.15.12",
+    "@mui/material": "^5.15.12",
     "@reduxjs/toolkit": "^2.2.1",
     "@types/gsap": "^3.0.0",
     "axios": "^1.6.7",
